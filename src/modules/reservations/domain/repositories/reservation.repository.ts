@@ -3,6 +3,6 @@ import { ReservationFilter } from '../filters';
 
 export interface ReservationRepository {
 	findAll(): Promise<Reservation[]>;
-	findByFilter(filter: Reservation): Promise<Reservation[]>;
-	save(reservation: ReservationFilter): Promise<void>;
+	findByFilter(filter: ReservationFilter): Promise<Reservation[]>;
+	save(reservation: Reservation): Promise<void>;
 }
