@@ -68,33 +68,57 @@ export class ReservationTicketDTO {
 	@IsString()
 	readonly arrivalFlight: string;
 
+	@IsNotEmpty()
+	@IsString()
+	readonly arrivalPickupLocation: string;
+
+	@IsNotEmpty()
+	@IsDate()
+	readonly arrivalPickupDate: Date;
+
+	@IsNotEmpty()
+	@IsString()
+	readonly arrivalPickupTime: string;
+
+	@IsNotEmpty()
+	@IsString()
+	readonly arrivalDropOffLocation: string;
+
+	@IsNotEmpty()
+	@IsDate()
+	readonly arrivalDropOffDate: Date;
+
+	@IsNotEmpty()
+	@IsString()
+	readonly arrivalDropOffTime: string;
+
 	@IsOptional()
 	@IsString()
 	readonly departureFlight: string;
 
 	@IsNotEmpty()
 	@IsString()
-	readonly pickupLocation: string;
+	readonly departurePickupLocation: string;
 
 	@IsNotEmpty()
 	@IsDate()
-	readonly pickupDate: Date;
+	readonly departurePickupDate: Date;
 
 	@IsNotEmpty()
 	@IsString()
-	readonly pickupTime: string;
+	readonly departurePickupTime: string;
 
 	@IsNotEmpty()
 	@IsString()
-	readonly dropOffLocation: string;
+	readonly departureDropOffLocation: string;
 
 	@IsNotEmpty()
 	@IsDate()
-	readonly dropOffDate: Date;
+	readonly departureDropOffDate: Date;
 
 	@IsNotEmpty()
 	@IsString()
-	readonly dropOffTime: string;
+	readonly departureDropOffTime: string;
 
 	@IsNotEmpty()
 	@IsInt()

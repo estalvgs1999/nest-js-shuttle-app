@@ -1,5 +1,5 @@
+import { ReservationFilterDTO } from 'src/modules/reservations/domain/dtos';
 import { Reservation } from '../../../domain/entities';
-import { ReservationFilter } from '../../../domain/filters';
 import { ReservationRepository } from '../../../domain/repositories';
 
 export class InMemoryReservationRepository implements ReservationRepository {
@@ -9,7 +9,7 @@ export class InMemoryReservationRepository implements ReservationRepository {
 		return this.reservations;
 	}
 
-	async findByFilter(filter: ReservationFilter): Promise<Reservation[]> {
+	async findByFilter(filter: ReservationFilterDTO): Promise<Reservation[]> {
 		return this.reservations.filter(reservation => {
 			filter.reservationId === reservation.reservationId;
 		});
