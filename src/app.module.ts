@@ -5,11 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { configOptions, mongooseConfigAsync } from './common/config';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot(configOptions),
-		MongooseModule.forRootAsync(mongooseConfigAsync),
-	],
-	controllers: [AppController],
-	providers: [],
+  imports: [
+    ConfigModule.forRoot(configOptions),
+    MongooseModule.forRootAsync(mongooseConfigAsync),
+  ],
+  controllers: [AppController],
+  providers: [],
 })
 export class AppModule {}
