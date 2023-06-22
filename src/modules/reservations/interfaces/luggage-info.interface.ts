@@ -1,4 +1,4 @@
-export interface LuggageInfo extends Document {
+export interface LuggageInfo {
   boosterSeats: number;
   bags: number;
   surfboards: number;

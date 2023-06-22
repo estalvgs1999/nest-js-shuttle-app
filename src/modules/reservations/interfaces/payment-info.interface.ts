@@ -1,6 +1,6 @@
 import { PaymentMethod } from '../enums';
 
-export interface PaymentInfo extends Document {
-  paymentType: PaymentMethod;
+export interface PaymentInfo {
+  method: PaymentMethod;
   isPaid: boolean;
 }

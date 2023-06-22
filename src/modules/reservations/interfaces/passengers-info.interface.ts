@@ -1,4 +1,4 @@
-export interface PassengersInfo extends Document {
+export interface PassengersInfo {
   adults: number;
   kids: number;
   infants: number;

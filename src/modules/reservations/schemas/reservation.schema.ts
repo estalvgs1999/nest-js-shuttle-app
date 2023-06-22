@@ -1,26 +1,30 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { PassengersInfo, LuggageInfo, PaymentInfo } from '../interfaces';
 import { ReservationStatus } from '../enums';
-import { Model } from 'mongoose';
+import { Model, Schema as MongooseSchema } from 'mongoose';
+import { LuggageInfo, PassengersInfo, PaymentInfo } from '../interfaces';
 
 @Schema({ timestamps: true })
 export class Reservation {
-  @Prop({ index: true })
+  @Prop({ index: true, type: String, unique: true })
   reservationId: string;
 
-  @Prop()
+  @Prop({ type: String })
   clientEmail: string;
 
-  @Prop({ type: ReservationStatus, default: ReservationStatus.Pending })
+  @Prop({
+    type: String,
+    enum: ReservationStatus,
+    default: ReservationStatus.Pending,
+  })
   status: ReservationStatus;
 
-  @Prop()
+  @Prop({ type: MongooseSchema.Types.Mixed })
   passengersInfo: PassengersInfo;
 
-  @Prop()
+  @Prop({ type: MongooseSchema.Types.Mixed })
   luggageInfo: LuggageInfo;
 
-  @Prop()
+  @Prop({ type: MongooseSchema.Types.Mixed })
   paymentInfo: PaymentInfo;
 }
 
