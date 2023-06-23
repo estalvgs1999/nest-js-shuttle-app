@@ -5,8 +5,14 @@ import {
   ReservationsMongoRepository,
   RESERVATIONS_REPOSITORY,
 } from './repositories';
-import { ReservationPostController } from './controllers';
-import { CreateReservationService } from './services';
+import {
+  ReservationPatchController,
+  ReservationPostController,
+} from './controllers';
+import {
+  CreateReservationService,
+  UpdateReservationStatusService,
+} from './services';
 
 @Module({
   imports: [
@@ -23,7 +29,8 @@ import { CreateReservationService } from './services';
       useClass: ReservationsMongoRepository,
     },
     CreateReservationService,
+    UpdateReservationStatusService,
   ],
-  controllers: [ReservationPostController],
+  controllers: [ReservationPostController, ReservationPatchController],
 })
 export class ReservationsModule {}

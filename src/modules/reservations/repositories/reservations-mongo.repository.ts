@@ -27,6 +27,18 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     return reservation;
   }
 
+  async update(
+    reservationId: string,
+    reservation: Reservation,
+  ): Promise<Reservation> {
+    const updatedReservation = await this.model.findOneAndUpdate(
+      { reservationId: reservationId },
+      reservation,
+      { new: true },
+    );
+    return this.mapToReservation(updatedReservation);
+  }
+
   private mapToReservation(rawReservation: ReservationDocument): Reservation {
     const reservation = new Reservation();
 

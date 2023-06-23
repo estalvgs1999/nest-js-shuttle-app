@@ -17,9 +17,7 @@ export class CreateReservationService {
     private readonly reservationsRepository: ReservationsRepository,
   ) {}
 
-  async createReservation(
-    rawReservationDTO: RawReservationDTO,
-  ): Promise<Reservation> {
+  async run(rawReservationDTO: RawReservationDTO): Promise<Reservation> {
     this.logger.log('Creating reservation');
     const { reservationId } = rawReservationDTO;
 

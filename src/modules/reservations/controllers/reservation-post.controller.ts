@@ -8,6 +8,6 @@ export class ReservationPostController {
 
   @Post()
   create(@Body() rawReservationDTO: RawReservationDTO) {
-    return this.service.createReservation(rawReservationDTO);
+    return this.service.run(rawReservationDTO);
   }
 }
