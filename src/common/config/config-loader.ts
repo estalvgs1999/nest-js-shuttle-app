@@ -6,5 +6,6 @@ export const configLoader = () => {
       password: process.env.MONGO_PASSWORD,
       url: process.env.MONGO_URI,
     },
+    apiKey: process.env.API_KEY,
   };
 };

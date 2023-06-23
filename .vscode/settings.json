@@ -1,7 +1,7 @@
 {
-	"conventionalCommits.scopes": ["web-api"],
-	"cSpell.words": ["Nosara", "Parens"],
-	"material-icon-theme.folders.associations": {
-		"exceptions": "Mojo"
-	}
+  "conventionalCommits.scopes": ["web-api"],
+  "cSpell.words": ["headerapikey", "Nosara", "Parens"],
+  "material-icon-theme.folders.associations": {
+    "exceptions": "Mojo"
+  }
 }
