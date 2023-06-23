@@ -24,14 +24,15 @@ export class CreateReservationService {
       passengersInfo: {
         adults: rawReservationDTO.adults,
         kids: rawReservationDTO.children,
-        infants: rawReservationDTO.infants,
       },
       luggageInfo: {
         bags: rawReservationDTO.bags,
+        babySeats: rawReservationDTO.babySeats,
         boosterSeats: rawReservationDTO.boosterSeats,
         surfboards: rawReservationDTO.surfboards,
       },
       paymentInfo: {
+        priceInDollars: rawReservationDTO.price,
         method: this.mapPaymentMethod(rawReservationDTO.paymentType),
         isPaid: Boolean(rawReservationDTO.isPaid),
       },
