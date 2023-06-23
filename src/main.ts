@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AllExceptionFilter } from './common/filters';
 import { TimeoutInterceptor } from './common/interceptors';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
   app.useGlobalInterceptors(new TimeoutInterceptor());
+
+  app.useLogger(app.get(Logger));
 
   await app.listen(port);
 }

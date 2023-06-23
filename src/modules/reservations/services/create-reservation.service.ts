@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
@@ -10,6 +10,8 @@ import { mapEnumValueByIndex } from 'src/common/utils';
 
 @Injectable()
 export class CreateReservationService {
+  private readonly logger = new Logger(CreateReservationService.name);
+
   constructor(
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: ReservationsRepository,
@@ -18,21 +20,27 @@ export class CreateReservationService {
   async createReservation(
     rawReservationDTO: RawReservationDTO,
   ): Promise<Reservation> {
+    this.logger.log('Creating reservation');
     const { reservationId } = rawReservationDTO;
 
     const reservationExists = await this.reservationsRepository.findById(
       reservationId,
     );
 
-    if (reservationExists)
+    if (reservationExists) {
       throw new ConflictException(
         `Reservation with number ${reservationId} already exists.`,
       );
-
+    }
     const createReservationDTO: CreateReservationDTO =
       this.mapRawReservationToCreateReservation(rawReservationDTO);
 
-    return await this.reservationsRepository.create(createReservationDTO);
+    const newReservation = await this.reservationsRepository.create(
+      createReservationDTO,
+    );
+    this.logger.log('Reservation created');
+
+    return newReservation;
   }
 
   private mapRawReservationToCreateReservation(
