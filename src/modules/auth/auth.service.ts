@@ -3,13 +3,13 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  private readonly apiKeyService;
+  private readonly apiKey: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.apiKeyService = configService.get('apiKey');
+    this.apiKey = this.configService.get('apiKey');
   }
 
-  public validateApiKey(apiKey: string): boolean {
-    return apiKey === this.apiKeyService;
+  validateApiKey(apiKey: string): boolean {
+    return this.apiKey === apiKey;
   }
 }

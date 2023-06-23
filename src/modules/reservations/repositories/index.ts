@@ -1,2 +1,2 @@
-export * from './repository.interface';
-export * from './mongo.repository';
+export * from './reservations.repository';
+export * from './reservations-mongo.repository';

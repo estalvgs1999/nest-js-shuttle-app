@@ -1,7 +1,9 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { HeaderAPIKeyStrategy } from 'passport-headerapikey';
 import { AuthService } from '../auth.service';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy) {
   constructor(private readonly authService: AuthService) {
     super(
@@ -11,7 +13,7 @@ export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy) {
       },
       true,
       (apiKey, done) => {
-        const checkKey = authService.validateApiKey(apiKey);
+        const checkKey = this.authService.validateApiKey(apiKey);
         return done(checkKey);
       },
     );

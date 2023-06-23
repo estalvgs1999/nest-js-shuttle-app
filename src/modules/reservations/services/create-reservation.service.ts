@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
@@ -6,7 +6,7 @@ import {
 import { CreateReservationDTO, RawReservationDTO } from '../dtos';
 import { Reservation } from '../entities';
 import { PaymentMethod } from '../enums';
-import { mapEnumValueByIndex } from 'src/common/utils/map-enum.util';
+import { mapEnumValueByIndex } from 'src/common/utils';
 
 @Injectable()
 export class CreateReservationService {
@@ -18,7 +18,27 @@ export class CreateReservationService {
   async createReservation(
     rawReservationDTO: RawReservationDTO,
   ): Promise<Reservation> {
-    const createReservationDTO: CreateReservationDTO = {
+    const { reservationId } = rawReservationDTO;
+
+    const reservationExists = await this.reservationsRepository.findById(
+      reservationId,
+    );
+
+    if (reservationExists)
+      throw new ConflictException(
+        `Reservation with number ${reservationId} already exists.`,
+      );
+
+    const createReservationDTO: CreateReservationDTO =
+      this.mapRawReservationToCreateReservation(rawReservationDTO);
+
+    return await this.reservationsRepository.create(createReservationDTO);
+  }
+
+  private mapRawReservationToCreateReservation(
+    rawReservationDTO: RawReservationDTO,
+  ): CreateReservationDTO {
+    return {
       reservationId: rawReservationDTO.reservationId,
       clientEmail: rawReservationDTO.email,
       passengersInfo: {
@@ -37,8 +57,6 @@ export class CreateReservationService {
         isPaid: Boolean(rawReservationDTO.isPaid),
       },
     };
-
-    return await this.reservationsRepository.create(createReservationDTO);
   }
 
   private mapPaymentMethod(paymentType: number): PaymentMethod {

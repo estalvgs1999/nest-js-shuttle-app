@@ -8,4 +8,5 @@ export class Reservation {
   passengersInfo: PassengersInfo;
   luggageInfo: LuggageInfo;
   paymentInfo: PaymentInfo;
+  createdAt: Date;
 }
