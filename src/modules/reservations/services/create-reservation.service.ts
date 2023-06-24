@@ -7,6 +7,8 @@ import { CreateReservationDTO, RawReservationDTO } from '../dtos';
 import { Reservation } from '../entities';
 import { PaymentMethod } from '../enums';
 import { mapEnumValueByIndex } from 'src/common/utils';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ReservationCreatedEvent } from 'src/modules/shared/events';
 
 @Injectable()
 export class CreateReservationService {
@@ -15,6 +17,7 @@ export class CreateReservationService {
   constructor(
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: ReservationsRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async run(rawReservationDTO: RawReservationDTO): Promise<Reservation> {
@@ -37,6 +40,11 @@ export class CreateReservationService {
       createReservationDTO,
     );
     this.logger.log('Reservation created');
+
+    this.eventEmitter.emit(
+      'reservation.created',
+      new ReservationCreatedEvent(rawReservationDTO, newReservation),
+    );
 
     return newReservation;
   }

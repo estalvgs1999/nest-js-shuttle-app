@@ -1,6 +1,6 @@
 {
   "conventionalCommits.scopes": ["web-api"],
-  "cSpell.words": ["headerapikey", "Nosara", "Parens"],
+  "cSpell.words": ["autopopulate", "headerapikey", "Nosara", "Parens"],
   "material-icon-theme.folders.associations": {
     "exceptions": "Mojo"
   }

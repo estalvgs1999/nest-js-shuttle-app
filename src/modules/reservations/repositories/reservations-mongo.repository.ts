@@ -17,7 +17,7 @@ export class ReservationsMongoRepository implements ReservationsRepository {
 
   async create(reservationDTO: CreateReservationDTO): Promise<Reservation> {
     const newReservation = await new this.model(reservationDTO).save();
-    return this.mapToReservation(newReservation);
+    return newReservation;
   }
 
   async findById(reservationId: string): Promise<Reservation> {
