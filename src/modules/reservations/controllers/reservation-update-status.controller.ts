@@ -3,7 +3,7 @@ import { UpdateReservationStatusService } from '../services';
 import { ReservationUpdateStatusDTO } from '../dtos';
 
 @Controller('api/v1/reservation')
-export class ReservationPatchController {
+export class UpdateReservationStatusController {
   constructor(private readonly service: UpdateReservationStatusService) {}
 
   @Patch(':id')

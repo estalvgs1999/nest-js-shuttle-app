@@ -3,7 +3,7 @@ import { RawReservationDTO } from '../dtos/reservation-raw.dto';
 import { CreateReservationService } from '../services';
 
 @Controller('api/v1/reservation')
-export class ReservationPostController {
+export class CreateReservationController {
   constructor(private readonly service: CreateReservationService) {}
 
   @Post()
