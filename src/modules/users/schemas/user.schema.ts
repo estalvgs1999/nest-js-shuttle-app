@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AccountProvider, Gender, UserRole } from '../enums';
+import { AccountProvider, Gender, Language, UserRole } from '../enums';
 import { Model } from 'mongoose';
 
 @Schema()
@@ -24,6 +24,9 @@ export class User {
 
   @Prop({ type: String, enum: UserRole, required: true })
   role: UserRole;
+
+  @Prop({ type: [String], enum: Language, required: true })
+  languages: Language[];
 
   @Prop({ default: Date.now })
   createdAt: Date;

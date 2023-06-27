@@ -1,6 +1,6 @@
-import { AccountProvider, Gender, UserRole } from '../enums';
+import { AccountProvider, Gender, Language, UserRole } from '../enums';
 
-export interface User {
+export class User {
   email: string;
   password: string;
   name: string;
@@ -8,4 +8,5 @@ export interface User {
   gender: Gender;
   accountProvider: AccountProvider;
   role: UserRole;
+  languages: Language[];
 }
