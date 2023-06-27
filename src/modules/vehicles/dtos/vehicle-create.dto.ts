@@ -12,6 +12,6 @@ export class CreateVehicleDTO {
   @IsNotEmpty()
   @IsInt()
   @Min(1)
-  @Max(30)
+  @Max(50)
   readonly capacity: number;
 }

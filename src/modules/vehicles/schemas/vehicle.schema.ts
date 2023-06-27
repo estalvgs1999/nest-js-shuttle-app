@@ -4,7 +4,7 @@ import { Document, Model } from 'mongoose';
 
 @Schema()
 export class Vehicle {
-  @Prop({ type: String })
+  @Prop({ index: true, type: String, unique: true })
   plate: string;
 
   @Prop({ type: String })
