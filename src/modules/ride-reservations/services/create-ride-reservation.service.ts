@@ -4,7 +4,6 @@ import {
   RideReservationsRepository,
 } from '../repositories';
 import { OnEvent } from '@nestjs/event-emitter';
-import { ReservationCreatedEvent } from 'src/modules/shared/events';
 import { RideMode, RideType, Route, oppositeRoutesMap } from '../enums';
 import { mapEnumValueByIndex } from 'src/common/utils';
 import { RideReservationDTO } from '../dtos';
@@ -21,7 +20,7 @@ export class CreateRideReservationsService {
   ) {}
 
   @OnEvent('reservation.created')
-  async run(payload: ReservationCreatedEvent) {
+  async run(payload) {
     const { rawReservation: reservation, newReservation } = payload;
     const reservationId = newReservation.reservationId;
 
