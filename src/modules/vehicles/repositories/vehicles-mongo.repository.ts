@@ -21,4 +21,13 @@ export class VehiclesMongoRepository implements VehiclesRepository {
   async findByPlate(plate: string): Promise<Vehicle> {
     return await this.model.findOne({ plate: plate });
   }
+
+  async update(plate: string, vehicle: Vehicle): Promise<Vehicle> {
+    const updatedVehicle = await this.model.findOneAndUpdate(
+      { plate: plate },
+      vehicle,
+      { new: true },
+    );
+    return updatedVehicle;
+  }
 }

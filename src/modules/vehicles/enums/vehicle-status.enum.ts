@@ -1,5 +1,5 @@
 export enum VehicleStatus {
   Available = 'Available',
-  InUse = 'In Use',
+  Assigned = 'Assigned',
   OutOfService = 'Out of Service',
 }
