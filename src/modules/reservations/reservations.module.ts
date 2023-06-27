@@ -6,8 +6,8 @@ import {
   RESERVATIONS_REPOSITORY,
 } from './repositories';
 import {
-  ReservationPatchController,
-  ReservationPostController,
+  UpdateReservationStatusController,
+  CreateReservationController,
 } from './controllers';
 import {
   CreateReservationService,
@@ -31,6 +31,6 @@ import {
     CreateReservationService,
     UpdateReservationStatusService,
   ],
-  controllers: [ReservationPostController, ReservationPatchController],
+  controllers: [CreateReservationController, UpdateReservationStatusController],
 })
 export class ReservationsModule {}

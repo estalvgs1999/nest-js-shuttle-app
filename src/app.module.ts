@@ -14,6 +14,7 @@ import { CorrelationIdMiddleware } from './common/middleware';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
+import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
     ReservationsModule,
     RideReservationsModule,
     VehiclesModule,
+    PointsOfInterestModule,
     AuthModule,
   ],
   controllers: [AppController],

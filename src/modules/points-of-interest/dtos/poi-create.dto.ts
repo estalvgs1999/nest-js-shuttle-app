@@ -6,6 +6,6 @@ export class CreatePOIDTO {
   description: string;
   image: string;
   type: POIType;
-  info: POIInfo;
+  info?: POIInfo;
   location: POILocation;
 }
