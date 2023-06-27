@@ -18,7 +18,7 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'api/v1/health', method: RequestMethod.GET })
+      .exclude({ path: 'health', method: RequestMethod.GET })
       .forRoutes('*');
   }
 }

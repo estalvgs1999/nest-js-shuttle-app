@@ -3,5 +3,5 @@ export interface POIInfo {
   website?: string;
   category?: string;
   size?: string;
-  price?: number;
+  price?: string;
 }

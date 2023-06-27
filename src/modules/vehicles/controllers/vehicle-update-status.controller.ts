@@ -1,13 +1,12 @@
 import { Controller, Param, Patch, Query } from '@nestjs/common';
-import { VehicleStatus } from '../enums';
 import { UpdateVehicleStatusService } from '../services';
 import { UpdateVehicleStatusDTO } from '../dtos';
 
-@Controller('api/v1/vehicle')
+@Controller({ path: 'vehicle' })
 export class UpdateVehicleStatusController {
   constructor(private readonly service: UpdateVehicleStatusService) {}
 
-  @Patch('/:plate')
+  @Patch('/:plate/update')
   create(
     @Param('plate') plate: string,
     @Query() updateVehicleStatusDTO: UpdateVehicleStatusDTO,

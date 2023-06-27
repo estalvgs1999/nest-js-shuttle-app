@@ -2,11 +2,11 @@ import { Controller, Param, Patch, Query } from '@nestjs/common';
 import { UpdateReservationStatusService } from '../services';
 import { ReservationUpdateStatusDTO } from '../dtos';
 
-@Controller('api/v1/reservation')
+@Controller({ path: 'reservation' })
 export class UpdateReservationStatusController {
   constructor(private readonly service: UpdateReservationStatusService) {}
 
-  @Patch(':id')
+  @Patch('/:id/update')
   update(
     @Param('id') id: string,
     @Query() updateStatusDTO: ReservationUpdateStatusDTO,
