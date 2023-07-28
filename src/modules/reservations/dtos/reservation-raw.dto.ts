@@ -8,6 +8,7 @@ import {
   IsOptional,
   IsDate,
   IsEmail,
+  IsNumber,
 } from 'class-validator';
 
 export class RawReservationDTO {
@@ -43,7 +44,7 @@ export class RawReservationDTO {
 
   @IsNotEmpty()
   @IsInt()
-  readonly infants: number;
+  readonly babySeats: number;
 
   @IsNotEmpty()
   @IsInt()
@@ -91,31 +92,35 @@ export class RawReservationDTO {
   @IsString()
   readonly departureFlight: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly departurePickupLocation: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
   readonly departurePickupDate: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly departurePickupTime: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly departureDropOffLocation: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
   readonly departureDropOffDate: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly departureDropOffTime: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly price: number;
 
   @IsNotEmpty()
   @IsInt()

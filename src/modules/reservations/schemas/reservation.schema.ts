@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ReservationStatus } from '../enums';
-import { Model, Schema as MongooseSchema } from 'mongoose';
+import { Document, Model, Schema as MongooseSchema } from 'mongoose';
 import { LuggageInfo, PassengersInfo, PaymentInfo } from '../interfaces';
 
-@Schema({ timestamps: true })
+@Schema()
 export class Reservation {
   @Prop({ index: true, type: String, unique: true })
   reservationId: string;
@@ -26,8 +26,11 @@ export class Reservation {
 
   @Prop({ type: MongooseSchema.Types.Mixed })
   paymentInfo: PaymentInfo;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);
 export type ReservationDocument = Reservation & Document;
-export type ReservationModel = Model<Reservation>;
+export type ReservationModel = Model<ReservationDocument>;

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
@@ -6,38 +6,71 @@ import {
 import { CreateReservationDTO, RawReservationDTO } from '../dtos';
 import { Reservation } from '../entities';
 import { PaymentMethod } from '../enums';
-import { mapEnumValueByIndex } from 'src/common/utils/map-enum.util';
+import { mapEnumValueByIndex } from 'src/common/utils';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ReservationCreatedEvent } from 'src/modules/reservations/events';
 
 @Injectable()
 export class CreateReservationService {
+  private readonly logger = new Logger(CreateReservationService.name);
+
   constructor(
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: ReservationsRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async createReservation(
+  async run(rawReservationDTO: RawReservationDTO): Promise<Reservation> {
+    this.logger.log('Creating reservation');
+    const { reservationId } = rawReservationDTO;
+
+    const reservationExists = await this.reservationsRepository.findById(
+      reservationId,
+    );
+
+    if (reservationExists) {
+      throw new ConflictException(
+        `Reservation with number ${reservationId} already exists.`,
+      );
+    }
+    const createReservationDTO: CreateReservationDTO =
+      this.mapRawReservationToCreateReservation(rawReservationDTO);
+
+    const newReservation = await this.reservationsRepository.create(
+      createReservationDTO,
+    );
+    this.logger.log('Reservation created');
+
+    this.eventEmitter.emit(
+      'reservation.created',
+      new ReservationCreatedEvent(rawReservationDTO, newReservation),
+    );
+
+    return newReservation;
+  }
+
+  private mapRawReservationToCreateReservation(
     rawReservationDTO: RawReservationDTO,
-  ): Promise<Reservation> {
-    const createReservationDTO: CreateReservationDTO = {
+  ): CreateReservationDTO {
+    return {
       reservationId: rawReservationDTO.reservationId,
       clientEmail: rawReservationDTO.email,
       passengersInfo: {
         adults: rawReservationDTO.adults,
         kids: rawReservationDTO.children,
-        infants: rawReservationDTO.infants,
       },
       luggageInfo: {
         bags: rawReservationDTO.bags,
+        babySeats: rawReservationDTO.babySeats,
         boosterSeats: rawReservationDTO.boosterSeats,
         surfboards: rawReservationDTO.surfboards,
       },
       paymentInfo: {
+        priceInDollars: rawReservationDTO.price,
         method: this.mapPaymentMethod(rawReservationDTO.paymentType),
         isPaid: Boolean(rawReservationDTO.isPaid),
       },
     };
-
-    return await this.reservationsRepository.create(createReservationDTO);
   }
 
   private mapPaymentMethod(paymentType: number): PaymentMethod {

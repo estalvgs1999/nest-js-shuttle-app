@@ -2,11 +2,17 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Reservation, ReservationSchema } from './schemas';
 import {
-  MongoReservationsRepository,
+  ReservationsMongoRepository,
   RESERVATIONS_REPOSITORY,
 } from './repositories';
-import { ReservationPostController } from './controllers';
-import { CreateReservationService } from './services';
+import {
+  UpdateReservationStatusController,
+  CreateReservationController,
+} from './controllers';
+import {
+  CreateReservationService,
+  UpdateReservationStatusService,
+} from './services';
 
 @Module({
   imports: [
@@ -20,10 +26,11 @@ import { CreateReservationService } from './services';
   providers: [
     {
       provide: RESERVATIONS_REPOSITORY,
-      useClass: MongoReservationsRepository,
+      useClass: ReservationsMongoRepository,
     },
     CreateReservationService,
+    UpdateReservationStatusService,
   ],
-  controllers: [ReservationPostController],
+  controllers: [CreateReservationController, UpdateReservationStatusController],
 })
 export class ReservationsModule {}
