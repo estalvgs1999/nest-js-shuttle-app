@@ -10,6 +10,5 @@ export const configSchema = Joi.object({
   JWT_SECRET: Joi.string().required(),
   JWT_EXP: Joi.string().default('3600s'),
   MONGO_URI: Joi.string().required(),
-  MONGO_USERNAME: Joi.string().required(),
-  MONGO_PASSWORD: Joi.string().required(),
+  DB_NAME: Joi.string().required(),
 });
