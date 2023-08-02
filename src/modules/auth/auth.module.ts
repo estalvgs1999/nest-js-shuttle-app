@@ -7,18 +7,20 @@ import {
 import { AuthService } from './auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { ApiKeyStrategy } from './strategies';
+import { ApiKeyStrategy, FacebookStrategy } from './strategies';
 import { AuthMiddleware } from './middleware';
+import { FacebookLoginController } from './controllers';
 
 @Module({
   imports: [ConfigModule, PassportModule],
-  providers: [AuthService, ApiKeyStrategy],
+  providers: [AuthService, ApiKeyStrategy, FacebookStrategy],
+  controllers: [FacebookLoginController],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'health', method: RequestMethod.GET })
+      .exclude({ path: 'health', method: RequestMethod.GET }, 'auth/(.*)')
       .forRoutes('*');
   }
 }
