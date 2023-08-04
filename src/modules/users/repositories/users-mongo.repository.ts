@@ -16,4 +16,11 @@ export class UsersMongoRepository implements UsersRepository {
     const newUser = await new this.model(userDTO).save();
     return newUser;
   }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.model.findOne({
+      email: email,
+    });
+    return user;
+  }
 }

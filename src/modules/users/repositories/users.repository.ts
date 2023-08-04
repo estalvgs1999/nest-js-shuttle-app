@@ -3,6 +3,7 @@ import { User } from '../entities';
 
 export interface UsersRepository {
   create(userDTO: CreateUserDTO): Promise<User>;
+  findByEmail(email: string): Promise<User>;
 }
 
 export const USERS_REPOSITORY = 'UsersRepository';

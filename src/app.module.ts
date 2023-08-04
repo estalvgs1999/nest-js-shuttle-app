@@ -1,3 +1,4 @@
+import { CreateUserService } from './modules/users/services/create-user.service';
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -29,7 +30,7 @@ import { PointsOfInterestModule } from './modules/points-of-interest/points-of-i
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [CreateUserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
