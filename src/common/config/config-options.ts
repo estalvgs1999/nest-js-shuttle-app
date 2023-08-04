@@ -1,9 +1,11 @@
 import { ConfigModuleOptions } from '@nestjs/config';
-import { configValidationSchema } from './validation.config';
+import { configSchema } from './config-schema';
+import { configLoader } from './config-loader';
 
 export const configOptions: ConfigModuleOptions = {
   envFilePath: ['.env', '.development.env'],
-  validationSchema: configValidationSchema,
+  load: [configLoader],
+  validationSchema: configSchema,
   isGlobal: true,
   cache: true,
 };

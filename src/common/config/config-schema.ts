@@ -1,12 +1,14 @@
 import * as Joi from 'joi';
 
-export const configValidationSchema = Joi.object({
+export const configSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test', 'provision')
     .default('development'),
-  PORT: Joi.number().default(3000).required(),
+  PORT: Joi.number().required(),
+  API_KEY: Joi.string().required(),
   APP_URL: Joi.string().default('https://api.nosara.site'),
   JWT_SECRET: Joi.string().required(),
   JWT_EXP: Joi.string().default('3600s'),
-  URI_MONGODB: Joi.string().required(),
+  MONGO_URI: Joi.string().required(),
+  DB_NAME: Joi.string().required(),
 });
