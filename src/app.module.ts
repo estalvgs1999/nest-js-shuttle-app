@@ -1,3 +1,4 @@
+import { CreateUserController } from './modules/users/controllers/user-create.controller';
 import { CreateUserService } from './modules/users/services/create-user.service';
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
@@ -16,6 +17,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -28,9 +30,9 @@ import { PointsOfInterestModule } from './modules/points-of-interest/points-of-i
     VehiclesModule,
     PointsOfInterestModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
-  providers: [CreateUserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

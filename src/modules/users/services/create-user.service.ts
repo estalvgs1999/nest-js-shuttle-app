@@ -28,6 +28,8 @@ export class CreateUserService {
       ...userDTO,
       password: hashedPassword,
     });
+
+    this.logger.log('User created');
     return newUser;
   }
 
