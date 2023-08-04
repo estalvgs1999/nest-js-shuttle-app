@@ -28,7 +28,12 @@ export class UsersMongoRepository implements UsersRepository {
   }
 
   async findByFilter(filter: UserFilterDTO): Promise<User[]> {
-    const result = await this.model.find({ ...filter });
+    const query = {
+      ...filter,
+    };
+
+    console.log(query);
+    const result = await this.model.find(query);
     return result;
   }
 }

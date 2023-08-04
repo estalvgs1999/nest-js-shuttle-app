@@ -3,6 +3,6 @@ import { Gender, Language, UserRole } from '../enums';
 export class UserFilterDTO {
   email?: string;
   role?: UserRole;
-  language?: Language;
+  languages?: Language;
   gender?: Gender;
 }
