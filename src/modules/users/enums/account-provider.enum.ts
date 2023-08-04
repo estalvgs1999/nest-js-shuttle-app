@@ -1,5 +1,5 @@
 export enum AccountProvider {
-  Local = 'Local',
+  Nosara = 'Nosara',
   Google = 'Google',
   Facebook = 'Facebook',
 }

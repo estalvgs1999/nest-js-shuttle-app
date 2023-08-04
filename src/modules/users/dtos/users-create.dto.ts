@@ -1,6 +1,6 @@
-import { AccountProvider, Gender, Language, UserRole } from '../enums';
+import { Gender, AccountProvider, UserRole, Language } from '../enums';
 
-export class User {
+export class CreateUserDTO {
   email: string;
   password: string;
   name: string;

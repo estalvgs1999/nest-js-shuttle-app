@@ -1,1 +1,1 @@
-export * from './poi-create.services';
+export * from './poi-create.service';

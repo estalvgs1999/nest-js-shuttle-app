@@ -1,5 +1,5 @@
 {
-  "conventionalCommits.scopes": ["web-api"],
+  "conventionalCommits.scopes": ["web-api", "auth", "users"],
   "cSpell.words": [
     "autopopulate",
     "headerapikey",
