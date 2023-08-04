@@ -7,14 +7,20 @@ export class User {
   @Prop({ type: String, index: true, unique: true, required: true })
   email: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, select: false })
   password: string;
 
   @Prop({ type: String, required: true })
   name: string;
 
+  @Prop({ type: String, required: true })
+  lastName: string;
+
   @Prop({ type: String })
   profilePicture?: string;
+
+  @Prop({ type: String })
+  phone?: string;
 
   @Prop({ type: String, enum: Gender, required: true })
   gender: Gender;
