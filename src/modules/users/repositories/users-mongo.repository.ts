@@ -4,6 +4,7 @@ import { UserModel } from '../schemas';
 import { UsersRepository } from './users.repository';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDTO } from '../dtos';
+import { UserFilterDTO } from '../dtos/user-filter.dto';
 
 @Injectable()
 export class UsersMongoRepository implements UsersRepository {
@@ -18,9 +19,16 @@ export class UsersMongoRepository implements UsersRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.model.findOne({
-      email: email,
-    });
+    const user = await this.model
+      .findOne({
+        email: email,
+      })
+      .select('+password');
     return user;
+  }
+
+  async findByFilter(filter: UserFilterDTO): Promise<User[]> {
+    const result = await this.model.find({ ...filter });
+    return result;
   }
 }
