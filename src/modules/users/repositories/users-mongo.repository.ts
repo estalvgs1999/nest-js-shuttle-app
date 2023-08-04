@@ -3,8 +3,7 @@ import { User } from '../entities';
 import { UserModel } from '../schemas';
 import { UsersRepository } from './users.repository';
 import { Injectable } from '@nestjs/common';
-import { CreateUserDTO } from '../dtos';
-import { UserFilterDTO } from '../dtos/user-filter.dto';
+import { CreateUserDTO, UpdateUserDTO, UserFilterDTO } from '../dtos';
 
 @Injectable()
 export class UsersMongoRepository implements UsersRepository {
@@ -18,12 +17,23 @@ export class UsersMongoRepository implements UsersRepository {
     return newUser;
   }
 
+  async update(userId: string, updateUserDTO: UpdateUserDTO): Promise<User> {
+    return await this.model.findByIdAndUpdate(userId, updateUserDTO, {
+      new: true,
+    });
+  }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.model
       .findOne({
         email: email,
       })
       .select('+password');
+    return user;
+  }
+
+  async findById(userId: string): Promise<User> {
+    const user = await this.model.findById(userId);
     return user;
   }
 

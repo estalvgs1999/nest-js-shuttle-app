@@ -3,8 +3,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User } from './entities';
 import { UserSchema } from './schemas';
 import { USERS_REPOSITORY, UsersMongoRepository } from './repositories';
-import { CreateUserService, FindUsersService } from './services';
+import {
+  CreateUserService,
+  FindUsersService,
+  UpdateUserService,
+} from './services';
 import { CreateUserController, FindUserController } from './controllers';
+import { UpdateUserController } from './controllers/user-update.controller';
 
 @Module({
   imports: [
@@ -22,7 +27,8 @@ import { CreateUserController, FindUserController } from './controllers';
     },
     CreateUserService,
     FindUsersService,
+    UpdateUserService,
   ],
-  controllers: [CreateUserController, FindUserController],
+  controllers: [CreateUserController, FindUserController, UpdateUserController],
 })
 export class UsersModule {}

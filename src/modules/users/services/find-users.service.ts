@@ -1,6 +1,6 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { UserFilterDTO } from '../dtos/user-filter.dto';
+import { UserFilterDTO } from '../dtos';
 import { User } from '../entities';
 
 @Injectable()
