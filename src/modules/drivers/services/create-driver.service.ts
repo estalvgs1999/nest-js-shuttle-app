@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { CreateDriverDTO } from '../dtos';
+import { OnEvent } from '@nestjs/event-emitter';
+import { DriverStatus } from '../enums';
 
 @Injectable()
 export class CreateDriverService {
@@ -11,9 +12,14 @@ export class CreateDriverService {
     private readonly driversRepository: DriversRepository,
   ) {}
 
-  async run(createDriverDTO: CreateDriverDTO) {
-    this.logger.log('Creating driver');
-    const newDriver = this.driversRepository.create(createDriverDTO);
+  @OnEvent('driver.created')
+  async run(payload) {
+    const { user } = payload;
+    this.logger.log(`Creating driver from user ${user.id}`);
+    const newDriver = this.driversRepository.create({
+      userId: user.id,
+      status: DriverStatus.Available,
+    });
     return newDriver;
   }
 }

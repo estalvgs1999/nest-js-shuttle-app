@@ -17,7 +17,6 @@ export class Driver {
   @Prop({
     type: String,
     enum: DriverStatus,
-    default: DriverStatus.Available,
   })
   status: DriverStatus;
 
