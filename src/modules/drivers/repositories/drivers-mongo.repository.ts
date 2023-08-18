@@ -13,7 +13,9 @@ export class DriversMongoRepository implements DriversRepository {
   ) {}
 
   async create(createDriverDTO: CreateDriverDTO) {
-    const newDriver = await new this.model(createDriverDTO).save();
+    const newDriver = await new this.model({
+      user: createDriverDTO.userId,
+    }).save();
     return newDriver;
   }
 }

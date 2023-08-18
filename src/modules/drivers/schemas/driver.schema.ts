@@ -17,11 +17,15 @@ export class Driver {
   @Prop({
     type: String,
     enum: DriverStatus,
+    default: DriverStatus.Available,
   })
   status: DriverStatus;
 
   @Prop({ type: Types.ObjectId, ref: Vehicle.name, autopopulate: true })
   vehicle: string;
+
+  @Prop({ default: Date.now })
+  lastUpdated: Date;
 }
 
 export const DriverSchema = SchemaFactory.createForClass(Driver);
