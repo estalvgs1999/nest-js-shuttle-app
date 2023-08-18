@@ -12,7 +12,7 @@ export class Driver {
     autopopulate: true,
     unique: true,
   })
-  user: string;
+  user: User;
 
   @Prop({
     type: String,
@@ -22,10 +22,10 @@ export class Driver {
   status: DriverStatus;
 
   @Prop({ type: Types.ObjectId, ref: Vehicle.name, autopopulate: true })
-  vehicle: string;
+  vehicle: Vehicle;
 
   @Prop({ default: Date.now })
-  lastUpdated: Date;
+  updatedAt: Date;
 }
 
 export const DriverSchema = SchemaFactory.createForClass(Driver);

@@ -18,4 +18,12 @@ export class DriversMongoRepository implements DriversRepository {
     }).save();
     return newDriver;
   }
+
+  async findAll() {
+    const drivers = await this.model
+      .find()
+      .populate('user')
+      .populate('vehicle');
+    return drivers;
+  }
 }
