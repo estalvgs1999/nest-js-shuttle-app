@@ -11,6 +11,7 @@ export interface DriversRepository {
   findByFilter(filter: DriverFilterDTO): Promise<Driver[]>;
   assignVehicle(assignationDTO: AssignDriversVehicleDTO): Promise<Driver>;
   releaseVehicle(driverId: string): Promise<Driver>;
+  delete(driverId: string): Promise<any>;
 }
 
 export const DRIVERS_REPOSITORY = 'ReservationsRepository';

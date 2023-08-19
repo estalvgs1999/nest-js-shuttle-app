@@ -56,4 +56,8 @@ export class DriversMongoRepository implements DriversRepository {
     await driver.save();
     return driver;
   }
+
+  async delete(driverId: string) {
+    return await this.model.findByIdAndDelete(driverId);
+  }
 }

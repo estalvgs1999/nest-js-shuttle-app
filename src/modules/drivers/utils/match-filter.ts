@@ -15,7 +15,7 @@ export const matchesFilter = (
 ): boolean => {
   if (filter.plate && !driver.vehicle) return false;
 
-  if (driver.vehicle.plate !== filter.plate) return false;
+  if (filter.plate && driver.vehicle.plate !== filter.plate) return false;
 
   if (filter.name && driver.user.name !== filter.name) return false;
 
