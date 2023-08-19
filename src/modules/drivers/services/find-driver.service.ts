@@ -11,7 +11,12 @@ export class FindDriverService {
     private readonly driversRepository: DriversRepository,
   ) {}
 
-  async run(filter: DriverFilterDTO) {
+  async findById(id: string) {
+    const driver = await this.driversRepository.findById(id);
+    return driver;
+  }
+
+  async findByFilter(filter: DriverFilterDTO) {
     const drivers = await this.driversRepository.findByFilter(filter);
     return drivers;
   }

@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindDriverService } from '../services';
 import { DriverFilterDTO } from '../dtos';
 
@@ -6,8 +6,13 @@ import { DriverFilterDTO } from '../dtos';
 export class FindDriverController {
   constructor(private readonly service: FindDriverService) {}
 
+  @Get('/:id')
+  findById(@Param('id') id: string) {
+    return this.service.findById(id);
+  }
+
   @Get()
   findAll(@Query() filterDTO: DriverFilterDTO) {
-    return this.service.run(filterDTO);
+    return this.service.findByFilter(filterDTO);
   }
 }

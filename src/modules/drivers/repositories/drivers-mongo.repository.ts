@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { DriversRepository } from './drivers.repository';
-import { CreateDriverDTO, DriverFilterDTO } from '../dtos';
+import {
+  AssignDriversVehicleDTO,
+  CreateDriverDTO,
+  DriverFilterDTO,
+} from '../dtos';
 import { Driver } from '../entities';
 import { InjectModel } from '@nestjs/mongoose';
 import { DriverModel } from '../schemas';
+import { matchesFilter } from '../utils';
 
 @Injectable()
 export class DriversMongoRepository implements DriversRepository {
@@ -33,20 +38,22 @@ export class DriversMongoRepository implements DriversRepository {
   async findByFilter(filter: DriverFilterDTO) {
     const drivers = await this.findAll();
 
-    const result = drivers.filter(driver => this.matchesFilter(driver, filter));
+    const result = drivers.filter(driver => matchesFilter(driver, filter));
     return result;
   }
 
-  private matchesFilter(driver, filter: DriverFilterDTO): boolean {
-    if (filter.plate && driver.plate !== filter.plate) return false;
+  async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
+    const { driverId, vehicleId } = assignationDTO;
+    const driver = await this.findById(driverId);
+    driver.vehicle = vehicleId;
+    await driver.save();
+    return driver;
+  }
 
-    if (filter.name && driver.user.name !== filter.name) return false;
-
-    if (filter.lastName && driver.user.lastName !== filter.lastName)
-      return false;
-
-    if (filter.status && driver.status !== filter.status) return false;
-
-    return true;
+  async releaseVehicle(driverId: string) {
+    const driver = await this.findById(driverId);
+    driver.vehicle = undefined;
+    await driver.save();
+    return driver;
   }
 }

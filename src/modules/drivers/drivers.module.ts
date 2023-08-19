@@ -2,8 +2,15 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Driver, DriverSchema } from './schemas';
 import { DRIVERS_REPOSITORY, DriversMongoRepository } from './repositories';
-import { CreateDriverService, FindDriverService } from './services';
-import { FindDriverController } from './controllers';
+import {
+  CreateDriverService,
+  DriversVehicleService,
+  FindDriverService,
+} from './services';
+import {
+  AssignDriverVehicleController,
+  FindDriverController,
+} from './controllers';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -20,7 +27,8 @@ import { FindDriverController } from './controllers';
     },
     CreateDriverService,
     FindDriverService,
+    DriversVehicleService,
   ],
-  controllers: [FindDriverController],
+  controllers: [AssignDriverVehicleController, FindDriverController],
 })
 export class DriversModule {}
