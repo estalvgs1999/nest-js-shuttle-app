@@ -5,8 +5,8 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { VehicleAssignedEvent } from 'src/modules/vehicles/events';
 
 @Injectable()
-export class DriversVehicleService {
-  private readonly logger = new Logger(DriversVehicleService.name);
+export class AssignDriversVehicleService {
+  private readonly logger = new Logger(AssignDriversVehicleService.name);
 
   constructor(
     @Inject(DRIVERS_REPOSITORY)

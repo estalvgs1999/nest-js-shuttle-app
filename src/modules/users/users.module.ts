@@ -5,11 +5,17 @@ import { UserSchema } from './schemas';
 import { USERS_REPOSITORY, UsersMongoRepository } from './repositories';
 import {
   CreateUserService,
+  DeleteUserService,
   FindUsersService,
   UpdateUserService,
 } from './services';
-import { CreateUserController, FindUserController } from './controllers';
-import { UpdateUserController } from './controllers/user-update.controller';
+import {
+  CreateUserController,
+  DeleteUserController,
+  FindUserController,
+  UpdateUserController,
+} from './controllers';
+import { DriversModule } from '../drivers/drivers.module';
 
 @Module({
   imports: [
@@ -19,6 +25,7 @@ import { UpdateUserController } from './controllers/user-update.controller';
         schema: UserSchema,
       },
     ]),
+    DriversModule,
   ],
   providers: [
     {
@@ -28,7 +35,13 @@ import { UpdateUserController } from './controllers/user-update.controller';
     CreateUserService,
     FindUsersService,
     UpdateUserService,
+    DeleteUserService,
   ],
-  controllers: [CreateUserController, FindUserController, UpdateUserController],
+  controllers: [
+    CreateUserController,
+    FindUserController,
+    UpdateUserController,
+    DeleteUserController,
+  ],
 })
 export class UsersModule {}

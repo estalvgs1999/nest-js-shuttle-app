@@ -1,6 +1,8 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
+import { DeleteDriverEvent } from '../events';
+import { VehicleAssignedEvent } from 'src/modules/vehicles/events';
 
 @Injectable()
 export class DeleteDriverService {
@@ -9,15 +11,31 @@ export class DeleteDriverService {
   constructor(
     @Inject(DRIVERS_REPOSITORY)
     private readonly driversRepository: DriversRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  @OnEvent('driver.deleted')
-  async run(payload: { user: any }) {
-    const { user } = payload;
-    this.logger.log(`Creating driver from user ${user.id}`);
-    const newDriver = this.driversRepository.create({
-      userId: user.id,
-    });
-    return newDriver;
+  async run(payload: DeleteDriverEvent) {
+    const { userId } = payload;
+    this.logger.log(`Deleting driver from user ${userId}`);
+    const driver = await this.driversRepository.findByUserId(userId);
+
+    const driverId = driver['_id'];
+    const vehicleId = driver.vehicle['_id'];
+
+    if (!driver)
+      throw new NotFoundException(`Driver with user id ${userId} not found`);
+
+    await this.driversRepository.delete(driverId);
+
+    this.logger.log(`User deleted`);
+
+    if (driver.vehicle) {
+      this.eventEmitter.emit(
+        'vehicle.released',
+        new VehicleAssignedEvent(vehicleId),
+      );
+    }
+
+    return driver;
   }
 }

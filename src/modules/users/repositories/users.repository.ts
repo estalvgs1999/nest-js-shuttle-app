@@ -7,6 +7,7 @@ export interface UsersRepository {
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
   findByFilter(filter: UserFilterDTO): Promise<User[]>;
+  delete(id: string): Promise<User>;
 }
 
 export const USERS_REPOSITORY = 'UsersRepository';

@@ -4,7 +4,8 @@ import { Driver, DriverSchema } from './schemas';
 import { DRIVERS_REPOSITORY, DriversMongoRepository } from './repositories';
 import {
   CreateDriverService,
-  DriversVehicleService,
+  DeleteDriverService,
+  AssignDriversVehicleService,
   FindDriverService,
 } from './services';
 import {
@@ -27,8 +28,10 @@ import {
     },
     CreateDriverService,
     FindDriverService,
-    DriversVehicleService,
+    AssignDriversVehicleService,
+    DeleteDriverService,
   ],
   controllers: [AssignDriverVehicleController, FindDriverController],
+  exports: [DeleteDriverService],
 })
 export class DriversModule {}

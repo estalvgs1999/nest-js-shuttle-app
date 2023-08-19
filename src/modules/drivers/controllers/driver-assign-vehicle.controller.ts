@@ -1,10 +1,10 @@
 import { Controller, Patch, Query } from '@nestjs/common';
-import { DriversVehicleService } from '../services';
+import { AssignDriversVehicleService } from '../services';
 import { AssignDriversVehicleDTO } from '../dtos';
 
 @Controller({ path: 'driver' })
 export class AssignDriverVehicleController {
-  constructor(private readonly service: DriversVehicleService) {}
+  constructor(private readonly service: AssignDriversVehicleService) {}
 
   @Patch('/assign')
   assignVehicle(@Query() assignationDTO: AssignDriversVehicleDTO) {

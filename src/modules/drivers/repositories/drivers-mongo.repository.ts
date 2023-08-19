@@ -5,9 +5,8 @@ import {
   CreateDriverDTO,
   DriverFilterDTO,
 } from '../dtos';
-import { Driver } from '../entities';
 import { InjectModel } from '@nestjs/mongoose';
-import { DriverModel } from '../schemas';
+import { Driver, DriverModel } from '../schemas';
 import { matchesFilter } from '../utils';
 
 @Injectable()
@@ -29,6 +28,12 @@ export class DriversMongoRepository implements DriversRepository {
       .findById(driverId)
       .populate('user')
       .populate('vehicle');
+  }
+
+  async findByUserId(userId: string): Promise<Driver> {
+    const drivers = await this.findAll();
+    const driver = drivers.find(driver => driver.user['id'] === userId);
+    return driver;
   }
 
   async findAll() {
@@ -58,6 +63,7 @@ export class DriversMongoRepository implements DriversRepository {
   }
 
   async delete(driverId: string) {
-    return await this.model.findByIdAndDelete(driverId);
+    const driver = await this.model.findByIdAndDelete(driverId);
+    return driver;
   }
 }
