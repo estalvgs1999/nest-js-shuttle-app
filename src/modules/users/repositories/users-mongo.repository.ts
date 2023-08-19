@@ -42,8 +42,11 @@ export class UsersMongoRepository implements UsersRepository {
       ...filter,
     };
 
-    console.log(query);
     const result = await this.model.find(query);
     return result;
+  }
+
+  async delete(id: string): Promise<User> {
+    return await this.model.findByIdAndDelete(id);
   }
 }

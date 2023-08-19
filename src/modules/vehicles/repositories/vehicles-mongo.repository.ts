@@ -18,16 +18,18 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     return newVehicle;
   }
 
+  async findById(id: string): Promise<Vehicle> {
+    return await this.model.findById(id);
+  }
+
   async findByPlate(plate: string): Promise<Vehicle> {
     return await this.model.findOne({ plate: plate });
   }
 
-  async update(plate: string, vehicle: Vehicle): Promise<Vehicle> {
-    const updatedVehicle = await this.model.findOneAndUpdate(
-      { plate: plate },
-      vehicle,
-      { new: true },
-    );
+  async update(id: string, vehicle: Vehicle): Promise<Vehicle> {
+    const updatedVehicle = await this.model.findByIdAndUpdate(id, vehicle, {
+      new: true,
+    });
     return updatedVehicle;
   }
 }

@@ -13,15 +13,15 @@ export class UpdateVehicleStatusService {
     private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
-  async run(plate: string, status: VehicleStatus) {
+  async run(id: string, status: VehicleStatus) {
     this.logger.log('Getting vehicle');
-    const vehicle = await this.vehiclesRepository.findByPlate(plate);
+    const vehicle = await this.vehiclesRepository.findById(id);
 
     if (!vehicle)
-      throw new NotFoundException(`Vehicle with plate ${plate} not found.`);
+      throw new NotFoundException(`Vehicle with id ${id} not found.`);
 
     vehicle.status = status;
-    const updatedVehicle = await this.vehiclesRepository.update(plate, vehicle);
+    const updatedVehicle = await this.vehiclesRepository.update(id, vehicle);
     this.logger.log('Vehicle updated');
 
     return updatedVehicle;
@@ -29,6 +29,11 @@ export class UpdateVehicleStatusService {
 
   @OnEvent('vehicle.assigned')
   private async setVehicleToAssigned(payload: VehicleAssignedEvent) {
-    await this.run(payload.vehiclePlate, VehicleStatus.Assigned);
+    await this.run(payload.vehicleId, VehicleStatus.Assigned);
+  }
+
+  @OnEvent('vehicle.released')
+  private async setVehicleToAvailable(payload: VehicleAssignedEvent) {
+    await this.run(payload.vehicleId, VehicleStatus.Available);
   }
 }
