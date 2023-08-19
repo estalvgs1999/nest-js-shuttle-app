@@ -4,6 +4,7 @@ import { Vehicle } from '../entities';
 import { VehicleModel } from '../schemas';
 import { VehiclesRepository } from './vehicles.repository';
 import { InjectModel } from '@nestjs/mongoose';
+import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
 
 @Injectable()
 export class VehiclesMongoRepository implements VehiclesRepository {
@@ -24,6 +25,10 @@ export class VehiclesMongoRepository implements VehiclesRepository {
 
   async findByPlate(plate: string): Promise<Vehicle> {
     return await this.model.findOne({ plate: plate });
+  }
+
+  async findByFilter(filter: VehicleFilterDTO): Promise<Vehicle[]> {
+    return await this.model.find({ ...filter });
   }
 
   async update(id: string, vehicle: Vehicle): Promise<Vehicle> {

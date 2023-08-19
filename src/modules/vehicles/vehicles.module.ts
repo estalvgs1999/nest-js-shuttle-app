@@ -2,9 +2,14 @@ import { Module } from '@nestjs/common';
 import { Vehicle } from './entities';
 import { VehicleSchema } from './schemas';
 import { VEHICLES_REPOSITORY, VehiclesMongoRepository } from './repositories';
-import { CreateVehicleService, UpdateVehicleStatusService } from './services';
+import {
+  CreateVehicleService,
+  FindVehicleService,
+  UpdateVehicleStatusService,
+} from './services';
 import {
   CreateVehicleController,
+  FindVehicleController,
   UpdateVehicleStatusController,
 } from './controllers';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -25,7 +30,12 @@ import { MongooseModule } from '@nestjs/mongoose';
     },
     CreateVehicleService,
     UpdateVehicleStatusService,
+    FindVehicleService,
   ],
-  controllers: [CreateVehicleController, UpdateVehicleStatusController],
+  controllers: [
+    CreateVehicleController,
+    UpdateVehicleStatusController,
+    FindVehicleController,
+  ],
 })
 export class VehiclesModule {}
