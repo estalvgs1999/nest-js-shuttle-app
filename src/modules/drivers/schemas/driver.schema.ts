@@ -4,7 +4,7 @@ import { User } from '../../../modules/users/schemas';
 import { Vehicle } from '../../../modules/vehicles/entities';
 import { DriverStatus } from '../enums';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Driver {
   @Prop({
     type: Types.ObjectId,
@@ -23,9 +23,6 @@ export class Driver {
 
   @Prop({ type: Types.ObjectId, ref: Vehicle.name, autopopulate: true })
   vehicle: Vehicle;
-
-  @Prop({ default: Date.now })
-  updatedAt: Date;
 }
 
 export const DriverSchema = SchemaFactory.createForClass(Driver);

@@ -42,7 +42,6 @@ export class UsersMongoRepository implements UsersRepository {
       ...filter,
     };
 
-    console.log(query);
     const result = await this.model.find(query);
     return result;
   }
