@@ -1,6 +1,7 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
   ValidateNested,
@@ -22,6 +23,7 @@ export class CreatePOIDTO {
   description: string;
 
   @IsNotEmpty()
+  @IsOptional()
   @IsString()
   image: string;
 

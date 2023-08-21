@@ -4,6 +4,7 @@ import { User } from '../entities';
 export interface UsersRepository {
   create(userDTO: CreateUserDTO): Promise<User>;
   update(userId: string, updateUserDTO: UpdateUserDTO): Promise<User>;
+  updateProfilePicture(userId: string, pictureUrl: string): Promise<User>;
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
   findByFilter(filter: UserFilterDTO): Promise<User[]>;

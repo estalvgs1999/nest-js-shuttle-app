@@ -4,7 +4,7 @@ import { POIInfo, POILocation } from '../interfaces';
 export class POI {
   name: string;
   description: string;
-  image: string;
+  image?: string;
   type: POIType;
   info?: POIInfo;
   location: POILocation;

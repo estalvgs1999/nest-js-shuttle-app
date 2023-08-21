@@ -1,4 +1,4 @@
-import { Reservation } from 'src/modules/reservations/schemas';
+import { Reservation } from '../../../modules/reservations/schemas';
 import { Route, RideType, RideMode } from '../enums';
 
 export class RideReservation {
