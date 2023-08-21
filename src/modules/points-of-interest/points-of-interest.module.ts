@@ -10,7 +10,12 @@ import {
   UpdatePOIImageService,
   UpdatePOIService,
 } from './services';
-import { CreatePOIController } from './controllers';
+import {
+  CreatePOIController,
+  DeletePOIController,
+  FindPOIController,
+  UpdatePOIController,
+} from './controllers';
 import { FilesModule } from '../files/files.module';
 
 @Module({
@@ -34,6 +39,11 @@ import { FilesModule } from '../files/files.module';
     UpdatePOIImageService,
     DeletePOIService,
   ],
-  controllers: [CreatePOIController],
+  controllers: [
+    CreatePOIController,
+    FindPOIController,
+    UpdatePOIController,
+    DeletePOIController,
+  ],
 })
 export class PointsOfInterestModule {}
