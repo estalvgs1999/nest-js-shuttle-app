@@ -7,6 +7,7 @@ import {
   CreateUserService,
   DeleteUserService,
   FindUsersService,
+  UpdateUserPictureService,
   UpdateUserService,
 } from './services';
 import {
@@ -14,8 +15,10 @@ import {
   DeleteUserController,
   FindUserController,
   UpdateUserController,
+  UploadUserProfilePictureController,
 } from './controllers';
 import { DriversModule } from '../drivers/drivers.module';
+import { FilesModule } from '../files/files.module';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { DriversModule } from '../drivers/drivers.module';
       },
     ]),
     DriversModule,
+    FilesModule,
   ],
   providers: [
     {
@@ -35,12 +39,14 @@ import { DriversModule } from '../drivers/drivers.module';
     CreateUserService,
     FindUsersService,
     UpdateUserService,
+    UpdateUserPictureService,
     DeleteUserService,
   ],
   controllers: [
     CreateUserController,
     FindUserController,
     UpdateUserController,
+    UploadUserProfilePictureController,
     DeleteUserController,
   ],
 })
