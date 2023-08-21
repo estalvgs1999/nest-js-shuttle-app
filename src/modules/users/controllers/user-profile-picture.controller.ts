@@ -1,18 +1,19 @@
 import {
   Controller,
+  Delete,
   Param,
   Patch,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UpdateUserPictureService } from '../services';
+import { UpdateProfilePictureService } from '../services';
 import { FilesAzureService } from 'src/modules/files/services';
 
 @Controller({ path: 'user' })
-export class UploadUserProfilePictureController {
+export class ProfilePictureController {
   constructor(
-    private readonly userService: UpdateUserPictureService,
+    private readonly userService: UpdateProfilePictureService,
     private readonly fileService: FilesAzureService,
   ) {}
 
@@ -24,6 +25,20 @@ export class UploadUserProfilePictureController {
   ) {
     const containerName = 'profile';
     const upload = await this.fileService.uploadFile(file, containerName);
-    return this.userService.run(userId, upload);
+    await this.userService.saveUrl(userId, upload, containerName);
+    return {
+      upload,
+      message: 'uploaded successfully',
+    };
+  }
+
+  @Delete('/:id/remove')
+  async removeProfilePicture(@Param('id') userId: string) {
+    const containerName = 'profile';
+    await this.userService.remove(userId, containerName);
+    return {
+      userId,
+      message: 'deleted successfully',
+    };
   }
 }
