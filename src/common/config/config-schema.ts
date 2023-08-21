@@ -11,4 +11,5 @@ export const configSchema = Joi.object({
   JWT_EXP: Joi.string().default('3600s'),
   MONGO_URI: Joi.string().required(),
   DB_NAME: Joi.string().required(),
+  AZURE_CONNECTION_STRING: Joi.string().required(),
 });
