@@ -12,7 +12,7 @@ export class POI {
   description: string;
 
   @Prop({ type: String })
-  image: string;
+  image?: string;
 
   @Prop({ type: MongooseSchema.Types.Mixed })
   type: POIType;

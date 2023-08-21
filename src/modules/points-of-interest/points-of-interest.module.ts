@@ -3,8 +3,15 @@ import { POI } from './entities';
 import { POISchema } from './schemas';
 import { MongooseModule } from '@nestjs/mongoose';
 import { POIMongoRepository, POI_REPOSITORY } from './repositories';
-import { CreatePOIService } from './services';
+import {
+  CreatePOIService,
+  DeletePOIService,
+  FindPOIService,
+  UpdatePOIImageService,
+  UpdatePOIService,
+} from './services';
 import { CreatePOIController } from './controllers';
+import { FilesModule } from '../files/files.module';
 
 @Module({
   imports: [
@@ -14,6 +21,7 @@ import { CreatePOIController } from './controllers';
         schema: POISchema,
       },
     ]),
+    FilesModule,
   ],
   providers: [
     {
@@ -21,6 +29,10 @@ import { CreatePOIController } from './controllers';
       useClass: POIMongoRepository,
     },
     CreatePOIService,
+    FindPOIService,
+    UpdatePOIService,
+    UpdatePOIImageService,
+    DeletePOIService,
   ],
   controllers: [CreatePOIController],
 })
