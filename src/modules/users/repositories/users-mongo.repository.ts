@@ -23,6 +23,19 @@ export class UsersMongoRepository implements UsersRepository {
     });
   }
 
+  async updateProfilePicture(
+    userId: string,
+    pictureUrl: string,
+  ): Promise<User> {
+    return await this.model.findByIdAndUpdate(
+      userId,
+      { profilePicture: pictureUrl },
+      {
+        new: true,
+      },
+    );
+  }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.model
       .findOne({
@@ -42,8 +55,11 @@ export class UsersMongoRepository implements UsersRepository {
       ...filter,
     };
 
-    console.log(query);
     const result = await this.model.find(query);
     return result;
+  }
+
+  async delete(id: string): Promise<User> {
+    return await this.model.findByIdAndDelete(id);
   }
 }

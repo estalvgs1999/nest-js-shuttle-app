@@ -3,6 +3,9 @@ import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 import { CreateUserDTO } from '../dtos';
 import { User } from '../entities';
 import * as bcrypt from 'bcrypt';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CreateDriverEvent } from '../../../modules/drivers/events';
+import { UserRole } from '../enums';
 
 @Injectable()
 export class CreateUserService {
@@ -11,6 +14,7 @@ export class CreateUserService {
   constructor(
     @Inject(USERS_REPOSITORY)
     private readonly usersRepository: UsersRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async run(userDTO: CreateUserDTO): Promise<User> {
@@ -29,6 +33,8 @@ export class CreateUserService {
       password: hashedPassword,
     });
 
+    if (newUser.role === UserRole.Driver) this.createDriver(newUser);
+
     this.logger.log('User created');
     return newUser;
   }
@@ -36,5 +42,10 @@ export class CreateUserService {
   private async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
+  }
+
+  private createDriver(user: User) {
+    this.logger.log('Emitting create driver event');
+    this.eventEmitter.emit('driver.created', new CreateDriverEvent(user));
   }
 }

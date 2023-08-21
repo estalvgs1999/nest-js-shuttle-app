@@ -1,5 +1,5 @@
-import { RawReservationDTO } from 'src/modules/reservations/dtos';
-import { Reservation } from 'src/modules/reservations/schemas';
+import { RawReservationDTO } from '../../../modules/reservations/dtos';
+import { Reservation } from '../../../modules/reservations/schemas';
 
 export class ReservationCreatedEvent {
   constructor(

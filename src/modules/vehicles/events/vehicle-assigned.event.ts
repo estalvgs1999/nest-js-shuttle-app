@@ -1,3 +1,3 @@
 export class VehicleAssignedEvent {
-  constructor(public readonly vehiclePlate: string) {}
+  constructor(public readonly vehicleId: string) {}
 }

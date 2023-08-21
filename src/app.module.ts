@@ -1,5 +1,3 @@
-import { CreateUserController } from './modules/users/controllers/user-create.controller';
-import { CreateUserService } from './modules/users/services/create-user.service';
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -18,6 +16,7 @@ import { RideReservationsModule } from './modules/ride-reservations/ride-reserva
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
 import { UsersModule } from './modules/users/users.module';
+import { DriversModule } from './modules/drivers/drivers.module';
 
 @Module({
   imports: [
@@ -31,6 +30,7 @@ import { UsersModule } from './modules/users/users.module';
     PointsOfInterestModule,
     AuthModule,
     UsersModule,
+    DriversModule,
   ],
   controllers: [AppController],
 })
