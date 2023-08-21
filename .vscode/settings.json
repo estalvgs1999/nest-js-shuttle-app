@@ -4,8 +4,10 @@
     "autopopulate",
     "headerapikey",
     "Nosara",
+    "originalname",
     "Parens",
-    "POIDTO"
+    "POIDTO",
+    "uuidv"
   ],
   "material-icon-theme.folders.associations": {
     "exceptions": "Mojo"
