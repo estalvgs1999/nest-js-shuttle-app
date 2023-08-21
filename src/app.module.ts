@@ -17,6 +17,7 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
 import { UsersModule } from './modules/users/users.module';
 import { DriversModule } from './modules/drivers/drivers.module';
+import { GalleryModule } from './modules/gallery/gallery.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DriversModule } from './modules/drivers/drivers.module';
     AuthModule,
     UsersModule,
     DriversModule,
+    GalleryModule,
   ],
   controllers: [AppController],
 })
