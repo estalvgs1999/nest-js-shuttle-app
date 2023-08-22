@@ -1,8 +1,9 @@
 {
-  "conventionalCommits.scopes": ["web-api", "auth", "users"],
+  "conventionalCommits.scopes": ["web-api", "auth", "users", "gallery"],
   "cSpell.words": [
     "autopopulate",
     "headerapikey",
+    "landingpage",
     "Nosara",
     "originalname",
     "Parens",

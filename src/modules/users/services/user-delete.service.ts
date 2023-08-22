@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User } from '../entities';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { DeleteDriverEvent } from '../../../modules/drivers/events';
+import { DeleteDriverEvent } from '../../drivers/events';
 import { UserRole } from '../enums';
-import { DeleteDriverService } from '../../../modules/drivers/services';
-import { FilesAzureService } from '../../../modules/files/services';
+import { DeleteDriverService } from '../../drivers/services';
+import { FilesAzureService } from '../../files/services';
 
 @Injectable()
 export class DeleteUserService {
