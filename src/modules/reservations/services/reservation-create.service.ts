@@ -8,7 +8,7 @@ import { Reservation } from '../entities';
 import { PaymentMethod } from '../enums';
 import { mapEnumValueByIndex } from 'src/common/utils';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ReservationCreatedEvent } from '../../../modules/reservations/events';
+import { ReservationCreatedEvent } from '../events';
 
 @Injectable()
 export class CreateReservationService {

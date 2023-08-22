@@ -8,7 +8,7 @@ import { RideMode, RideType, Route, oppositeRoutesMap } from '../enums';
 import { mapEnumValueByIndex } from '../../../common/utils';
 import { RideReservationDTO } from '../dtos';
 import { RideOptionsDTO } from '../dtos/ride-options.dto';
-import { Reservation } from '../../../modules/reservations/schemas';
+import { Reservation } from '../../reservations/schemas';
 
 @Injectable()
 export class CreateRideReservationsService {

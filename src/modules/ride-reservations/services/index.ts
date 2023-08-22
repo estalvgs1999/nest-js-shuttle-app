@@ -1,1 +1,1 @@
-export * from './create-ride-reservation.service';
+export * from './ride-reservation-create.service';
