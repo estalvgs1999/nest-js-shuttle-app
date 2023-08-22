@@ -23,7 +23,9 @@ export class GalleryMongoRepository implements GalleryRepository {
   }
 
   async findAll(): Promise<GalleryImage[]> {
-    return await this.model.find().sort({ position: 1 });
+    const images = await this.model.find();
+    images.sort((a, b) => a.position - b.position);
+    return images;
   }
 
   async updatePosition(id: string, position: number): Promise<GalleryImage> {
