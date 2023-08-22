@@ -1,7 +1,7 @@
 import { BlobServiceClient, BlockBlobClient } from '@azure/storage-blob';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FilesAzureService {
@@ -28,7 +28,7 @@ export class FilesAzureService {
   public async uploadFile(file: Express.Multer.File, containerName: string) {
     this.containerName = containerName;
     const extension = file.originalname.split('.').pop();
-    const file_name = uuid() + '.' + extension;
+    const file_name = uuidv4() + '.' + extension;
     const blockBlobClient = await this.getBlobClient(file_name);
     const fileUrl = blockBlobClient.url;
     await blockBlobClient.uploadData(file.buffer);

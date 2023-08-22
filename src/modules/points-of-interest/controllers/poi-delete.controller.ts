@@ -6,7 +6,7 @@ export class DeletePOIController {
   constructor(private readonly service: DeletePOIService) {}
 
   @Delete('/:id/delete')
-  create(@Param('id') id: string) {
+  delete(@Param('id') id: string) {
     return this.service.run(id);
   }
 }
