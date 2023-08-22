@@ -14,8 +14,24 @@ export class GalleryMongoRepository implements GalleryRepository {
     return newImage;
   }
 
+  async countImages(): Promise<number> {
+    return await this.model.countDocuments();
+  }
+
+  async findById(id: string): Promise<GalleryImage> {
+    return await this.model.findById(id);
+  }
+
   async findAll(): Promise<GalleryImage[]> {
-    return await this.model.find();
+    return await this.model.find().sort({ position: 1 });
+  }
+
+  async updatePosition(id: string, position: number): Promise<GalleryImage> {
+    return await this.model.findByIdAndUpdate(
+      id,
+      { position: position },
+      { new: true },
+    );
   }
 
   async delete(id: string): Promise<GalleryImage> {
