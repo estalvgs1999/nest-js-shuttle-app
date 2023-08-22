@@ -4,7 +4,7 @@ import { CreateUserDTO } from '../dtos';
 import { User } from '../entities';
 import * as bcrypt from 'bcrypt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CreateDriverEvent } from '../../../modules/drivers/events';
+import { CreateDriverEvent } from '../../drivers/events';
 import { UserRole } from '../enums';
 
 @Injectable()

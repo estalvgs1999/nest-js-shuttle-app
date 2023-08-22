@@ -1,2 +1,2 @@
-export * from './create-reservation.service';
-export * from './update-reservation-status.service';
+export * from './reservation-create.service';
+export * from './reservation-update-status.service';
