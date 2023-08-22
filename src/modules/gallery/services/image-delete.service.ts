@@ -47,9 +47,9 @@ export class DeleteImageService {
   private async renumberImagePositions() {
     const gallery = await this.galleryRepository.findAll();
 
-    for (let i = 0; i < gallery.length; i++) {
-      const image = gallery[i];
-      await this.galleryRepository.updatePosition(image['_id'], ++i);
+    for (let counter = 0; counter < gallery.length; counter++) {
+      const image = gallery[counter];
+      await this.galleryRepository.updatePosition(image['_id'], counter + 1);
     }
   }
 }
