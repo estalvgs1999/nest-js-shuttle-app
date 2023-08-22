@@ -8,6 +8,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Driver, DriverModel } from '../schemas';
 import { matchesFilter } from '../utils';
+import { DriverStatus } from '../enums';
 
 @Injectable()
 export class DriversMongoRepository implements DriversRepository {
@@ -50,6 +51,7 @@ export class DriversMongoRepository implements DriversRepository {
   async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
     const { driverId, vehicleId } = assignationDTO;
     const driver = await this.findById(driverId);
+    driver.status = DriverStatus.Available;
     driver.vehicle = vehicleId;
     await driver.save();
     return driver;
