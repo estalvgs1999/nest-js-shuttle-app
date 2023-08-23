@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { POI } from '../entities';
 import { POI_REPOSITORY, POIRepository } from '../repositories';
 
@@ -13,7 +13,9 @@ export class FindPOIService {
 
   async findById(id: string): Promise<POI> {
     this.logger.log(`Finding POI with id: ${id}`);
-    return await this.poiRepository.findById(id);
+    const poi = await this.poiRepository.findById(id);
+    if (!poi) throw new NotFoundException(`POI with id ${id} not found.`);
+    return poi;
   }
 
   async findAll(): Promise<POI[]> {

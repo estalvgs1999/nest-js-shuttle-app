@@ -13,7 +13,7 @@ export class UpdateUserService {
 
   async run(userId: string, updateUserDTO: UpdateUserDTO) {
     this.logger.log('Updating user data.');
-    const user = this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new NotFoundException(`User with id ${userId} not found.`);
