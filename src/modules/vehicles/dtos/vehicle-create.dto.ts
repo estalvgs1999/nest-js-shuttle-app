@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
 
-export class CreateVehicleDTO {
+export class CreateVehicleDto {
   @IsNotEmpty()
   @IsString()
   readonly plate: string;

@@ -1,6 +1,6 @@
 import { DriverStatus } from '../enums';
 
-export class DriverFilterDTO {
+export class DriverFilterDto {
   name?: string;
   lastName?: string;
   plate?: string;

@@ -5,7 +5,7 @@ import {
   ReservationModel,
 } from '../schemas/reservation.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateReservationDTO } from '../dtos';
+import { CreateReservationDto } from '../dtos';
 import { Reservation } from '../entities';
 
 @Injectable()
@@ -15,8 +15,8 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     private readonly model: ReservationModel,
   ) {}
 
-  async create(reservationDTO: CreateReservationDTO): Promise<Reservation> {
-    const newReservation = await new this.model(reservationDTO).save();
+  async create(reservationDto: CreateReservationDto): Promise<Reservation> {
+    const newReservation = await new this.model(reservationDto).save();
     return newReservation;
   }
 

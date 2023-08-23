@@ -1,6 +1,6 @@
 import { Gender, Language, UserRole } from '../enums';
 
-export class UserFilterDTO {
+export class UserFilterDto {
   name?: string;
   lastName?: string;
   email?: string;

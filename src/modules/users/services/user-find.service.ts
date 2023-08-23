@@ -1,6 +1,6 @@
 import { Injectable, Inject, Logger, NotFoundException } from '@nestjs/common';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { UserFilterDTO } from '../dtos';
+import { UserFilterDto } from '../dtos';
 import { User } from '../entities';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FindUsersService {
     return user;
   }
 
-  async findByFilter(filter: UserFilterDTO): Promise<User[]> {
+  async findByFilter(filter: UserFilterDto): Promise<User[]> {
     this.logger.log(`Finding all users`);
     return this.usersRepository.findByFilter(filter);
   }

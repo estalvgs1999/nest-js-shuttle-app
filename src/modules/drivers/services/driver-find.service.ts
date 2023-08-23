@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { DriverFilterDTO } from '../dtos';
+import { DriverFilterDto } from '../dtos';
 
 @Injectable()
 export class FindDriverService {
@@ -17,7 +17,7 @@ export class FindDriverService {
     return driver;
   }
 
-  async findByFilter(filter: DriverFilterDTO) {
+  async findByFilter(filter: DriverFilterDto) {
     const drivers = await this.driversRepository.findByFilter(filter);
     return drivers;
   }

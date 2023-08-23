@@ -1,6 +1,6 @@
 import { Controller, Param, Patch, Query } from '@nestjs/common';
 import { UpdateVehicleStatusService } from '../services';
-import { UpdateVehicleStatusDTO } from '../dtos';
+import { UpdateVehicleStatusDto } from '../dtos';
 
 @Controller({ path: 'vehicle' })
 export class UpdateVehicleStatusController {
@@ -9,9 +9,9 @@ export class UpdateVehicleStatusController {
   @Patch('/:plate/update')
   create(
     @Param('plate') plate: string,
-    @Query() updateVehicleStatusDTO: UpdateVehicleStatusDTO,
+    @Query() updateVehicleStatusDto: UpdateVehicleStatusDto,
   ) {
-    const { status } = updateVehicleStatusDTO;
+    const { status } = updateVehicleStatusDto;
     return this.service.run(plate, status);
   }
 }

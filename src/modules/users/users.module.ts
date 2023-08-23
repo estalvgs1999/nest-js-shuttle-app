@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User } from './entities';
-import { UserSchema } from './schemas';
-import { USERS_REPOSITORY, UsersMongoRepository } from './repositories';
+import {
+  CreateUserController,
+  DeleteUserController,
+  FindUserController,
+  ProfilePictureController,
+  UpdateUserController,
+} from './controllers';
 import {
   CreateUserService,
   DeleteUserService,
@@ -10,15 +12,13 @@ import {
   UpdateProfilePictureService,
   UpdateUserService,
 } from './services';
-import {
-  CreateUserController,
-  DeleteUserController,
-  FindUserController,
-  UpdateUserController,
-  ProfilePictureController,
-} from './controllers';
 import { DriversModule } from '../drivers/drivers.module';
 import { FilesModule } from '../files/files.module';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User } from './entities';
+import { USERS_REPOSITORY, UsersMongoRepository } from './repositories';
+import { UserSchema } from './schemas';
 
 @Module({
   imports: [
@@ -49,5 +49,6 @@ import { FilesModule } from '../files/files.module';
     ProfilePictureController,
     DeleteUserController,
   ],
+  exports: [CreateUserService],
 })
 export class UsersModule {}

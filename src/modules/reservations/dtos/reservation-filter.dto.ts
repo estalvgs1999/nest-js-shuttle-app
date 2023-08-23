@@ -1,6 +1,6 @@
 import { ReservationStatus } from '../enums';
 
-export class ReservationFilterDTO {
+export class ReservationFilterDto {
   email?: string;
   reservationId?: string;
   status?: ReservationStatus;

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindVehicleService } from '../services';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 
 @Controller({ path: 'vehicle' })
 export class FindVehicleController {
@@ -12,7 +12,7 @@ export class FindVehicleController {
   }
 
   @Get()
-  findByFilter(@Query() filter: VehicleFilterDTO) {
+  findByFilter(@Query() filter: VehicleFilterDto) {
     return this.service.findByFilter(filter);
   }
 }

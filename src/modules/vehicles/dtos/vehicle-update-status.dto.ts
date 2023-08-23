@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty } from 'class-validator';
 import { VehicleStatus } from '../enums';
 
-export class UpdateVehicleStatusDTO {
+export class UpdateVehicleStatusDto {
   @IsNotEmpty()
   @IsEnum(VehicleStatus)
   status: VehicleStatus;

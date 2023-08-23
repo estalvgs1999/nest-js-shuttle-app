@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVehicleDTO } from '../dtos';
+import { CreateVehicleDto } from '../dtos';
 import { Vehicle } from '../entities';
 import { VehicleModel } from '../schemas';
 import { VehiclesRepository } from './vehicles.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 
 @Injectable()
 export class VehiclesMongoRepository implements VehiclesRepository {
@@ -13,8 +13,8 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     private readonly model: VehicleModel,
   ) {}
 
-  async create(createVehicleDTO: CreateVehicleDTO): Promise<Vehicle> {
-    const newVehicle = new this.model(createVehicleDTO);
+  async create(createVehicleDto: CreateVehicleDto): Promise<Vehicle> {
+    const newVehicle = new this.model(createVehicleDto);
     await newVehicle.save();
     return newVehicle;
   }
@@ -27,7 +27,7 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     return await this.model.findOne({ plate: plate });
   }
 
-  async findByFilter(filter: VehicleFilterDTO): Promise<Vehicle[]> {
+  async findByFilter(filter: VehicleFilterDto): Promise<Vehicle[]> {
     return await this.model.find({ ...filter });
   }
 

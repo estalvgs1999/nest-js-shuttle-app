@@ -3,7 +3,7 @@ import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
 } from '../repositories';
-import { CreateReservationDTO, RawReservationDTO } from '../dtos';
+import { CreateReservationDto, RawReservationDto } from '../dtos';
 import { Reservation } from '../entities';
 import { PaymentMethod } from '../enums';
 import { mapEnumValueByIndex } from 'src/common/utils';
@@ -20,9 +20,9 @@ export class CreateReservationService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async run(rawReservationDTO: RawReservationDTO): Promise<Reservation> {
+  async run(rawReservationDto: RawReservationDto): Promise<Reservation> {
     this.logger.log('Creating reservation');
-    const { reservationId } = rawReservationDTO;
+    const { reservationId } = rawReservationDto;
 
     const reservationExists = await this.reservationsRepository.findById(
       reservationId,
@@ -33,42 +33,42 @@ export class CreateReservationService {
         `Reservation with number ${reservationId} already exists.`,
       );
     }
-    const createReservationDTO: CreateReservationDTO =
-      this.mapRawReservationToCreateReservation(rawReservationDTO);
+    const createReservationDto: CreateReservationDto =
+      this.mapRawReservationToCreateReservation(rawReservationDto);
 
     const newReservation = await this.reservationsRepository.create(
-      createReservationDTO,
+      createReservationDto,
     );
     this.logger.log('Reservation created');
 
     this.eventEmitter.emit(
       'reservation.created',
-      new ReservationCreatedEvent(rawReservationDTO, newReservation),
+      new ReservationCreatedEvent(rawReservationDto, newReservation),
     );
 
     return newReservation;
   }
 
   private mapRawReservationToCreateReservation(
-    rawReservationDTO: RawReservationDTO,
-  ): CreateReservationDTO {
+    rawReservationDto: RawReservationDto,
+  ): CreateReservationDto {
     return {
-      reservationId: rawReservationDTO.reservationId,
-      clientEmail: rawReservationDTO.email,
+      reservationId: rawReservationDto.reservationId,
+      clientEmail: rawReservationDto.email,
       passengersInfo: {
-        adults: rawReservationDTO.adults,
-        kids: rawReservationDTO.children,
+        adults: rawReservationDto.adults,
+        kids: rawReservationDto.children,
       },
       luggageInfo: {
-        bags: rawReservationDTO.bags,
-        babySeats: rawReservationDTO.babySeats,
-        boosterSeats: rawReservationDTO.boosterSeats,
-        surfboards: rawReservationDTO.surfboards,
+        bags: rawReservationDto.bags,
+        babySeats: rawReservationDto.babySeats,
+        boosterSeats: rawReservationDto.boosterSeats,
+        surfboards: rawReservationDto.surfboards,
       },
       paymentInfo: {
-        priceInDollars: rawReservationDTO.price,
-        method: this.mapPaymentMethod(rawReservationDTO.paymentType),
-        isPaid: Boolean(rawReservationDTO.isPaid),
+        priceInDollars: rawReservationDto.price,
+        method: this.mapPaymentMethod(rawReservationDto.paymentType),
+        isPaid: Boolean(rawReservationDto.isPaid),
       },
     };
   }

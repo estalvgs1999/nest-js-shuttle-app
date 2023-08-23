@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AccountProvider, Gender, Language, UserRole } from '../enums';
 import { Model } from 'mongoose';
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Prop({ type: String, index: true, unique: true, required: true })
   email: string;
@@ -33,9 +33,6 @@ export class User {
 
   @Prop({ type: [String], enum: Language, required: true })
   languages: Language[];
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

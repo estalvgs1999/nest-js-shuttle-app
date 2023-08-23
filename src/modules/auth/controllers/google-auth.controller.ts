@@ -1,9 +1,9 @@
-import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller({ path: 'auth' })
-export class GoogleLoginController {
+export class GoogleAuthController {
   @Get('/google')
   @UseGuards(AuthGuard('google'))
   async googleLogin(): Promise<any> {

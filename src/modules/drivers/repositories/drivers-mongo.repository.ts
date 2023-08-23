@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DriversRepository } from './drivers.repository';
 import {
-  AssignDriversVehicleDTO,
-  CreateDriverDTO,
-  DriverFilterDTO,
+  AssignDriversVehicleDto,
+  CreateDriverDto,
+  DriverFilterDto,
 } from '../dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { Driver, DriverModel } from '../schemas';
@@ -17,9 +17,9 @@ export class DriversMongoRepository implements DriversRepository {
     private readonly model: DriverModel,
   ) {}
 
-  async create(createDriverDTO: CreateDriverDTO) {
+  async create(createDriverDto: CreateDriverDto) {
     const newDriver = await new this.model({
-      user: createDriverDTO.userId,
+      user: createDriverDto.userId,
     }).save();
     return newDriver;
   }
@@ -41,15 +41,15 @@ export class DriversMongoRepository implements DriversRepository {
     return await this.model.find().populate('user').populate('vehicle');
   }
 
-  async findByFilter(filter: DriverFilterDTO) {
+  async findByFilter(filter: DriverFilterDto) {
     const drivers = await this.findAll();
 
     const result = drivers.filter(driver => matchesFilter(driver, filter));
     return result;
   }
 
-  async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const { driverId, vehicleId } = assignationDTO;
+  async assignVehicle(assignationDto: AssignDriversVehicleDto) {
+    const { driverId, vehicleId } = assignationDto;
     const driver = await this.findById(driverId);
     driver.status = DriverStatus.Available;
     driver.vehicle = vehicleId;

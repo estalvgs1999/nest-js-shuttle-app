@@ -1,7 +1,7 @@
 import { IsOptional, IsString } from 'class-validator';
 import { POIInfo } from '../interfaces';
 
-export class POIInfoDTO implements POIInfo {
+export class POIInfoDto implements POIInfo {
   @IsOptional()
   @IsString()
   phone?: string;

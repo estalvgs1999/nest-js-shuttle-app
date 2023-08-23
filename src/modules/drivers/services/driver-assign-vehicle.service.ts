@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { AssignDriversVehicleDTO } from '../dtos';
+import { AssignDriversVehicleDto } from '../dtos';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { VehicleAssignedEvent } from 'src/modules/vehicles/events';
 
@@ -14,17 +14,17 @@ export class AssignDriversVehicleService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const driver = await this.driversRepository.assignVehicle(assignationDTO);
+  async assignVehicle(assignationDto: AssignDriversVehicleDto) {
+    const driver = await this.driversRepository.assignVehicle(assignationDto);
     this.eventEmitter.emit(
       'vehicle.assigned',
-      new VehicleAssignedEvent(assignationDTO.vehicleId),
+      new VehicleAssignedEvent(assignationDto.vehicleId),
     );
     return driver;
   }
 
-  async releaseVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const { driverId, vehicleId } = assignationDTO;
+  async releaseVehicle(assignationDto: AssignDriversVehicleDto) {
+    const { driverId, vehicleId } = assignationDto;
     const driver = await this.driversRepository.releaseVehicle(driverId);
     this.eventEmitter.emit(
       'vehicle.released',

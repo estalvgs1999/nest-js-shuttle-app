@@ -1,6 +1,6 @@
 import { VehicleStatus } from '../enums';
 
-export class VehicleFilterDTO {
+export class VehicleFilterDto {
   plate?: string;
   status?: VehicleStatus;
 }

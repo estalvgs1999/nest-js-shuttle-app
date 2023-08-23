@@ -1,9 +1,9 @@
-import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller({ path: 'auth' })
-export class FacebookLoginController {
+export class FacebookAuthController {
   @Get('/facebook')
   @UseGuards(AuthGuard('facebook'))
   async facebookLogin(): Promise<any> {

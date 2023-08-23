@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Patch } from '@nestjs/common';
 import { UpdateUserService } from '../services';
-import { UpdateUserDTO } from '../dtos';
+import { UpdateUserDto } from '../dtos';
 import { User } from '../entities';
 
 @Controller({ path: 'user' })
@@ -10,8 +10,8 @@ export class UpdateUserController {
   @Patch('/update/:id')
   async updateUser(
     @Param('id') id: string,
-    @Body() updateUserDTO: UpdateUserDTO,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.service.run(id, updateUserDTO);
+    return this.service.run(id, updateUserDto);
   }
 }

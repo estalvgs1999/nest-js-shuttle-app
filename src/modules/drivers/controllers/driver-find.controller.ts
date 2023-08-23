@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindDriverService } from '../services';
-import { DriverFilterDTO } from '../dtos';
+import { DriverFilterDto } from '../dtos';
 
 @Controller({ path: 'driver' })
 export class FindDriverController {
@@ -12,7 +12,7 @@ export class FindDriverController {
   }
 
   @Get()
-  findAll(@Query() filterDTO: DriverFilterDTO) {
-    return this.service.findByFilter(filterDTO);
+  findAll(@Query() filterDto: DriverFilterDto) {
+    return this.service.findByFilter(filterDto);
   }
 }
