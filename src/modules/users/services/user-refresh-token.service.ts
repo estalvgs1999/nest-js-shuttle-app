@@ -19,8 +19,13 @@ export class UserRefreshTokenService {
       throw new NotFoundException(`User ${email} not found.`);
     }
 
-    const hash = await this.hashData(refreshToken);
-    return await this.usersRepository.updateRefreshToken(email, hash);
+    const userId = user['_id'];
+    const hashedToken = await this.hashData(refreshToken);
+    return await this.usersRepository.updateRefreshToken(userId, hashedToken);
+  }
+
+  async cleanRefreshToken(userId: string) {
+    return await this.usersRepository.updateRefreshToken(userId, undefined);
   }
 
   private async hashData(data: string): Promise<string> {

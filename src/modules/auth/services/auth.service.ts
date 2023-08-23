@@ -13,20 +13,16 @@ import { AuthDto } from '../dtos';
 
 @Injectable()
 export class AuthService {
-  private readonly apiKey: string;
-
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly createUserService: CreateUserService,
     private readonly validationService: ValidateUserService,
     private readonly refreshTokenService: UserRefreshTokenService,
-  ) {
-    this.apiKey = this.configService.get('apiKey');
-  }
+  ) {}
 
   validateApiKey(apiKey: string): boolean {
-    return this.apiKey === apiKey;
+    return this.configService.get('apiKey') === apiKey;
   }
 
   private async getTokens(payload: Payload): Promise<Tokens> {
@@ -88,5 +84,9 @@ export class AuthService {
     );
 
     return tokens;
+  }
+
+  async logout(userId: string) {
+    await this.refreshTokenService.cleanRefreshToken(userId);
   }
 }

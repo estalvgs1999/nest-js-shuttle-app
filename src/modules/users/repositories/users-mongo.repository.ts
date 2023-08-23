@@ -4,6 +4,7 @@ import { UserModel } from '../schemas';
 import { UsersRepository } from './users.repository';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserFilterDto } from '../dtos';
+import { string } from 'joi';
 
 @Injectable()
 export class UsersMongoRepository implements UsersRepository {
@@ -36,14 +37,11 @@ export class UsersMongoRepository implements UsersRepository {
     );
   }
 
-  async updateRefreshToken(email: string, hashedToken: string): Promise<User> {
-    return await this.model.findOneAndUpdate(
-      { email: email },
-      { hashedRt: hashedToken },
-      {
-        new: true,
-      },
-    );
+  async updateRefreshToken(userId: string, hashedToken: string): Promise<User> {
+    const user = await this.model.findById(userId);
+    user.hashedRt = hashedToken;
+    await user.save();
+    return user;
   }
 
   async findByEmail(email: string): Promise<User> {
