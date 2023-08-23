@@ -15,7 +15,7 @@ export class FindUsersService {
   async findById(userId: string): Promise<User> {
     this.logger.log(`Finding user with id: ${userId}`);
 
-    const user = this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) throw new NotFoundException(`User with id ${userId} not found.`);
 
