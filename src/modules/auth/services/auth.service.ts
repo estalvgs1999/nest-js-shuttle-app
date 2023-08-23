@@ -1,7 +1,11 @@
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../../users/dtos';
-import { CreateUserService, ValidateUserService } from '../../users/services';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CreateUserService,
+  UserRefreshTokenService,
+  ValidateUserService,
+} from '../../users/services';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Payload } from '../interfaces';
 import { Tokens } from '../types';
@@ -16,6 +20,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly createUserService: CreateUserService,
     private readonly validationService: ValidateUserService,
+    private readonly refreshTokenService: UserRefreshTokenService,
   ) {
     this.apiKey = this.configService.get('apiKey');
   }
@@ -50,25 +55,37 @@ export class AuthService {
 
   async signUpLocal(dto: CreateUserDto): Promise<Tokens> {
     const user = await this.createUserService.run(dto);
+
     const tokens = await this.getTokens({
       sub: user['_id'],
       email: user.email,
       role: user.role,
     });
+
+    await this.refreshTokenService.updateRefreshTokenHash(
+      user.email,
+      tokens.refresh_token,
+    );
     return tokens;
   }
 
   async signInLocal(dto: AuthDto): Promise<Tokens> {
     const { email, password } = dto;
+
     const user = await this.validationService.validateUser(email, password);
 
-    if (!user) throw new UnauthorizedException();
+    if (!user) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens({
       sub: user['_id'],
       email: user.email,
       role: user.role,
     });
+
+    await this.refreshTokenService.updateRefreshTokenHash(
+      user.email,
+      tokens.refresh_token,
+    );
 
     return tokens;
   }

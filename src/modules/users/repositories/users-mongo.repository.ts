@@ -36,12 +36,22 @@ export class UsersMongoRepository implements UsersRepository {
     );
   }
 
+  async updateRefreshToken(email: string, hashedToken: string): Promise<User> {
+    return await this.model.findOneAndUpdate(
+      { email: email },
+      { hashedRt: hashedToken },
+      {
+        new: true,
+      },
+    );
+  }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.model
       .findOne({
         email: email,
       })
-      .select('+password');
+      .select('+password +hashedRt');
     return user;
   }
 

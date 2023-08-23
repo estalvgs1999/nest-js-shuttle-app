@@ -11,6 +11,7 @@ import {
   FindUsersService,
   UpdateProfilePictureService,
   UpdateUserService,
+  UserRefreshTokenService,
   ValidateUserService,
 } from './services';
 import { DriversModule } from '../drivers/drivers.module';
@@ -43,6 +44,7 @@ import { UserSchema } from './schemas';
     UpdateProfilePictureService,
     DeleteUserService,
     ValidateUserService,
+    UserRefreshTokenService,
   ],
   controllers: [
     CreateUserController,
@@ -51,6 +53,6 @@ import { UserSchema } from './schemas';
     ProfilePictureController,
     DeleteUserController,
   ],
-  exports: [CreateUserService, ValidateUserService],
+  exports: [CreateUserService, ValidateUserService, UserRefreshTokenService],
 })
 export class UsersModule {}

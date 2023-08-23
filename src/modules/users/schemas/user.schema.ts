@@ -33,6 +33,9 @@ export class User {
 
   @Prop({ type: [String], enum: Language, required: true })
   languages: Language[];
+
+  @Prop({ type: String, select: false })
+  hashedRt: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
