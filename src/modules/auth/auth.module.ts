@@ -3,6 +3,7 @@ import {
   FacebookStrategy,
   GoogleStrategy,
   AccessTokenStrategy,
+  RefreshTokenStrategy,
 } from './strategies';
 import { AuthMiddleware } from './middleware';
 import { AuthService } from './services';
@@ -30,6 +31,7 @@ import { UsersModule } from '../users/users.module';
     FacebookStrategy,
     GoogleStrategy,
     AccessTokenStrategy,
+    RefreshTokenStrategy,
   ],
   controllers: [
     FacebookAuthController,

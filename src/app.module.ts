@@ -18,6 +18,8 @@ import { ReservationsModule } from './modules/reservations/reservations.module';
 import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { UsersModule } from './modules/users/users.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessTokenGuard } from './modules/auth/guards';
 
 @Module({
   imports: [
@@ -33,6 +35,12 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
     UsersModule,
     DriversModule,
     GalleryModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
   ],
   controllers: [AppController],
 })

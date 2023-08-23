@@ -34,7 +34,7 @@ export class User {
   @Prop({ type: [String], enum: Language, required: true })
   languages: Language[];
 
-  @Prop({ type: String, select: false })
+  @Prop({ type: String, default: undefined })
   hashedRt: string;
 }
 

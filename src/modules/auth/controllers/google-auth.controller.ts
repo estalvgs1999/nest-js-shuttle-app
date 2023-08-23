@@ -1,15 +1,18 @@
 import { AuthGuard } from '@nestjs/passport';
 import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import { Public } from '../../../common/decorators';
 import { Request } from 'express';
 
 @Controller({ path: 'auth' })
 export class GoogleAuthController {
+  @Public()
   @Get('/google')
   @UseGuards(AuthGuard('google'))
   async googleLogin(): Promise<any> {
     return HttpStatus.OK;
   }
 
+  @Public()
   @Get('/google/redirect')
   @UseGuards(AuthGuard('google'))
   async googleLoginRedirect(@Req() req: Request): Promise<any> {

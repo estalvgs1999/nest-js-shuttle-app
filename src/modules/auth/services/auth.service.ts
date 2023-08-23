@@ -7,8 +7,7 @@ import {
 } from '../../users/services';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Payload } from '../interfaces';
-import { Tokens } from '../types';
+import { JwtPayload, Tokens } from '../types';
 import { AuthDto } from '../dtos';
 
 @Injectable()
@@ -25,7 +24,7 @@ export class AuthService {
     return this.configService.get('apiKey') === apiKey;
   }
 
-  private async getTokens(payload: Payload): Promise<Tokens> {
+  private async getTokens(payload: JwtPayload): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         { ...payload },
@@ -58,7 +57,7 @@ export class AuthService {
       role: user.role,
     });
 
-    await this.refreshTokenService.updateRefreshTokenHash(
+    await this.refreshTokenService.updateTokenHash(
       user.email,
       tokens.refresh_token,
     );
@@ -78,7 +77,7 @@ export class AuthService {
       role: user.role,
     });
 
-    await this.refreshTokenService.updateRefreshTokenHash(
+    await this.refreshTokenService.updateTokenHash(
       user.email,
       tokens.refresh_token,
     );
@@ -87,6 +86,28 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    await this.refreshTokenService.cleanRefreshToken(userId);
+    await this.refreshTokenService.cleanToken(userId);
+  }
+
+  async refreshTokens(userId: string, refreshToken: string): Promise<Tokens> {
+    const user = await this.refreshTokenService.refreshToken(
+      userId,
+      refreshToken,
+    );
+
+    if (!user) throw new ForbiddenException('Access Denied');
+
+    const tokens = await this.getTokens({
+      sub: user['_id'],
+      email: user.email,
+      role: user.role,
+    });
+
+    await this.refreshTokenService.updateTokenHash(
+      user.email,
+      tokens.refresh_token,
+    );
+
+    return tokens;
   }
 }

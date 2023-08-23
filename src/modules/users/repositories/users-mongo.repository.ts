@@ -1,10 +1,9 @@
+import { CreateUserDto, UpdateUserDto, UserFilterDto } from '../dtos';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../entities';
 import { UserModel } from '../schemas';
 import { UsersRepository } from './users.repository';
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, UserFilterDto } from '../dtos';
-import { string } from 'joi';
 
 @Injectable()
 export class UsersMongoRepository implements UsersRepository {
@@ -49,7 +48,7 @@ export class UsersMongoRepository implements UsersRepository {
       .findOne({
         email: email,
       })
-      .select('+password +hashedRt');
+      .select('+password');
     return user;
   }
 

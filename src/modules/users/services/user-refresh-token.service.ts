@@ -11,7 +11,7 @@ export class UserRefreshTokenService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  async updateRefreshTokenHash(email: string, refreshToken: string) {
+  async updateTokenHash(email: string, refreshToken: string) {
     this.logger.log('Updating user refresh token.');
     const user = await this.usersRepository.findByEmail(email);
 
@@ -24,8 +24,24 @@ export class UserRefreshTokenService {
     return await this.usersRepository.updateRefreshToken(userId, hashedToken);
   }
 
-  async cleanRefreshToken(userId: string) {
-    return await this.usersRepository.updateRefreshToken(userId, undefined);
+  async refreshToken(userId: string, refreshToken: string) {
+    this.logger.log('Refreshing token');
+    const user = await this.usersRepository.findById(userId);
+
+    if (!user) throw new NotFoundException(`User ${userId} not found.`);
+
+    if (!user.hashedRt) return null;
+
+    const tokenMatches = await bcrypt.compare(refreshToken, user.hashedRt);
+
+    if (!tokenMatches) return null;
+
+    return user;
+  }
+
+  async cleanToken(userId: string) {
+    this.logger.log('Cleaning user refresh token.');
+    return await this.usersRepository.updateRefreshToken(userId, null);
   }
 
   private async hashData(data: string): Promise<string> {
