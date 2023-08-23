@@ -4,7 +4,8 @@
     "auth",
     "users",
     "gallery",
-    "users"
+    "users",
+    "drivers"
   ],
   "cSpell.words": [
     "autopopulate",
