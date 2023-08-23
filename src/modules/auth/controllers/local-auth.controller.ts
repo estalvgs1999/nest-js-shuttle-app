@@ -1,14 +1,22 @@
 import { AuthService } from '../services';
-import { Body, Controller, Post } from '@nestjs/common';
-import { CreateUserDto } from 'src/modules/users/dtos';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { CreateUserDto } from '../../users/dtos';
+import { LocalAuthGuard } from '../guards';
+import { Request } from 'express';
 import { Tokens } from '../types';
+import { AuthDto } from '../dtos';
 
 @Controller({ path: 'auth' })
 export class LocalAuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/local/signup')
-  signupLocal(@Body() dto: CreateUserDto): Promise<Tokens> {
+  signUpLocal(@Body() dto: CreateUserDto): Promise<Tokens> {
     return this.authService.signUpLocal(dto);
+  }
+
+  @Post('/local/login')
+  signInLocal(@Body() dto: AuthDto): Promise<Tokens> {
+    return this.authService.signInLocal(dto);
   }
 }

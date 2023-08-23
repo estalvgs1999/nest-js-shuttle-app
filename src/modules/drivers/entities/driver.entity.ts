@@ -1,5 +1,5 @@
-import { User } from '../../../modules/users/entities';
-import { Vehicle } from '../../../modules/vehicles/entities';
+import { User } from '../../users/entities';
+import { Vehicle } from '../../vehicles/entities';
 import { DriverStatus } from '../enums';
 
 export class Driver {

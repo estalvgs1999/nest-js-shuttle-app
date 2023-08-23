@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { User } from '../../../modules/users/schemas';
-import { Vehicle } from '../../../modules/vehicles/entities';
+import { User } from '../../users/schemas';
+import { Vehicle } from '../../vehicles/entities';
 import { DriverStatus } from '../enums';
 
 @Schema({ timestamps: true })

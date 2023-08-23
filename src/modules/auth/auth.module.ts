@@ -1,4 +1,9 @@
-import { ApiKeyStrategy, FacebookStrategy, GoogleStrategy } from './strategies';
+import {
+  ApiKeyStrategy,
+  FacebookStrategy,
+  GoogleStrategy,
+  AccessTokenStrategy,
+} from './strategies';
 import { AuthMiddleware } from './middleware';
 import { AuthService } from './services';
 import { ConfigModule } from '@nestjs/config';
@@ -19,7 +24,13 @@ import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [ConfigModule, PassportModule, JwtModule.register({}), UsersModule],
-  providers: [AuthService, ApiKeyStrategy, FacebookStrategy, GoogleStrategy],
+  providers: [
+    AuthService,
+    ApiKeyStrategy,
+    FacebookStrategy,
+    GoogleStrategy,
+    AccessTokenStrategy,
+  ],
   controllers: [
     FacebookAuthController,
     GoogleAuthController,
@@ -30,7 +41,7 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'health', method: RequestMethod.GET }, 'auth/(.*)')
+      .exclude({ path: 'health', method: RequestMethod.GET })
       .forRoutes('*');
   }
 }

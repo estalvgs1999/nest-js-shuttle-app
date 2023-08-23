@@ -6,18 +6,18 @@ import {
   loggerOptions,
   mongooseConfigAsync,
 } from './common/config';
+import { CorrelationIdMiddleware } from './common/middleware';
+import { DriversModule } from './modules/drivers/drivers.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { GalleryModule } from './modules/gallery/gallery.module';
 import { LoggerModule } from 'nestjs-pino';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ReservationsModule } from './modules/reservations/reservations.module';
-import { CorrelationIdMiddleware } from './common/middleware';
-import { EventEmitterModule } from '@nestjs/event-emitter';
-import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
-import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
+import { ReservationsModule } from './modules/reservations/reservations.module';
+import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { UsersModule } from './modules/users/users.module';
-import { DriversModule } from './modules/drivers/drivers.module';
-import { GalleryModule } from './modules/gallery/gallery.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
 
 @Module({
   imports: [

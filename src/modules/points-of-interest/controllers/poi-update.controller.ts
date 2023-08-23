@@ -9,7 +9,7 @@ import {
 import { UpdatePoiDto } from '../dtos';
 import { UpdatePOIImageService, UpdatePOIService } from '../services';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FilesAzureService } from '../../../modules/files/services';
+import { FilesAzureService } from '../../files/services';
 
 @Controller({ path: 'points-of-interest' })
 export class UpdatePOIController {

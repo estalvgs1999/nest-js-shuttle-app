@@ -11,6 +11,7 @@ import {
   FindUsersService,
   UpdateProfilePictureService,
   UpdateUserService,
+  ValidateUserService,
 } from './services';
 import { DriversModule } from '../drivers/drivers.module';
 import { FilesModule } from '../files/files.module';
@@ -41,6 +42,7 @@ import { UserSchema } from './schemas';
     UpdateUserService,
     UpdateProfilePictureService,
     DeleteUserService,
+    ValidateUserService,
   ],
   controllers: [
     CreateUserController,
@@ -49,6 +51,6 @@ import { UserSchema } from './schemas';
     ProfilePictureController,
     DeleteUserController,
   ],
-  exports: [CreateUserService],
+  exports: [CreateUserService, ValidateUserService],
 })
 export class UsersModule {}

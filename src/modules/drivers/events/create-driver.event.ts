@@ -1,4 +1,4 @@
-import { User } from '../../../modules/users/entities';
+import { User } from '../../users/entities';
 
 export class CreateDriverEvent {
   constructor(public readonly user: User) {}
