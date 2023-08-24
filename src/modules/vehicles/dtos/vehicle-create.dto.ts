@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, Min, Max, IsEnum } from 'class-validator';
+import { VehicleStatus } from '../enums';
 
 export class CreateVehicleDTO {
   @IsNotEmpty()
@@ -14,4 +15,8 @@ export class CreateVehicleDTO {
   @Min(1)
   @Max(50)
   readonly capacity: number;
+
+  @IsNotEmpty()
+  @IsEnum(VehicleStatus)
+  readonly status: VehicleStatus;
 }

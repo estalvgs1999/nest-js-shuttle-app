@@ -12,6 +12,7 @@ import {
   AssignDriverVehicleController,
   FindDriverController,
 } from './controllers';
+import { VehiclesModule } from '../vehicles/vehicles.module';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -20,6 +21,7 @@ import {
         schema: DriverSchema,
       },
     ]),
+    VehiclesModule,
   ],
   providers: [
     {
