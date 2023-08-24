@@ -55,4 +55,8 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     });
     return updatedVehicle;
   }
+
+  async delete(id: string): Promise<Vehicle> {
+    return await this.model.findByIdAndDelete(id);
+  }
 }
