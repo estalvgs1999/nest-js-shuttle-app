@@ -1,8 +1,9 @@
 import { VehicleStatus } from '../enums';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Model } from 'mongoose';
+import { Document, Model, Types } from 'mongoose';
+import { Driver } from '../../drivers/schemas';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Vehicle {
   @Prop({ index: true, type: String, unique: true })
   plate: string;
@@ -20,8 +21,8 @@ export class Vehicle {
   })
   status: VehicleStatus;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
+  @Prop({ type: Types.ObjectId, ref: Driver.name, autopopulate: true })
+  driver: Driver | string;
 }
 
 export const VehicleSchema = SchemaFactory.createForClass(Vehicle);

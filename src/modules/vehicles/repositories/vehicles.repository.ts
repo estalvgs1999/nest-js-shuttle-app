@@ -1,6 +1,6 @@
 import { CreateVehicleDTO } from '../dtos';
 import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
-import { Vehicle } from '../entities';
+import { Vehicle } from '../schemas';
 
 export interface VehiclesRepository {
   create(createVehicleDTO: CreateVehicleDTO): Promise<Vehicle>;
