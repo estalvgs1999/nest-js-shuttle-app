@@ -15,10 +15,11 @@ export class AssignDriversVehicleService {
   ) {}
 
   async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
+    const { driverId, vehicleId } = assignationDTO;
     const driver = await this.driversRepository.assignVehicle(assignationDTO);
     this.eventEmitter.emit(
       'vehicle.assigned',
-      new VehicleAssignedEvent(assignationDTO.vehicleId),
+      new VehicleAssignedEvent(vehicleId, driverId),
     );
     return driver;
   }
@@ -28,7 +29,7 @@ export class AssignDriversVehicleService {
     const driver = await this.driversRepository.releaseVehicle(driverId);
     this.eventEmitter.emit(
       'vehicle.released',
-      new VehicleAssignedEvent(vehicleId),
+      new VehicleAssignedEvent(vehicleId, driverId),
     );
     return driver;
   }

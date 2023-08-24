@@ -19,8 +19,7 @@ export class DeleteDriverService {
     this.logger.log(`Deleting driver from user ${userId}`);
     const driver = await this.driversRepository.findByUserId(userId);
 
-    if (!driver)
-      throw new NotFoundException(`Driver with user id ${userId} not found`);
+    if (!driver) throw new NotFoundException(`Driver not found`);
 
     const driverId = driver['_id'];
 
@@ -32,7 +31,7 @@ export class DeleteDriverService {
       const vehicleId = driver.vehicle['_id'];
       this.eventEmitter.emit(
         'vehicle.released',
-        new VehicleAssignedEvent(vehicleId),
+        new VehicleAssignedEvent(vehicleId, driverId),
       );
     }
 
