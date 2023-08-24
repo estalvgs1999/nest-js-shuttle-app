@@ -7,6 +7,15 @@ import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
 
 @Injectable()
 export class VehiclesMongoRepository implements VehiclesRepository {
+  private driverPopulateQuery = {
+    path: 'driver',
+    populate: {
+      path: 'user',
+      select: 'name lastName',
+    },
+    select: 'user.name user.lastName',
+  };
+
   constructor(
     @InjectModel(Vehicle.name)
     private readonly model: VehicleModel,
@@ -20,15 +29,24 @@ export class VehiclesMongoRepository implements VehiclesRepository {
 
   async findById(id: string): Promise<Vehicle> {
     // lean() is to get just the __doc
-    return await this.model.findById(id).lean();
+    return await this.model
+      .findById(id)
+      .lean()
+      .populate(this.driverPopulateQuery);
   }
 
   async findByPlate(plate: string): Promise<Vehicle> {
-    return await this.model.findOne({ plate: plate });
+    return await this.model
+      .findOne({ plate: plate })
+      .lean()
+      .populate(this.driverPopulateQuery);
   }
 
   async findByFilter(filter: VehicleFilterDTO): Promise<Vehicle[]> {
-    return await this.model.find({ ...filter });
+    return await this.model
+      .find({ ...filter })
+      .lean()
+      .populate(this.driverPopulateQuery);
   }
 
   async update(id: string, vehicle: Vehicle): Promise<Vehicle> {
