@@ -77,6 +77,7 @@ export class DriversMongoRepository implements DriversRepository {
 
     if (!driver) throw new NotFoundException('Driver not found');
 
+    driver.status = DriverStatus.Free;
     driver.vehicle = undefined;
 
     return await driver.save();

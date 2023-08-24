@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVehicleDTO } from '../dtos';
-import { Vehicle } from '../entities';
-import { VehicleModel } from '../schemas';
+import { Vehicle, VehicleModel } from '../schemas';
 import { VehiclesRepository } from './vehicles.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
@@ -20,7 +19,8 @@ export class VehiclesMongoRepository implements VehiclesRepository {
   }
 
   async findById(id: string): Promise<Vehicle> {
-    return await this.model.findById(id);
+    // lean() is to get just the __doc
+    return await this.model.findById(id).lean();
   }
 
   async findByPlate(plate: string): Promise<Vehicle> {

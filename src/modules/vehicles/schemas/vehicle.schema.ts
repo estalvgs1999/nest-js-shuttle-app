@@ -21,8 +21,8 @@ export class Vehicle {
   })
   status: VehicleStatus;
 
-  @Prop({ type: Types.ObjectId, ref: Driver.name })
-  driver: Driver;
+  @Prop({ type: Types.ObjectId, ref: Driver.name, autopopulate: true })
+  driver: Driver | string;
 }
 
 export const VehicleSchema = SchemaFactory.createForClass(Vehicle);

@@ -1,8 +1,7 @@
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
 import { DeleteDriverEvent } from '../events';
-import { VehicleAssignedEvent } from 'src/modules/vehicles/events';
+import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { VehicleAssignmentService } from 'src/modules/vehicles/services';
 
 @Injectable()
 export class DeleteDriverService {
@@ -11,7 +10,7 @@ export class DeleteDriverService {
   constructor(
     @Inject(DRIVERS_REPOSITORY)
     private readonly driversRepository: DriversRepository,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly vehicleAssignmentService: VehicleAssignmentService,
   ) {}
 
   async run(payload: DeleteDriverEvent) {
@@ -29,10 +28,7 @@ export class DeleteDriverService {
 
     if (driver.vehicle) {
       const vehicleId = driver.vehicle['_id'];
-      this.eventEmitter.emit(
-        'vehicle.released',
-        new VehicleAssignedEvent(vehicleId, driverId),
-      );
+      await this.vehicleAssignmentService.release(vehicleId);
     }
 
     return driver;

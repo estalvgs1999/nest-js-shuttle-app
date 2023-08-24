@@ -6,5 +6,5 @@ export class Vehicle {
   model: string;
   capacity: number;
   status: VehicleStatus;
-  driver: Driver;
+  driver: Driver | string;
 }

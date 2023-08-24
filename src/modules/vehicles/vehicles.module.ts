@@ -5,7 +5,8 @@ import { VEHICLES_REPOSITORY, VehiclesMongoRepository } from './repositories';
 import {
   CreateVehicleService,
   FindVehicleService,
-  UpdateVehicleStatusService,
+  UpdateVehicleService,
+  VehicleAssignmentService,
 } from './services';
 import {
   CreateVehicleController,
@@ -29,13 +30,15 @@ import { MongooseModule } from '@nestjs/mongoose';
       useClass: VehiclesMongoRepository,
     },
     CreateVehicleService,
-    UpdateVehicleStatusService,
+    UpdateVehicleService,
     FindVehicleService,
+    VehicleAssignmentService,
   ],
   controllers: [
     CreateVehicleController,
     UpdateVehicleStatusController,
     FindVehicleController,
   ],
+  exports: [VehicleAssignmentService],
 })
 export class VehiclesModule {}
