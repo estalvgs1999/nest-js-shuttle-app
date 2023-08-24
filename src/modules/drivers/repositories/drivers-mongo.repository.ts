@@ -31,6 +31,7 @@ export class DriversMongoRepository implements DriversRepository {
   async findById(driverId: string): Promise<any> {
     return await this.model
       .findById(driverId)
+      .lean()
       .populate({ path: 'user', select: this.userSelectQuery })
       .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
   }
@@ -73,7 +74,7 @@ export class DriversMongoRepository implements DriversRepository {
   }
 
   async releaseVehicle(driverId: string) {
-    const driver = await this.findById(driverId);
+    const driver = await this.model.findById(driverId);
 
     if (!driver) throw new NotFoundException('Driver not found');
 

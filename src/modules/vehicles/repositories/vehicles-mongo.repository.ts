@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVehicleDTO } from '../dtos';
 import { Vehicle, VehicleModel } from '../schemas';
 import { VehiclesRepository } from './vehicles.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { VehicleStatus } from '../enums';
 
 @Injectable()
 export class VehiclesMongoRepository implements VehiclesRepository {
@@ -54,6 +55,17 @@ export class VehiclesMongoRepository implements VehiclesRepository {
       new: true,
     });
     return updatedVehicle;
+  }
+
+  async releaseVehicle(id: string, status: VehicleStatus): Promise<Vehicle> {
+    const vehicle = await this.model.findById(id);
+
+    if (!vehicle) throw new NotFoundException('Driver not found');
+
+    vehicle.status = status;
+    vehicle.driver = undefined;
+
+    return await vehicle.save();
   }
 
   async delete(id: string): Promise<Vehicle> {
