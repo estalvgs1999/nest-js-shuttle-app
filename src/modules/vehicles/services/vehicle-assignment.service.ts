@@ -69,11 +69,10 @@ export class VehicleAssignmentService {
         ? VehicleStatus.OutOfService
         : VehicleStatus.Available;
 
-    const result = await this.vehiclesRepository.update(vehicleId, {
-      ...vehicle,
-      status: vehicleStatus,
-      driver: undefined,
-    });
+    const result = await this.vehiclesRepository.releaseVehicle(
+      vehicleId,
+      vehicleStatus,
+    );
 
     this.logger.log(
       `Vehicle ${vehicleId} successfully unassigned from driver with status ${vehicleStatus}`,
