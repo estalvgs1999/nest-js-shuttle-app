@@ -20,9 +20,6 @@ export class UpdateVehicleService {
       throw new NotFoundException('Vehicle not found');
     }
 
-    this.logger.log(vehicle);
-    this.logger.log(dto);
-
     const updatedVehicle = await this.vehiclesRepository.update(id, {
       ...vehicle,
       plate: dto.plate || vehicle.plate,
@@ -31,7 +28,7 @@ export class UpdateVehicleService {
       status: dto.status || vehicle.status,
     });
 
-    this.logger.log('Vehicle status updated');
+    this.logger.log('Vehicle updated successfully');
 
     return updatedVehicle;
   }

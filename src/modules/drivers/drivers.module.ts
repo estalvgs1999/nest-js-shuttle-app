@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Driver, DriverSchema } from './schemas';
 import { DRIVERS_REPOSITORY, DriversMongoRepository } from './repositories';
@@ -21,7 +21,7 @@ import { VehiclesModule } from '../vehicles/vehicles.module';
         schema: DriverSchema,
       },
     ]),
-    VehiclesModule,
+    forwardRef(() => VehiclesModule), // Circular dependency: https://docs.nestjs.com/fundamentals/circular-dependency#moduleref-class-alternative
   ],
   providers: [
     {
@@ -34,6 +34,6 @@ import { VehiclesModule } from '../vehicles/vehicles.module';
     DeleteDriverService,
   ],
   controllers: [AssignDriverVehicleController, FindDriverController],
-  exports: [DeleteDriverService],
+  exports: [AssignDriversVehicleService, DeleteDriverService],
 })
 export class DriversModule {}
