@@ -1,3 +1,4 @@
+import { Driver } from '../../drivers/schemas';
 import { VehicleStatus } from '../enums';
 
 export class Vehicle {
@@ -5,4 +6,5 @@ export class Vehicle {
   model: string;
   capacity: number;
   status: VehicleStatus;
+  driver: Driver;
 }
