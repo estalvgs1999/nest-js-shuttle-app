@@ -6,7 +6,8 @@
     "gallery",
     "users",
     "drivers",
-    "vehicles"
+    "vehicles",
+    "stats"
   ],
   "cSpell.words": [
     "autopopulate",
