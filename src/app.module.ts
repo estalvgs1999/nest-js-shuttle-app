@@ -18,6 +18,7 @@ import { PointsOfInterestModule } from './modules/points-of-interest/points-of-i
 import { UsersModule } from './modules/users/users.module';
 import { DriversModule } from './modules/drivers/drivers.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
+import { RideStatsModule } from './modules/ride-stats/ride-stats.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { GalleryModule } from './modules/gallery/gallery.module';
     UsersModule,
     DriversModule,
     GalleryModule,
+    RideStatsModule,
   ],
   controllers: [AppController],
 })
