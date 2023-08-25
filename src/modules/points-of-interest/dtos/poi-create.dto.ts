@@ -22,7 +22,6 @@ export class CreatePOIDTO {
   @MaxLength(500)
   description: string;
 
-  @IsNotEmpty()
   @IsOptional()
   @IsString()
   image: string;

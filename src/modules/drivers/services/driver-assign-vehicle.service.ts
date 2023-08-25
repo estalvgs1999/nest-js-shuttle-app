@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
 import { AssignDriversVehicleDTO } from '../dtos';
 import { VehicleAssignmentService } from '../../vehicles/services';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class AssignDriversVehicleService {
@@ -38,6 +39,7 @@ export class AssignDriversVehicleService {
     return result;
   }
 
+  @OnEvent('driver.released')
   async releaseVehicle(assignationDTO: AssignDriversVehicleDTO) {
     const { driverId, vehicleId } = assignationDTO;
     const driver = await this.driversRepository.releaseVehicle(driverId);
