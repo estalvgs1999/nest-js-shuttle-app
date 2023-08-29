@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../../users/dtos';
-import { AccessTokenGuard, RefreshTokenGuard } from '../guards';
+import { RefreshTokenGuard } from '../guards';
 import { Tokens } from '../types';
 import {
   GetCurrentUser,
