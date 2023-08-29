@@ -1,22 +1,21 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { Vehicle } from './entities';
-import { VehicleSchema } from './schemas';
-import { VEHICLES_REPOSITORY, VehiclesMongoRepository } from './repositories';
-import {
-  CreateVehicleService,
-  DeleteVehicleService,
-  FindVehicleService,
-  UpdateVehicleService,
-  VehicleAssignmentService,
-} from './services';
 import {
   CreateVehicleController,
   DeleteVehicleController,
   FindVehicleController,
   UpdateVehicleStatusController,
 } from './controllers';
+import {
+  CreateVehicleService,
+  DeleteVehicleService,
+  FindVehicleService,
+  UpdateVehicleService,
+  VehicleDriverAssignmentService,
+} from './services';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DriversModule } from '../drivers/drivers.module';
+import { Vehicle } from './entities';
+import { VEHICLES_REPOSITORY, VehiclesMongoRepository } from './repositories';
+import { VehicleSchema } from './schemas';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { DriversModule } from '../drivers/drivers.module';
         schema: VehicleSchema,
       },
     ]),
-    forwardRef(() => DriversModule), // Circular dependency: https://docs.nestjs.com/fundamentals/circular-dependency#moduleref-class-alternative
   ],
   providers: [
     {
@@ -36,7 +34,7 @@ import { DriversModule } from '../drivers/drivers.module';
     CreateVehicleService,
     UpdateVehicleService,
     FindVehicleService,
-    VehicleAssignmentService,
+    VehicleDriverAssignmentService,
     DeleteVehicleService,
   ],
   controllers: [
@@ -45,6 +43,6 @@ import { DriversModule } from '../drivers/drivers.module';
     FindVehicleController,
     DeleteVehicleController,
   ],
-  exports: [VehicleAssignmentService],
+  exports: [VehicleDriverAssignmentService],
 })
 export class VehiclesModule {}

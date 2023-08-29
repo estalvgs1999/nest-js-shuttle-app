@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateVehicleService } from '../services';
 import { CreateVehicleDto } from '../dtos';
+import { CreateVehicleService } from '../services';
 
 @Controller({ path: 'vehicle' })
 export class CreateVehicleController {

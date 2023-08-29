@@ -1,7 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { OnEvent } from '@nestjs/event-emitter';
 import { CreateDriverEvent } from '../events';
+import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class CreateDriverService {

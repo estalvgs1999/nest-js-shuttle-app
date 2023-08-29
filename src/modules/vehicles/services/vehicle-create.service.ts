@@ -15,7 +15,9 @@ export class CreateVehicleService {
     this.logger.log('Creating vehicle');
 
     const { plate } = createVehicleDto;
-    const vehicleExists = await this.vehiclesRepository.findByPlate(plate);
+    const vehicleExists = await this.vehiclesRepository.findByLicensePlate(
+      plate,
+    );
 
     if (vehicleExists)
       throw new ConflictException(

@@ -21,6 +21,7 @@ import { RideReservationsModule } from './modules/ride-reservations/ride-reserva
 import { RideStatsModule } from './modules/ride-stats/ride-stats.module';
 import { UsersModule } from './modules/users/users.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
+import { VehicleAssignmentModule } from './modules/vehicle-assignment/vehicle-assignment.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
     ReservationsModule,
     RideReservationsModule,
     VehiclesModule,
+    VehicleAssignmentModule,
     PointsOfInterestModule,
     AuthModule,
     UsersModule,
@@ -39,14 +41,14 @@ import { VehiclesModule } from './modules/vehicles/vehicles.module';
     RideStatsModule,
   ],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AccessTokenGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AccessTokenGuard,
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
   ],
   controllers: [AppController],
 })

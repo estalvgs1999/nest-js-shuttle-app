@@ -1,6 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
+import { Vehicle } from '../entities';
 
 @Injectable()
 export class FindVehicleService {
@@ -11,18 +12,24 @@ export class FindVehicleService {
     private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
-  async findById(id: string) {
-    this.logger.log(`Finding vehicles by vehicle id ${id}`);
-    return await this.vehiclesRepository.findById(id);
+  async findById(vehicleId: string): Promise<Vehicle> {
+    this.logger.log(`Searching for vehicle with ID: ${vehicleId}`);
+    const vehicle = await this.vehiclesRepository.findById(vehicleId);
+    if (!vehicle) throw new NotFoundException('Vehicle not found');
+    return vehicle;
   }
 
-  async findByPlate(plate: string) {
-    this.logger.log(`Finding vehicles by license plate ${plate}`);
-    return await this.vehiclesRepository.findByPlate(plate);
+  async findByPlate(licensePlate: string): Promise<Vehicle> {
+    this.logger.log(`Searching for vehicle with license plate ${licensePlate}`);
+    const vehicle = await this.vehiclesRepository.findByLicensePlate(
+      licensePlate,
+    );
+    if (!vehicle) throw new NotFoundException('Vehicle not found');
+    return vehicle;
   }
 
-  async findByFilter(filter: VehicleFilterDto) {
-    this.logger.log(`Finding vehicles by filter ${filter}`);
-    return await this.vehiclesRepository.findByFilter(filter);
+  async findByFilter(filterDto: VehicleFilterDto): Promise<Vehicle[]> {
+    this.logger.log(`Searching for vehicles`);
+    return await this.vehiclesRepository.findByFilter(filterDto);
   }
 }

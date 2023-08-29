@@ -9,15 +9,22 @@ import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleStatus } from '../enums';
 
 @Injectable()
-export class VehicleAssignmentService {
-  private readonly logger = new Logger(VehicleAssignmentService.name);
+export class VehicleDriverAssignmentService {
+  private readonly logger = new Logger(VehicleDriverAssignmentService.name);
 
   constructor(
     @Inject(VEHICLES_REPOSITORY)
     private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
-  async assign(driverId: string, vehicleId: string) {
+  async isAvailable(vehicleId: string): Promise<boolean> {
+    const vehicle = await this.vehiclesRepository.findById(vehicleId);
+
+    if (!vehicle) throw new NotFoundException('Vehicle not found');
+    return vehicle.status === VehicleStatus.Available;
+  }
+
+  async assignDriver(driverId: string, vehicleId: string) {
     this.logger.log('Finding vehicle for assignment');
 
     const vehicle = await this.vehiclesRepository.findById(vehicleId);
@@ -54,7 +61,7 @@ export class VehicleAssignmentService {
     return result;
   }
 
-  async release(vehicleId: string) {
+  async releaseDriver(vehicleId: string) {
     this.logger.log('Finding vehicle for release');
 
     const vehicle = await this.vehiclesRepository.findById(vehicleId);

@@ -9,13 +9,13 @@ export class FindVehicleController {
 
   @Get('/:id')
   @Roles('Admin', 'Super')
-  findById(@Param('id') id: string) {
-    return this.service.findById(id);
+  findById(@Param('id') vehicleId: string) {
+    return this.service.findById(vehicleId);
   }
 
   @Get()
   @Roles('Admin', 'Super')
-  findByFilter(@Query() filter: VehicleFilterDto) {
-    return this.service.findByFilter(filter);
+  findByFilter(@Query() filterDto: VehicleFilterDto) {
+    return this.service.findByFilter(filterDto);
   }
 }
