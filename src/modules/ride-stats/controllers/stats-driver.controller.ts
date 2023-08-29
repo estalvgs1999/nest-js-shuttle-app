@@ -5,7 +5,8 @@ export class DriverStatsController {
   @Get('/driver-tenure/:id')
   getDriverTenure(@Param('id') driverId: string) {
     // Replace with actual logic to calculate driver tenure
-    const tenure = '3 months'; // Fictitious data
+    const tenure = 3; // Fictitious data
+    const unit = 'Meses';
     return { tenure };
   }
 
