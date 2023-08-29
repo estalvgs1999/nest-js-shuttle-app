@@ -58,8 +58,8 @@ export class DriversMongoRepository implements DriversRepository {
     return result;
   }
 
-  async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const { driverId, vehicleId } = assignationDTO;
+  async assignVehicle(assignationDto: AssignDriversVehicleDto) {
+    const { driverId, vehicleId } = assignationDto;
 
     const driver = await this.model.findByIdAndUpdate(
       driverId,

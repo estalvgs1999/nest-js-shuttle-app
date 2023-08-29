@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { UpdateVehicleDTO } from '../dtos';
+import { UpdateVehicleDto } from '../dtos';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleStatus } from '../enums';
 import { Vehicle } from '../schemas';
@@ -15,7 +15,7 @@ export class UpdateVehicleService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async run(id: string, dto: UpdateVehicleDTO) {
+  async run(id: string, dto: UpdateVehicleDto) {
     this.logger.log('Finding vehicle for update');
     const vehicle = await this.vehiclesRepository.findById(id);
 

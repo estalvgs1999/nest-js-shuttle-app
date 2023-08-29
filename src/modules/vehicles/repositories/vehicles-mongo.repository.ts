@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateVehicleDTO } from '../dtos';
+import { CreateVehicleDto } from '../dtos';
 import { Vehicle, VehicleModel } from '../schemas';
 import { VehiclesRepository } from './vehicles.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { VehicleStatus } from '../enums';
 
 @Injectable()
@@ -43,7 +43,7 @@ export class VehiclesMongoRepository implements VehiclesRepository {
       .populate(this.driverPopulateQuery);
   }
 
-  async findByFilter(filter: VehicleFilterDTO): Promise<Vehicle[]> {
+  async findByFilter(filter: VehicleFilterDto): Promise<Vehicle[]> {
     return await this.model
       .find({ ...filter })
       .lean()

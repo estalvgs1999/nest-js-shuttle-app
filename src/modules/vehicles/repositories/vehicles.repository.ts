@@ -1,5 +1,5 @@
-import { CreateVehicleDTO } from '../dtos';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { CreateVehicleDto } from '../dtos';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { VehicleStatus } from '../enums';
 import { Vehicle } from '../schemas';
 

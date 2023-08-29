@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { AssignDriversVehicleDTO } from '../dtos';
+import { AssignDriversVehicleDto } from '../dtos';
 import { VehicleAssignmentService } from '../../vehicles/services';
 import { OnEvent } from '@nestjs/event-emitter';
 
@@ -14,8 +14,8 @@ export class AssignDriversVehicleService {
     private readonly vehicleAssignmentService: VehicleAssignmentService,
   ) {}
 
-  async assignVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const { driverId, vehicleId } = assignationDTO;
+  async assignVehicle(assignationDto: AssignDriversVehicleDto) {
+    const { driverId, vehicleId } = assignationDto;
     const driver = await this.driversRepository.findById(driverId);
 
     if (!driver) {
@@ -31,7 +31,7 @@ export class AssignDriversVehicleService {
       });
     }
 
-    const result = await this.driversRepository.assignVehicle(assignationDTO);
+    const result = await this.driversRepository.assignVehicle(assignationDto);
     await this.vehicleAssignmentService.assign(driverId, vehicleId);
 
     this.logger.log('The driver has been assigned the vehicle correctly');
@@ -40,8 +40,8 @@ export class AssignDriversVehicleService {
   }
 
   @OnEvent('driver.released')
-  async releaseVehicle(assignationDTO: AssignDriversVehicleDTO) {
-    const { driverId, vehicleId } = assignationDTO;
+  async releaseVehicle(assignationDto: AssignDriversVehicleDto) {
+    const { driverId, vehicleId } = assignationDto;
     const driver = await this.driversRepository.releaseVehicle(driverId);
 
     await this.vehicleAssignmentService.release(vehicleId);
