@@ -7,7 +7,7 @@ export class DriverStatsController {
     // Replace with actual logic to calculate driver tenure
     const tenure = 3; // Fictitious data
     const unit = 'Meses';
-    return { tenure };
+    return { tenure, unit };
   }
 
   @Get('/total-trips/:id')
