@@ -6,8 +6,8 @@ import {
 import { OnEvent } from '@nestjs/event-emitter';
 import { RideMode, RideType, Route, oppositeRoutesMap } from '../enums';
 import { mapEnumValueByIndex } from '../../../common/utils';
-import { RideReservationDTO } from '../dtos';
-import { RideOptionsDTO } from '../dtos/ride-options.dto';
+import { RideReservationDto } from '../dtos';
+import { RideOptionsDto } from '../dtos/ride-options.dto';
 import { Reservation } from '../../reservations/schemas';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class CreateRideReservationsService {
       `Creating ride reservations associated with new reservation: ${reservationId}`,
     );
 
-    const arrivalRideReservation: RideReservationDTO =
+    const arrivalRideReservation: RideReservationDto =
       this.mapReservationToRide(newReservation, rideRoute, rideType, rideMode, {
         ...reservation,
       });
@@ -40,7 +40,7 @@ export class CreateRideReservationsService {
     this.logger.log('Arrival ride reservation created');
 
     if (rideType === RideType.RoundTrip) {
-      const departureRideReservation: RideReservationDTO =
+      const departureRideReservation: RideReservationDto =
         this.mapReservationToRide(
           newReservation,
           rideRoute,
@@ -60,9 +60,9 @@ export class CreateRideReservationsService {
     route: Route,
     type: RideType,
     mode: RideMode,
-    rideOptions: RideOptionsDTO,
+    rideOptions: RideOptionsDto,
     isArrival = true,
-  ): RideReservationDTO {
+  ): RideReservationDto {
     return {
       route: isArrival ? route : this.getDepartureRoute(route),
       type: type,

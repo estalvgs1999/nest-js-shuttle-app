@@ -8,11 +8,11 @@ import {
 } from 'class-validator';
 import { POIType } from '../enums';
 import { POIInfo, POILocation } from '../interfaces';
-import { POILocationDTO } from './poi-location.dto';
+import { POILocationDto } from './poi-location.dto';
 import { Type } from 'class-transformer';
-import { POIInfoDTO } from './poi-info.dto';
+import { POIInfoDto } from './poi-info.dto';
 
-export class CreatePOIDTO {
+export class CreatePOIDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -32,10 +32,10 @@ export class CreatePOIDTO {
 
   @IsNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => POILocationDTO)
+  @Type(() => POILocationDto)
   location: POILocation;
 
   @IsNotEmpty()
-  @Type(() => POIInfoDTO)
+  @Type(() => POIInfoDto)
   info?: POIInfo;
 }

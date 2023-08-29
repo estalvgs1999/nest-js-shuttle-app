@@ -1,6 +1,6 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { HeaderAPIKeyStrategy } from 'passport-headerapikey';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

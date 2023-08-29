@@ -1,13 +1,14 @@
-import { CreateUserDTO, UpdateUserDTO, UserFilterDTO } from '../dtos';
+import { CreateUserDto, UpdateUserDto, UserFilterDto } from '../dtos';
 import { User } from '../entities';
 
 export interface UsersRepository {
-  create(userDTO: CreateUserDTO): Promise<User>;
-  update(userId: string, updateUserDTO: UpdateUserDTO): Promise<User>;
+  create(userDto: CreateUserDto): Promise<User>;
+  update(userId: string, updateUserDto: UpdateUserDto): Promise<User>;
   updateProfilePicture(userId: string, pictureUrl: string): Promise<User>;
+  updateRefreshToken(id: string, hashedToken: string): Promise<User>;
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
-  findByFilter(filter: UserFilterDTO): Promise<User[]>;
+  findByFilter(filter: UserFilterDto): Promise<User[]>;
   delete(id: string): Promise<User>;
 }
 

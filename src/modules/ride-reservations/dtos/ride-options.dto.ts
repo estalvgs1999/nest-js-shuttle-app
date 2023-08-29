@@ -1,4 +1,4 @@
-export class RideOptionsDTO {
+export class RideOptionsDto {
   route: number;
   tripType: number;
   vehicleType: number;

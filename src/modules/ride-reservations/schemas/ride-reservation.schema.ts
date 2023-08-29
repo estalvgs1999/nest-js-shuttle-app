@@ -1,4 +1,4 @@
-import { Reservation } from '../../../modules/reservations/schemas';
+import { Reservation } from '../../reservations/schemas';
 import { RideMode, RideType, Route } from '../enums';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Model, Types } from 'mongoose';

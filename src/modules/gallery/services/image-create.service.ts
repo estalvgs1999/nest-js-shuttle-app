@@ -19,27 +19,27 @@ export class CreateImageService {
     private readonly fileService: FilesAzureService,
   ) {}
 
-  async run(imageDTO: CreateImageDto) {
+  async run(imageDto: CreateImageDto) {
     this.logger.log('Creating gallery image...');
 
     const count = await this.galleryRepository.countImages();
 
     if (count >= this.maxImages) {
-      this.removeImage(imageDTO);
+      this.removeImage(imageDto);
       throw new InternalServerErrorException(
         'Unable to add the image because the maximum limit has been reached. Please remove some images to add a new one.',
       );
     }
 
     return await this.galleryRepository.create({
-      ...imageDTO,
+      ...imageDto,
       position: count + 1,
     });
   }
 
-  private async removeImage(imageDTO: CreateImageDto) {
+  private async removeImage(imageDto: CreateImageDto) {
     const containerName = 'landingpage';
-    const fileUrl = imageDTO?.url;
+    const fileUrl = imageDto?.url;
     let oldUrl = '';
 
     if (fileUrl) oldUrl = fileUrl.split('/').pop();

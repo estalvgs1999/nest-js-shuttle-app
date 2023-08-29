@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class FindVehicleService {
     return await this.vehiclesRepository.findByPlate(plate);
   }
 
-  async findByFilter(filter: VehicleFilterDTO) {
+  async findByFilter(filter: VehicleFilterDto) {
     this.logger.log(`Finding vehicles by filter ${filter}`);
     return await this.vehiclesRepository.findByFilter(filter);
   }

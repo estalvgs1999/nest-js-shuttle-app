@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { UpdateUserDTO } from '../dtos';
+import { UpdateUserDto } from '../dtos';
 
 @Injectable()
 export class UpdateUserService {
@@ -11,7 +11,7 @@ export class UpdateUserService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  async run(userId: string, updateUserDTO: UpdateUserDTO) {
+  async run(userId: string, updateUserDto: UpdateUserDto) {
     this.logger.log('Updating user data.');
     const user = await this.usersRepository.findById(userId);
 
@@ -19,6 +19,6 @@ export class UpdateUserService {
       throw new NotFoundException(`User with id ${userId} not found.`);
     }
 
-    return await this.usersRepository.update(userId, updateUserDTO);
+    return await this.usersRepository.update(userId, updateUserDto);
   }
 }

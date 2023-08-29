@@ -3,7 +3,7 @@ import { RideReservationsRepository } from './ride-reservations.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { RideReservationModel } from '../schemas';
 import { RideReservation } from '../entities';
-import { RideReservationDTO } from '../dtos';
+import { RideReservationDto } from '../dtos';
 
 @Injectable()
 export class RideReservationsMongoRepository
@@ -15,11 +15,11 @@ export class RideReservationsMongoRepository
   ) {}
 
   async create(
-    rideReservationDTO: RideReservationDTO,
-  ): Promise<RideReservationDTO> {
-    const newReservation = new this.model(rideReservationDTO);
+    rideReservationDto: RideReservationDto,
+  ): Promise<RideReservationDto> {
+    const newReservation = new this.model(rideReservationDto);
 
     await newReservation.save();
-    return rideReservationDTO;
+    return rideReservationDto;
   }
 }

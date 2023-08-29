@@ -1,3 +1,5 @@
+import { AccessTokenGuard, RolesGuard } from './modules/auth/guards';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -6,19 +8,19 @@ import {
   loggerOptions,
   mongooseConfigAsync,
 } from './common/config';
+import { CorrelationIdMiddleware } from './common/middleware';
+import { DriversModule } from './modules/drivers/drivers.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { GalleryModule } from './modules/gallery/gallery.module';
 import { LoggerModule } from 'nestjs-pino';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ReservationsModule } from './modules/reservations/reservations.module';
-import { CorrelationIdMiddleware } from './common/middleware';
-import { EventEmitterModule } from '@nestjs/event-emitter';
-import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
-import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { PointsOfInterestModule } from './modules/points-of-interest/points-of-interest.module';
-import { UsersModule } from './modules/users/users.module';
-import { DriversModule } from './modules/drivers/drivers.module';
-import { GalleryModule } from './modules/gallery/gallery.module';
+import { ReservationsModule } from './modules/reservations/reservations.module';
+import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { RideStatsModule } from './modules/ride-stats/ride-stats.module';
+import { UsersModule } from './modules/users/users.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
 
 @Module({
   imports: [
@@ -35,6 +37,16 @@ import { RideStatsModule } from './modules/ride-stats/ride-stats.module';
     DriversModule,
     GalleryModule,
     RideStatsModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
   controllers: [AppController],
 })

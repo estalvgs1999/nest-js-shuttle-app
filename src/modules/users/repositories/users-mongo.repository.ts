@@ -1,9 +1,9 @@
+import { CreateUserDto, UpdateUserDto, UserFilterDto } from '../dtos';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../entities';
 import { UserModel } from '../schemas';
 import { UsersRepository } from './users.repository';
-import { Injectable } from '@nestjs/common';
-import { CreateUserDTO, UpdateUserDTO, UserFilterDTO } from '../dtos';
 
 @Injectable()
 export class UsersMongoRepository implements UsersRepository {
@@ -12,13 +12,13 @@ export class UsersMongoRepository implements UsersRepository {
     private readonly model: UserModel,
   ) {}
 
-  async create(userDTO: CreateUserDTO): Promise<User> {
-    const newUser = await new this.model(userDTO).save();
+  async create(userDto: CreateUserDto): Promise<User> {
+    const newUser = await new this.model(userDto).save();
     return newUser;
   }
 
-  async update(userId: string, updateUserDTO: UpdateUserDTO): Promise<User> {
-    return await this.model.findByIdAndUpdate(userId, updateUserDTO, {
+  async update(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return await this.model.findByIdAndUpdate(userId, updateUserDto, {
       new: true,
     });
   }
@@ -36,6 +36,13 @@ export class UsersMongoRepository implements UsersRepository {
     );
   }
 
+  async updateRefreshToken(userId: string, hashedToken: string): Promise<User> {
+    const user = await this.model.findById(userId);
+    user.hashedRt = hashedToken;
+    await user.save();
+    return user;
+  }
+
   async findByEmail(email: string): Promise<User> {
     const user = await this.model
       .findOne({
@@ -50,7 +57,7 @@ export class UsersMongoRepository implements UsersRepository {
     return user;
   }
 
-  async findByFilter(filter: UserFilterDTO): Promise<User[]> {
+  async findByFilter(filter: UserFilterDto): Promise<User[]> {
     const query = {
       ...filter,
     };

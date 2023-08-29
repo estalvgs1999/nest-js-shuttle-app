@@ -5,7 +5,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { FilesAzureService } from '../../../modules/files/services';
+import { FilesAzureService } from '../../files/services';
 import { CreateImageService } from '../services';
 import { CreateImageDto } from '../dtos';
 import { FileInterceptor } from '@nestjs/platform-express';

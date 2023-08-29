@@ -1,5 +1,5 @@
 import { DriverStatus } from '../enums';
 
-export class UpdateDriverStatusDTO {
+export class UpdateDriverStatusDto {
   status: DriverStatus;
 }

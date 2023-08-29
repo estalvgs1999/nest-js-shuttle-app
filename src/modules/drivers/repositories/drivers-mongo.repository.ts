@@ -1,7 +1,7 @@
 import {
-  AssignDriversVehicleDTO,
-  CreateDriverDTO,
-  DriverFilterDTO,
+  AssignDriversVehicleDto,
+  CreateDriverDto,
+  DriverFilterDto,
 } from '../dtos';
 import { Driver, DriverModel } from '../schemas';
 import { DriversRepository } from './drivers.repository';
@@ -21,9 +21,9 @@ export class DriversMongoRepository implements DriversRepository {
     private readonly model: DriverModel,
   ) {}
 
-  async create(createDriverDTO: CreateDriverDTO) {
+  async create(createDriverDto: CreateDriverDto) {
     const newDriver = await new this.model({
-      user: createDriverDTO.userId,
+      user: createDriverDto.userId,
     }).save();
     return newDriver;
   }
@@ -51,7 +51,7 @@ export class DriversMongoRepository implements DriversRepository {
       .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
   }
 
-  async findByFilter(filter: DriverFilterDTO) {
+  async findByFilter(filter: DriverFilterDto) {
     const drivers = await this.findAll();
 
     const result = drivers.filter(driver => matchesFilter(driver, filter));

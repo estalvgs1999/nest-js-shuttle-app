@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, IsInt, Min, Max, IsEnum } from 'class-validator';
 import { VehicleStatus } from '../enums';
 
-export class CreateVehicleDTO {
+export class CreateVehicleDto {
   @IsNotEmpty()
   @IsString()
   readonly plate: string;

@@ -22,8 +22,8 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     private readonly model: VehicleModel,
   ) {}
 
-  async create(createVehicleDTO: CreateVehicleDTO): Promise<Vehicle> {
-    const newVehicle = new this.model(createVehicleDTO);
+  async create(createVehicleDto: CreateVehicleDto): Promise<Vehicle> {
+    const newVehicle = new this.model(createVehicleDto);
     await newVehicle.save();
     return newVehicle;
   }

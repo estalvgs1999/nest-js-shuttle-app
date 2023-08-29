@@ -4,10 +4,10 @@ import { VehicleStatus } from '../enums';
 import { Vehicle } from '../schemas';
 
 export interface VehiclesRepository {
-  create(createVehicleDTO: CreateVehicleDTO): Promise<Vehicle>;
+  create(createVehicleDto: CreateVehicleDto): Promise<Vehicle>;
   findById(id: string): Promise<Vehicle>;
   findByPlate(plate: string): Promise<Vehicle>;
-  findByFilter(filter: VehicleFilterDTO): Promise<Vehicle[]>;
+  findByFilter(filter: VehicleFilterDto): Promise<Vehicle[]>;
   update(id: string, vehicle: Vehicle): Promise<Vehicle>;
   delete(id: string): Promise<Vehicle>;
   releaseVehicle(id: string, status: VehicleStatus): Promise<Vehicle>;

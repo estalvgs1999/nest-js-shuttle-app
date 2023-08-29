@@ -11,7 +11,7 @@ import {
   IsNumber,
 } from 'class-validator';
 
-export class RawReservationDTO {
+export class RawReservationDto {
   @IsNotEmpty()
   @IsString()
   readonly reservationId: string;

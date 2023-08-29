@@ -6,10 +6,10 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { UpdatePoiDTO } from '../dtos';
+import { UpdatePoiDto } from '../dtos';
 import { UpdatePOIImageService, UpdatePOIService } from '../services';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FilesAzureService } from '../../../modules/files/services';
+import { FilesAzureService } from '../../files/services';
 
 @Controller({ path: 'points-of-interest' })
 export class UpdatePOIController {
@@ -20,8 +20,8 @@ export class UpdatePOIController {
   ) {}
 
   @Patch('/:id/update/')
-  updatePOI(@Param('id') id: string, @Body() updatePoiDTO: UpdatePoiDTO) {
-    return this.poiService.run(id, updatePoiDTO);
+  updatePOI(@Param('id') id: string, @Body() updatePoiDto: UpdatePoiDto) {
+    return this.poiService.run(id, updatePoiDto);
   }
 
   @Patch('/:id/upload/')
