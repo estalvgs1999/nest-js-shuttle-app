@@ -33,18 +33,16 @@ export class DriversMongoRepository implements DriversRepository {
   }
 
   async findByUserId(userId: string): Promise<Driver> {
-    const driver = await this.model
-      .findOne({ user: userId })
-      .populate({ path: 'user', select: this.userSelectQuery })
-      .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
-    return driver;
+    const drivers = await this.findAll();
+    return drivers.find(drv => drv.user['_id'].toString() === userId);
   }
 
   async findAll(): Promise<Driver[]> {
-    return await this.model
+    const drivers = await this.model
       .find()
       .populate({ path: 'user', select: this.userSelectQuery })
       .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
+    return drivers;
   }
 
   async findByFilter(filter: DriverFilterDto): Promise<Driver[]> {

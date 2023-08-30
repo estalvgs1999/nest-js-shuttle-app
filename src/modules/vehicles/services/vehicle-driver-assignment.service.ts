@@ -99,8 +99,6 @@ export class VehicleDriverAssignmentService {
     const driverId = vehicle.driver['_id'];
     const vehicleId = vehicle['_id'];
 
-    this.logger.debug(vehicleId);
-
     try {
       await this.releaseDriver(vehicleId);
       await this.driversRepository.releaseVehicle(driverId);

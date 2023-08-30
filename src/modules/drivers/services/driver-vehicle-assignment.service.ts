@@ -7,6 +7,11 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import {
+  VEHICLES_REPOSITORY,
+  VehiclesRepository,
+} from '../../vehicles/repositories';
+import { VehicleStatus } from 'src/modules/vehicles/enums';
 
 @Injectable()
 export class DriverVehicleAssignmentService {
@@ -15,6 +20,8 @@ export class DriverVehicleAssignmentService {
   constructor(
     @Inject(DRIVERS_REPOSITORY)
     private readonly driversRepository: DriversRepository,
+    @Inject(VEHICLES_REPOSITORY)
+    private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
   async getVehicleAssignedToDriver(
@@ -76,5 +83,22 @@ export class DriverVehicleAssignmentService {
     );
 
     return updatedDriver;
+  }
+
+  async hardVehicleRelease(driver: Driver) {
+    const driverId = driver['_id'];
+    const vehicleId = driver.vehicle['_id'];
+
+    try {
+      await this.releaseVehicle(driverId, vehicleId);
+      await this.vehiclesRepository.releaseVehicle(
+        vehicleId,
+        VehicleStatus.Available,
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Driver and vehicle release failed: ${error}`,
+      );
+    }
   }
 }

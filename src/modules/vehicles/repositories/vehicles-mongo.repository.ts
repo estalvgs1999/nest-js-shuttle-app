@@ -1,5 +1,5 @@
 import { CreateVehicleDto } from '../dtos';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Vehicle, VehicleModel } from '../schemas';
 import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';

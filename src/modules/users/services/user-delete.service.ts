@@ -1,10 +1,9 @@
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { User } from '../entities';
-import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { DeleteDriverEvent } from '../../drivers/events';
-import { UserRole } from '../enums';
 import { DeleteDriverService } from '../../drivers/services';
 import { FilesAzureService } from '../../files/services';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { User } from '../entities';
+import { UserRole } from '../enums';
+import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 
 @Injectable()
 export class DeleteUserService {
@@ -39,6 +38,9 @@ export class DeleteUserService {
   private async removeProfilePicture(user: User) {
     const containerName = 'profile';
     const fileUrl = user?.profilePicture;
+
+    if (!fileUrl) return;
+
     let oldUrl = '';
 
     if (fileUrl) oldUrl = fileUrl.split('/').pop();
@@ -47,7 +49,7 @@ export class DeleteUserService {
   }
 
   private async deleteDriver(userId: string) {
-    this.logger.log('Emitting delete driver event');
-    await this.deleteDriverService.run(new DeleteDriverEvent(userId));
+    this.logger.log('Start the driver removal process');
+    await this.deleteDriverService.run(userId);
   }
 }
