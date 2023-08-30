@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { FilesAzureService } from './services';
 import { ConfigModule } from '@nestjs/config';
+import { FilesAzureService } from './services';
+import { Module } from '@nestjs/common';
 
 @Module({
   imports: [ConfigModule],

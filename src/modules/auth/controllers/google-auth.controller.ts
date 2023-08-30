@@ -1,6 +1,6 @@
 import { AuthGuard } from '@nestjs/passport';
 import { Controller, Get, HttpStatus, Req, UseGuards } from '@nestjs/common';
-import { Public } from '../../../common/decorators';
+import { Public } from '@Common/decorators';
 import { Request } from 'express';
 
 @Controller({ path: 'auth' })

@@ -5,10 +5,11 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { FilesAzureService } from '../../files/services';
-import { CreateImageService } from '../services';
 import { CreateImageDto } from '../dtos';
+import { CreateImageService } from '../services';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesAzureService } from '../../files/services';
+import { Roles } from '@Common/decorators';
 
 @Controller('gallery')
 export class CreateImageController {
@@ -18,6 +19,7 @@ export class CreateImageController {
   ) {}
 
   @Post('/upload')
+  @Roles('Super')
   @UseInterceptors(FileInterceptor('image'))
   async createImage(
     @Query() imageDto: CreateImageDto,

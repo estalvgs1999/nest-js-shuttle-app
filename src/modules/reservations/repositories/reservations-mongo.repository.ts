@@ -1,12 +1,12 @@
+import { CreateReservationDto } from '../dtos';
 import { Injectable } from '@nestjs/common';
-import { ReservationsRepository } from './reservations.repository';
+import { InjectModel } from '@nestjs/mongoose';
+import { Reservation } from '../entities';
 import {
   ReservationDocument,
   ReservationModel,
 } from '../schemas/reservation.schema';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateReservationDto } from '../dtos';
-import { Reservation } from '../entities';
+import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsMongoRepository implements ReservationsRepository {

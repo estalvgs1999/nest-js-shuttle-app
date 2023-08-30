@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AllExceptionFilter } from './common/filters';
-import { TimeoutInterceptor } from './common/interceptors';
+import { AllExceptionFilter } from '@Common/filters';
+import { TimeoutInterceptor } from '@Common/interceptors';
 import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {

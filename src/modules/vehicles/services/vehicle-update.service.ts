@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UpdateVehicleDto } from '../dtos';
+import { Vehicle } from '../entities';
+import { VehicleDriverAssignmentService } from './vehicle-driver-assignment.service';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleStatus } from '../enums';
-import { Vehicle } from '../schemas';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class UpdateVehicleService {
@@ -12,26 +12,27 @@ export class UpdateVehicleService {
   constructor(
     @Inject(VEHICLES_REPOSITORY)
     private readonly vehiclesRepository: VehiclesRepository,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly vehicleService: VehicleDriverAssignmentService,
   ) {}
 
-  async run(id: string, dto: UpdateVehicleDto) {
+  async run(vehicleId: string, updateDto: UpdateVehicleDto) {
     this.logger.log('Finding vehicle for update');
-    const vehicle = await this.vehiclesRepository.findById(id);
+
+    const vehicle = await this.vehiclesRepository.findById(vehicleId);
 
     if (!vehicle) {
       this.logger.log('Vehicle update failed: Vehicle not found');
       throw new NotFoundException('Vehicle not found');
     }
 
-    if (dto.status) await this.handleStatusChange(vehicle);
+    if (updateDto.status) this.handleStatusChange(vehicle, updateDto.status);
 
-    const updatedVehicle = await this.vehiclesRepository.update(id, {
+    const updatedVehicle = await this.vehiclesRepository.update(vehicleId, {
       ...vehicle,
-      plate: dto.plate || vehicle.plate,
-      model: dto.model || vehicle.model,
-      capacity: dto.capacity || vehicle.capacity,
-      status: dto.status || vehicle.status,
+      plate: updateDto.plate || vehicle.plate,
+      model: updateDto.model || vehicle.model,
+      capacity: updateDto.capacity || vehicle.capacity,
+      status: updateDto.status || vehicle.status,
     });
 
     this.logger.log('Vehicle updated successfully');
@@ -39,15 +40,17 @@ export class UpdateVehicleService {
     return updatedVehicle;
   }
 
-  private async handleStatusChange(vehicle: Vehicle) {
-    if (vehicle.status !== VehicleStatus.Assigned) {
+  private async handleStatusChange(vehicle: Vehicle, status: VehicleStatus) {
+    if (!vehicle.driver) {
+      this.logger.log('Vehicle does not have a driver to release');
+      return;
+    }
+
+    if (status === VehicleStatus.Assigned) {
       this.logger.log('The change of state of the vehicle must not be managed');
       return;
     }
 
-    const driverId = vehicle.driver['_id'];
-    const vehicleId = vehicle['_id'];
-
-    this.eventEmitter.emit('driver.released', { driverId, vehicleId });
+    await this.vehicleService.hardDriverRelease(vehicle);
   }
 }

@@ -1,8 +1,8 @@
 import {
+  AccessTokenStrategy,
   ApiKeyStrategy,
   FacebookStrategy,
   GoogleStrategy,
-  AccessTokenStrategy,
   RefreshTokenStrategy,
 } from './strategies';
 import { AuthMiddleware } from './middleware';

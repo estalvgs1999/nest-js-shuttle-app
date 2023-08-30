@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { RawReservationDto } from '../dtos/reservation-raw.dto';
 import { CreateReservationService } from '../services';
+import { RawReservationDto } from '../dtos/reservation-raw.dto';
 
 @Controller({ path: 'reservation' })
 export class CreateReservationController {

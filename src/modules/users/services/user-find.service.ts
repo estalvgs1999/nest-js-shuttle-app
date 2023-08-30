@@ -1,7 +1,7 @@
-import { Injectable, Inject, Logger, NotFoundException } from '@nestjs/common';
-import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { UserFilterDto } from '../dtos';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { User } from '../entities';
+import { UserFilterDto } from '../dtos';
+import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 
 @Injectable()
 export class FindUsersService {

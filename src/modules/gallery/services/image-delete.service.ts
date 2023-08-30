@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { GalleryImage } from '../schemas';
-import { FilesAzureService } from 'src/modules/files/services';
+import { FilesAzureService } from '../../files/services';
 import { GALLERY_REPOSITORY, GalleryRepository } from '../repositories';
 
 @Injectable()

@@ -1,10 +1,10 @@
+import * as passport from 'passport';
 import {
   Injectable,
   NestMiddleware,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import * as passport from 'passport';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

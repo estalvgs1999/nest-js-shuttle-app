@@ -1,12 +1,8 @@
-import {
-  AssignDriversVehicleDto,
-  CreateDriverDto,
-  DriverFilterDto,
-} from '../dtos';
+import { CreateDriverDto, DriverFilterDto } from '../dtos';
 import { Driver, DriverModel } from '../schemas';
 import { DriversRepository } from './drivers.repository';
 import { DriverStatus } from '../enums';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { matchesFilter } from '../utils';
 
@@ -21,14 +17,14 @@ export class DriversMongoRepository implements DriversRepository {
     private readonly model: DriverModel,
   ) {}
 
-  async create(createDriverDto: CreateDriverDto) {
+  async create(createDriverDto: CreateDriverDto): Promise<Driver> {
     const newDriver = await new this.model({
       user: createDriverDto.userId,
     }).save();
     return newDriver;
   }
 
-  async findById(driverId: string): Promise<any> {
+  async findById(driverId: string): Promise<Driver> {
     return await this.model
       .findById(driverId)
       .lean()
@@ -37,30 +33,26 @@ export class DriversMongoRepository implements DriversRepository {
   }
 
   async findByUserId(userId: string): Promise<Driver> {
-    const driver = await this.model
-      .findOne({ user: userId })
-      .populate({ path: 'user', select: this.userSelectQuery })
-      .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
-    return driver;
+    const drivers = await this.findAll();
+    return drivers.find(drv => drv.user['_id'].toString() === userId);
   }
 
-  async findAll() {
-    return await this.model
+  async findAll(): Promise<Driver[]> {
+    const drivers = await this.model
       .find()
       .populate({ path: 'user', select: this.userSelectQuery })
       .populate({ path: 'vehicle', select: this.vehicleSelectQuery });
+    return drivers;
   }
 
-  async findByFilter(filter: DriverFilterDto) {
+  async findByFilter(filter: DriverFilterDto): Promise<Driver[]> {
     const drivers = await this.findAll();
 
     const result = drivers.filter(driver => matchesFilter(driver, filter));
     return result;
   }
 
-  async assignVehicle(assignationDto: AssignDriversVehicleDto) {
-    const { driverId, vehicleId } = assignationDto;
-
+  async assignVehicle(driverId: string, vehicleId: string): Promise<Driver> {
     const driver = await this.model.findByIdAndUpdate(
       driverId,
       {
@@ -73,18 +65,20 @@ export class DriversMongoRepository implements DriversRepository {
     return driver;
   }
 
-  async releaseVehicle(driverId: string) {
-    const driver = await this.model.findById(driverId);
+  async releaseVehicle(driverId: string): Promise<Driver> {
+    const driver = await this.model.findByIdAndUpdate(
+      driverId,
+      {
+        status: DriverStatus.Free,
+        $unset: { vehicle: 1 },
+      },
+      { new: true },
+    );
 
-    if (!driver) throw new NotFoundException('Driver not found');
-
-    driver.status = DriverStatus.Free;
-    driver.vehicle = undefined;
-
-    return await driver.save();
+    return driver;
   }
 
-  async delete(driverId: string) {
+  async delete(driverId: string): Promise<Driver> {
     return await this.model.findByIdAndDelete(driverId);
   }
 }

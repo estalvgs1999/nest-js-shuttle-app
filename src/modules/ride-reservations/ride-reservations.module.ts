@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { CreateRideReservationsService } from './services';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RideReservation, RideReservationSchema } from './schemas';
-import { CreateRideReservationsService } from './services';
 import {
   RIDE_RESERVATIONS_REPOSITORY,
   RideReservationsMongoRepository,
 } from './repositories';
+import { RideReservation, RideReservationSchema } from './schemas';
 
 @Module({
   imports: [

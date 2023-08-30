@@ -1,8 +1,4 @@
-import {
-  AssignDriversVehicleDto,
-  CreateDriverDto,
-  DriverFilterDto,
-} from '../dtos';
+import { CreateDriverDto, DriverFilterDto } from '../dtos';
 import { Driver } from '../schemas';
 
 export interface DriversRepository {
@@ -10,7 +6,7 @@ export interface DriversRepository {
   findByUserId(userId: string): Promise<Driver>;
   findById(driverId: string): Promise<Driver>;
   findByFilter(filter: DriverFilterDto): Promise<Driver[]>;
-  assignVehicle(assignationDto: AssignDriversVehicleDto): Promise<Driver>;
+  assignVehicle(driverId: string, vehicleId: string): Promise<Driver>;
   releaseVehicle(driverId: string): Promise<Driver>;
   delete(driverId: string): Promise<any>;
 }

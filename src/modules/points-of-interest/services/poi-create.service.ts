@@ -1,7 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { POIRepository, POI_REPOSITORY } from '../repositories';
 import { CreatePOIDto } from '../dtos';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { POI } from '../entities';
+import { POI_REPOSITORY, POIRepository } from '../repositories';
 
 @Injectable()
 export class CreatePOIService {

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt, Min, Max, IsEnum } from 'class-validator';
+import { IsEnum, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 import { VehicleStatus } from '../enums';
 
 export class CreateVehicleDto {

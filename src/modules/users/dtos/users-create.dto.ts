@@ -1,3 +1,4 @@
+import { AccountProvider, Gender, Language, UserRole } from '../enums';
 import {
   IsArray,
   IsEnum,
@@ -5,7 +6,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Gender, AccountProvider, UserRole, Language } from '../enums';
 
 export class CreateUserDto {
   @IsNotEmpty()

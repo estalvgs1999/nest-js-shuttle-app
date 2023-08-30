@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVehicleDto } from '../dtos';
-import { Vehicle, VehicleModel } from '../schemas';
-import { VehiclesRepository } from './vehicles.repository';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Vehicle, VehicleModel } from '../schemas';
 import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
+import { VehiclesRepository } from './vehicles.repository';
 import { VehicleStatus } from '../enums';
 
 @Injectable()
@@ -28,15 +28,15 @@ export class VehiclesMongoRepository implements VehiclesRepository {
     return newVehicle;
   }
 
-  async findById(id: string): Promise<Vehicle> {
+  async findById(vehicleId: string): Promise<Vehicle> {
     // lean() is to get just the __doc
     return await this.model
-      .findById(id)
+      .findById(vehicleId)
       .lean()
       .populate(this.driverPopulateQuery);
   }
 
-  async findByPlate(plate: string): Promise<Vehicle> {
+  async findByLicensePlate(plate: string): Promise<Vehicle> {
     return await this.model
       .findOne({ plate: plate })
       .lean()
@@ -50,25 +50,35 @@ export class VehiclesMongoRepository implements VehiclesRepository {
       .populate(this.driverPopulateQuery);
   }
 
-  async update(id: string, vehicle: Vehicle): Promise<Vehicle> {
-    const updatedVehicle = await this.model.findByIdAndUpdate(id, vehicle, {
-      new: true,
-    });
+  async update(vehicleId: string, vehicle: Vehicle): Promise<Vehicle> {
+    const updatedVehicle = await this.model.findByIdAndUpdate(
+      vehicleId,
+      vehicle,
+      {
+        new: true,
+      },
+    );
     return updatedVehicle;
   }
 
-  async releaseVehicle(id: string, status: VehicleStatus): Promise<Vehicle> {
-    const vehicle = await this.model.findById(id);
-
-    if (!vehicle) throw new NotFoundException('Driver not found');
-
-    vehicle.status = status;
-    vehicle.driver = undefined;
-
-    return await vehicle.save();
+  async releaseVehicle(
+    vehicleId: string,
+    status: VehicleStatus,
+  ): Promise<Vehicle> {
+    const updatedVehicle = await this.model.findByIdAndUpdate(
+      vehicleId,
+      {
+        status: status,
+        $unset: { driver: 1 },
+      },
+      {
+        new: true,
+      },
+    );
+    return updatedVehicle;
   }
 
-  async delete(id: string): Promise<Vehicle> {
-    return await this.model.findByIdAndDelete(id);
+  async delete(vehicleId: string): Promise<Vehicle> {
+    return await this.model.findByIdAndDelete(vehicleId);
   }
 }

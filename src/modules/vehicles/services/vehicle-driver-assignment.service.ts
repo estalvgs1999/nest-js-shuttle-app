@@ -1,23 +1,37 @@
 import {
+  DRIVERS_REPOSITORY,
+  DriversRepository,
+} from '../../drivers/repositories';
+import {
   Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { Vehicle } from '../entities';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleStatus } from '../enums';
 
 @Injectable()
-export class VehicleAssignmentService {
-  private readonly logger = new Logger(VehicleAssignmentService.name);
+export class VehicleDriverAssignmentService {
+  private readonly logger = new Logger(VehicleDriverAssignmentService.name);
 
   constructor(
     @Inject(VEHICLES_REPOSITORY)
     private readonly vehiclesRepository: VehiclesRepository,
+    @Inject(DRIVERS_REPOSITORY)
+    private readonly driversRepository: DriversRepository,
   ) {}
 
-  async assign(driverId: string, vehicleId: string) {
+  async isAvailable(vehicleId: string): Promise<boolean> {
+    const vehicle = await this.vehiclesRepository.findById(vehicleId);
+
+    if (!vehicle) throw new NotFoundException('Vehicle not found');
+    return vehicle.status === VehicleStatus.Available;
+  }
+
+  async assignDriver(driverId: string, vehicleId: string) {
     this.logger.log('Finding vehicle for assignment');
 
     const vehicle = await this.vehiclesRepository.findById(vehicleId);
@@ -41,7 +55,7 @@ export class VehicleAssignmentService {
       );
     }
 
-    const result = await this.vehiclesRepository.update(vehicleId, {
+    const updatedVehicle = await this.vehiclesRepository.update(vehicleId, {
       ...vehicle,
       driver: driverId,
       status: VehicleStatus.Assigned,
@@ -51,10 +65,10 @@ export class VehicleAssignmentService {
       `Assignment of vehicle ${vehicleId} to driver ${driverId} completed`,
     );
 
-    return result;
+    return updatedVehicle;
   }
 
-  async release(vehicleId: string) {
+  async releaseDriver(vehicleId: string) {
     this.logger.log('Finding vehicle for release');
 
     const vehicle = await this.vehiclesRepository.findById(vehicleId);
@@ -69,7 +83,7 @@ export class VehicleAssignmentService {
         ? VehicleStatus.OutOfService
         : VehicleStatus.Available;
 
-    const result = await this.vehiclesRepository.releaseVehicle(
+    const updatedVehicle = await this.vehiclesRepository.releaseVehicle(
       vehicleId,
       vehicleStatus,
     );
@@ -78,6 +92,27 @@ export class VehicleAssignmentService {
       `Vehicle ${vehicleId} successfully unassigned from driver with status ${vehicleStatus}`,
     );
 
-    return result;
+    return updatedVehicle;
+  }
+
+  /**
+   * The function `hardDriverRelease` releases a driver from a vehicle and updates the database
+   * accordingly, throwing an error if the release fails.
+   * @param {Vehicle} vehicle - The `vehicle` parameter is an object that represents a vehicle. It
+   * likely contains properties such as `driver`, which represents the driver assigned to the vehicle,
+   * and `_id`, which represents the unique identifier of the vehicle.
+   */
+  async hardDriverRelease(vehicle: Vehicle) {
+    const driverId = vehicle.driver['_id'];
+    const vehicleId = vehicle['_id'];
+
+    try {
+      await this.releaseDriver(vehicleId);
+      await this.driversRepository.releaseVehicle(driverId);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Vehicle and driver release failed: ${error}`,
+      );
+    }
   }
 }
