@@ -8,5 +8,6 @@ import { VehiclesModule } from '../vehicles/vehicles.module';
   imports: [DriversModule, VehiclesModule],
   controllers: [VehicleAssignmentController],
   providers: [VehicleAssignmentService],
+  exports: [VehicleAssignmentService],
 })
 export class VehicleAssignmentModule {}

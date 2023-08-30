@@ -2,7 +2,7 @@ import { CreateDriverDto, DriverFilterDto } from '../dtos';
 import { Driver, DriverModel } from '../schemas';
 import { DriversRepository } from './drivers.repository';
 import { DriverStatus } from '../enums';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { matchesFilter } from '../utils';
 

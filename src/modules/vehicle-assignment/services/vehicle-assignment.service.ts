@@ -54,7 +54,7 @@ export class VehicleAssignmentService {
   }
 
   async releaseVehicle(releaseDto: VehicleReleaseDto) {
-    const { driverId, vehicleId } = releaseDto;
+    const { driverId } = releaseDto;
 
     const driverVehicle = await this.driverService.getVehicleAssignedToDriver(
       driverId,
@@ -66,8 +66,8 @@ export class VehicleAssignmentService {
       );
 
     try {
-      await this.vehicleService.releaseDriver(vehicleId);
-      await this.driverService.releaseVehicle(driverId, vehicleId);
+      await this.vehicleService.releaseDriver(driverVehicle);
+      await this.driverService.releaseVehicle(driverId, driverVehicle);
     } catch (error) {
       throw new InternalServerErrorException(
         `Vehicle and driver release failed: ${error}`,

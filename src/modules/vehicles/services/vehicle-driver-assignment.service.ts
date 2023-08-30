@@ -1,10 +1,15 @@
 import {
+  DRIVERS_REPOSITORY,
+  DriversRepository,
+} from '../../drivers/repositories';
+import {
   Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { Vehicle } from '../entities';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleStatus } from '../enums';
 
@@ -15,6 +20,8 @@ export class VehicleDriverAssignmentService {
   constructor(
     @Inject(VEHICLES_REPOSITORY)
     private readonly vehiclesRepository: VehiclesRepository,
+    @Inject(DRIVERS_REPOSITORY)
+    private readonly driversRepository: DriversRepository,
   ) {}
 
   async isAvailable(vehicleId: string): Promise<boolean> {
@@ -48,7 +55,7 @@ export class VehicleDriverAssignmentService {
       );
     }
 
-    const result = await this.vehiclesRepository.update(vehicleId, {
+    const updatedVehicle = await this.vehiclesRepository.update(vehicleId, {
       ...vehicle,
       driver: driverId,
       status: VehicleStatus.Assigned,
@@ -58,7 +65,7 @@ export class VehicleDriverAssignmentService {
       `Assignment of vehicle ${vehicleId} to driver ${driverId} completed`,
     );
 
-    return result;
+    return updatedVehicle;
   }
 
   async releaseDriver(vehicleId: string) {
@@ -76,7 +83,7 @@ export class VehicleDriverAssignmentService {
         ? VehicleStatus.OutOfService
         : VehicleStatus.Available;
 
-    const result = await this.vehiclesRepository.releaseVehicle(
+    const updatedVehicle = await this.vehiclesRepository.releaseVehicle(
       vehicleId,
       vehicleStatus,
     );
@@ -85,6 +92,22 @@ export class VehicleDriverAssignmentService {
       `Vehicle ${vehicleId} successfully unassigned from driver with status ${vehicleStatus}`,
     );
 
-    return result;
+    return updatedVehicle;
+  }
+
+  async hardDriverRelease(vehicle: Vehicle) {
+    const driverId = vehicle.driver['_id'];
+    const vehicleId = vehicle['_id'];
+
+    this.logger.debug(vehicleId);
+
+    try {
+      await this.releaseDriver(vehicleId);
+      await this.driversRepository.releaseVehicle(driverId);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Vehicle and driver release failed: ${error}`,
+      );
+    }
   }
 }
