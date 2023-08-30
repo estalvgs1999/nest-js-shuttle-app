@@ -20,8 +20,8 @@ import { ReservationsModule } from './modules/reservations/reservations.module';
 import { RideReservationsModule } from './modules/ride-reservations/ride-reservations.module';
 import { RideStatsModule } from './modules/ride-stats/ride-stats.module';
 import { UsersModule } from './modules/users/users.module';
-import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { VehicleAssignmentModule } from './modules/vehicle-assignment/vehicle-assignment.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
 
 @Module({
   imports: [
@@ -41,14 +41,14 @@ import { VehicleAssignmentModule } from './modules/vehicle-assignment/vehicle-as
     RideStatsModule,
   ],
   providers: [
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AccessTokenGuard,
-    // },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
   controllers: [AppController],
 })

@@ -1,5 +1,5 @@
 import { Reservation } from '../../reservations/schemas';
-import { Route, RideType, RideMode } from '../enums';
+import { RideMode, RideType, Route } from '../enums';
 
 export class RideReservationDto {
   route: Route;

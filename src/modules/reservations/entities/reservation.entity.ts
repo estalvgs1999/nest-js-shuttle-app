@@ -1,5 +1,5 @@
-import { ReservationStatus } from '../enums';
 import { LuggageInfo, PassengersInfo, PaymentInfo } from '../interfaces';
+import { ReservationStatus } from '../enums';
 
 export class Reservation {
   reservationId: string;

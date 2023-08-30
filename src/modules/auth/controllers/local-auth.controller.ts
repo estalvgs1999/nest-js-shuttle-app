@@ -9,13 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../../users/dtos';
-import { RefreshTokenGuard } from '../guards';
-import { Tokens } from '../types';
 import {
   GetCurrentUser,
   GetCurrentUserId,
   Public,
 } from '../../../common/decorators';
+import { RefreshTokenGuard } from '../guards';
+import { Tokens } from '../types';
 
 @Controller({ path: 'auth' })
 export class LocalAuthController {

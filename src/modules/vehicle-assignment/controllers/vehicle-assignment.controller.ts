@@ -1,6 +1,6 @@
 import { Controller, Patch, Query } from '@nestjs/common';
-import { VehicleAssignmentService } from '../services';
 import { VehicleAssignmentDto, VehicleReleaseDto } from '../dto';
+import { VehicleAssignmentService } from '../services';
 
 @Controller({ path: 'vehicle-assignment' })
 export class VehicleAssignmentController {

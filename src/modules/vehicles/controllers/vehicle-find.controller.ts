@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindVehicleService } from '../services';
-import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { Roles } from '../../../common/decorators';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 
 @Controller({ path: 'vehicle' })
 export class FindVehicleController {

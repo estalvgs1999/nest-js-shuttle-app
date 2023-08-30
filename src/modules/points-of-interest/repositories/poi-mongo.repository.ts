@@ -1,9 +1,9 @@
+import { CreatePOIDto, UpdatePoiDto } from '../dtos';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { POI } from '../entities';
 import { POIModel } from '../schemas';
 import { POIRepository } from './poi.repository';
-import { Injectable } from '@nestjs/common';
-import { CreatePOIDto, UpdatePoiDto } from '../dtos';
 
 @Injectable()
 export class POIMongoRepository implements POIRepository {

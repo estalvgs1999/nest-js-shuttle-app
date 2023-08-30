@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { User } from '../entities';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 

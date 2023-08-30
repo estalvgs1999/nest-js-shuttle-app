@@ -95,6 +95,13 @@ export class VehicleDriverAssignmentService {
     return updatedVehicle;
   }
 
+  /**
+   * The function `hardDriverRelease` releases a driver from a vehicle and updates the database
+   * accordingly, throwing an error if the release fails.
+   * @param {Vehicle} vehicle - The `vehicle` parameter is an object that represents a vehicle. It
+   * likely contains properties such as `driver`, which represents the driver assigned to the vehicle,
+   * and `_id`, which represents the unique identifier of the vehicle.
+   */
   async hardDriverRelease(vehicle: Vehicle) {
     const driverId = vehicle.driver['_id'];
     const vehicleId = vehicle['_id'];

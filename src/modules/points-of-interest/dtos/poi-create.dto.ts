@@ -6,11 +6,11 @@ import {
   MaxLength,
   ValidateNested,
 } from 'class-validator';
-import { POIType } from '../enums';
 import { POIInfo, POILocation } from '../interfaces';
-import { POILocationDto } from './poi-location.dto';
-import { Type } from 'class-transformer';
 import { POIInfoDto } from './poi-info.dto';
+import { POILocationDto } from './poi-location.dto';
+import { POIType } from '../enums';
+import { Type } from 'class-transformer';
 
 export class CreatePOIDto {
   @IsNotEmpty()

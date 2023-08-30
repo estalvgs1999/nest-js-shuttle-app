@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Vehicle } from '../entities';
 import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
-import { Vehicle } from '../entities';
 
 @Injectable()
 export class FindVehicleService {

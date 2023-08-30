@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UpdateVehicleDto } from '../dtos';
-import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
-import { VehicleDriverAssignmentService } from './vehicle-driver-assignment.service';
-import { VehicleStatus } from '../enums';
 import { Vehicle } from '../entities';
+import { VehicleDriverAssignmentService } from './vehicle-driver-assignment.service';
+import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
+import { VehicleStatus } from '../enums';
 
 @Injectable()
 export class UpdateVehicleService {

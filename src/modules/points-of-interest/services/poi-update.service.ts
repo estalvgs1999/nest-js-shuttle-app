@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { UpdatePoiDto } from '../dtos';
 import { POI } from '../entities';
 import { POI_REPOSITORY, POIRepository } from '../repositories';
+import { UpdatePoiDto } from '../dtos';
 
 @Injectable()
 export class UpdatePOIService {

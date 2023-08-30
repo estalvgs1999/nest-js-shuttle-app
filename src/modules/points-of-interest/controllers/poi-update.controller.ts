@@ -1,15 +1,16 @@
 import {
-  Controller,
-  Patch,
   Body,
+  Controller,
   Param,
-  UseInterceptors,
+  Patch,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { UpdatePoiDto } from '../dtos';
-import { UpdatePOIImageService, UpdatePOIService } from '../services';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from '../../files/services';
+import { Roles } from '../../../common/decorators';
+import { UpdatePoiDto } from '../dtos';
+import { UpdatePOIImageService, UpdatePOIService } from '../services';
 
 @Controller({ path: 'points-of-interest' })
 export class UpdatePOIController {
@@ -20,11 +21,13 @@ export class UpdatePOIController {
   ) {}
 
   @Patch('/:id/update/')
+  @Roles('Super')
   updatePOI(@Param('id') id: string, @Body() updatePoiDto: UpdatePoiDto) {
     return this.poiService.run(id, updatePoiDto);
   }
 
   @Patch('/:id/upload/')
+  @Roles('Super')
   @UseInterceptors(FileInterceptor('image'))
   async uploadImage(
     @Param('id') id: string,

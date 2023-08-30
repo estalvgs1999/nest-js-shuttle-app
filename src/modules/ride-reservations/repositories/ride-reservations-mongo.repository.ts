@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { RideReservationsRepository } from './ride-reservations.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { RideReservationModel } from '../schemas';
 import { RideReservation } from '../entities';
 import { RideReservationDto } from '../dtos';
+import { RideReservationModel } from '../schemas';
+import { RideReservationsRepository } from './ride-reservations.repository';
 
 @Injectable()
 export class RideReservationsMongoRepository

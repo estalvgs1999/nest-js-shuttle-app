@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 import { VehicleDriverAssignmentService } from './vehicle-driver-assignment.service';
+import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 
 @Injectable()
 export class DeleteVehicleService {

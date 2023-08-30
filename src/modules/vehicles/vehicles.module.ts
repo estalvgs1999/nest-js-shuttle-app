@@ -11,16 +11,16 @@ import {
   UpdateVehicleService,
   VehicleDriverAssignmentService,
 } from './services';
+import { Driver, DriverSchema } from '../drivers/schemas';
+import {
+  DRIVERS_REPOSITORY,
+  DriversMongoRepository,
+} from '../drivers/repositories';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Vehicle } from './entities';
 import { VEHICLES_REPOSITORY, VehiclesMongoRepository } from './repositories';
 import { VehicleSchema } from './schemas';
-import {
-  DRIVERS_REPOSITORY,
-  DriversMongoRepository,
-} from '../drivers/repositories';
-import { Driver, DriverSchema } from '../drivers/schemas';
 
 @Module({
   imports: [

@@ -1,3 +1,4 @@
+import { AuthDto } from '../dtos';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../../users/dtos';
 import {
@@ -6,9 +7,8 @@ import {
   ValidateUserService,
 } from '../../users/services';
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { JwtPayload, Tokens } from '../types';
-import { AuthDto } from '../dtos';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
