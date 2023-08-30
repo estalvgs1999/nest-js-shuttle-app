@@ -9,7 +9,7 @@ import { CreateImageDto } from '../dtos';
 import { CreateImageService } from '../services';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from '../../files/services';
-import { Roles } from '../../../common/decorators';
+import { Roles } from '@Common/decorators';
 
 @Controller('gallery')
 export class CreateImageController {

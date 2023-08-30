@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { mapEnumValueByIndex } from '../../../common/utils';
+import { mapEnumValueByIndex } from '@Common/utils';
 import { OnEvent } from '@nestjs/event-emitter';
 import { oppositeRoutesMap, RideMode, RideType, Route } from '../enums';
 import { Reservation } from '../../reservations/schemas';

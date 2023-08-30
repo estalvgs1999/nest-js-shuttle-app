@@ -1,6 +1,6 @@
 import { Controller, Delete, Param } from '@nestjs/common';
 import { DeleteImageService } from '../services';
-import { Roles } from '../../../common/decorators';
+import { Roles } from '@Common/decorators';
 
 @Controller('gallery')
 export class DeleteImageController {

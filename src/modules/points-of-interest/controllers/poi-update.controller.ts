@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from '../../files/services';
-import { Roles } from '../../../common/decorators';
+import { Roles } from '@Common/decorators';
 import { UpdatePoiDto } from '../dtos';
 import { UpdatePOIImageService, UpdatePOIService } from '../services';
 

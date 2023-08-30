@@ -11,7 +11,7 @@ import {
   VEHICLES_REPOSITORY,
   VehiclesRepository,
 } from '../../vehicles/repositories';
-import { VehicleStatus } from 'src/modules/vehicles/enums';
+import { VehicleStatus } from '../../vehicles/enums';
 
 @Injectable()
 export class DriverVehicleAssignmentService {

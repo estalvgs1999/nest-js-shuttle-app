@@ -7,8 +7,8 @@ import {
   configOptions,
   loggerOptions,
   mongooseConfigAsync,
-} from './common/config';
-import { CorrelationIdMiddleware } from './common/middleware';
+} from '@Common/config';
+import { CorrelationIdMiddleware } from '@Common/middleware';
 import { DriversModule } from './modules/drivers/drivers.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GalleryModule } from './modules/gallery/gallery.module';

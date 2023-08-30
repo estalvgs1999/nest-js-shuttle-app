@@ -1,6 +1,6 @@
 import { Controller, Delete, Param } from '@nestjs/common';
 import { DeletePOIService } from '../services';
-import { Roles } from '../../../common/decorators';
+import { Roles } from '@Common/decorators';
 
 @Controller({ path: 'points-of-interest' })
 export class DeletePOIController {

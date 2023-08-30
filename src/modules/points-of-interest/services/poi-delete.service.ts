@@ -1,4 +1,4 @@
-import { FilesAzureService } from 'src/modules/files/services';
+import { FilesAzureService } from '../../files/services';
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { POI } from '../entities';
 import { POI_REPOSITORY, POIRepository } from '../repositories';

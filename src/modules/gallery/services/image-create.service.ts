@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { GALLERY_REPOSITORY, GalleryRepository } from '../repositories';
 import { CreateImageDto } from '../dtos';
-import { FilesAzureService } from 'src/modules/files/services';
+import { FilesAzureService } from '../../files/services';
 
 @Injectable()
 export class CreateImageService {
