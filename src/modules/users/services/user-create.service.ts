@@ -1,11 +1,11 @@
-import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
-import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { CreateUserDTO } from '../dtos';
-import { User } from '../entities';
 import * as bcrypt from 'bcrypt';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateDriverEvent } from '../../drivers/events';
+import { CreateUserDto } from '../dtos';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { User } from '../entities';
 import { UserRole } from '../enums';
+import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 
 @Injectable()
 export class CreateUserService {
@@ -17,8 +17,8 @@ export class CreateUserService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async run(userDTO: CreateUserDTO): Promise<User> {
-    const { email, role } = userDTO;
+  async run(userDto: CreateUserDto): Promise<User> {
+    const { email, role } = userDto;
     this.logger.log(`Creating ${role}`);
 
     const userExists = await this.usersRepository.findByEmail(email);
@@ -27,9 +27,9 @@ export class CreateUserService {
       throw new ConflictException(`User with email ${email} already exists.`);
     }
 
-    const hashedPassword = await this.hashPassword(userDTO.password);
+    const hashedPassword = await this.hashPassword(userDto.password);
     const newUser = await this.usersRepository.create({
-      ...userDTO,
+      ...userDto,
       password: hashedPassword,
     });
 

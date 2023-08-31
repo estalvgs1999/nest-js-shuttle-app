@@ -1,5 +1,5 @@
-import { POIType } from '../enums';
 import { POIInfo, POILocation } from '../interfaces';
+import { POIType } from '../enums';
 
 export class POI {
   name: string;

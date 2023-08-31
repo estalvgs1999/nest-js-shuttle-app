@@ -11,4 +11,5 @@ export class User {
   accountProvider: AccountProvider;
   role: UserRole;
   languages: Language[];
+  hashedRt: string;
 }

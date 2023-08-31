@@ -1,6 +1,6 @@
 import { BlobServiceClient, BlockBlobClient } from '@azure/storage-blob';
-import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

@@ -1,6 +1,6 @@
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { DriverFilterDto } from '../dtos';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
-import { DriverFilterDTO } from '../dtos';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class FindDriverService {
@@ -11,14 +11,21 @@ export class FindDriverService {
     private readonly driversRepository: DriversRepository,
   ) {}
 
-  async findById(id: string) {
-    const driver = await this.driversRepository.findById(id);
-    if (!driver) throw new NotFoundException(`Driver with id ${id} not found.`);
+  async findById(driverId: string) {
+    this.logger.log(`Searching driver with ID: ${driverId}`);
+
+    const driver = await this.driversRepository.findById(driverId);
+
+    if (!driver) throw new NotFoundException(`Driver not found.`);
+
+    this.logger.log('Driver found');
+
     return driver;
   }
 
-  async findByFilter(filter: DriverFilterDTO) {
-    const drivers = await this.driversRepository.findByFilter(filter);
+  async findByFilter(filterDto: DriverFilterDto) {
+    this.logger.log('Searching for drivers');
+    const drivers = await this.driversRepository.findByFilter(filterDto);
     return drivers;
   }
 }

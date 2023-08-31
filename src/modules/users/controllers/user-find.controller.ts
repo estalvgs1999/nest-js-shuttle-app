@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindUsersService } from '../services';
-import { UserFilterDTO } from '../dtos/user-filter.dto';
+import { UserFilterDto } from '../dtos/user-filter.dto';
 
 @Controller({ path: 'user' })
 export class FindUserController {
@@ -12,7 +12,7 @@ export class FindUserController {
   }
 
   @Get()
-  findAll(@Query() filterDTO: UserFilterDTO) {
-    return this.service.findByFilter(filterDTO);
+  findAll(@Query() filterDto: UserFilterDto) {
+    return this.service.findByFilter(filterDto);
   }
 }

@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
-import { POI } from './entities';
-import { POISchema } from './schemas';
-import { MongooseModule } from '@nestjs/mongoose';
-import { POIMongoRepository, POI_REPOSITORY } from './repositories';
+import {
+  CreatePOIController,
+  DeletePOIController,
+  FindPOIController,
+  UpdatePOIController,
+} from './controllers';
 import {
   CreatePOIService,
   DeletePOIService,
@@ -10,13 +11,12 @@ import {
   UpdatePOIImageService,
   UpdatePOIService,
 } from './services';
-import {
-  CreatePOIController,
-  DeletePOIController,
-  FindPOIController,
-  UpdatePOIController,
-} from './controllers';
 import { FilesModule } from '../files/files.module';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { POI } from './entities';
+import { POI_REPOSITORY, POIMongoRepository } from './repositories';
+import { POISchema } from './schemas';
 
 @Module({
   imports: [

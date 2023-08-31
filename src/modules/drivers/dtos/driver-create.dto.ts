@@ -1,3 +1,3 @@
-export class CreateDriverDTO {
+export class CreateDriverDto {
   userId: string;
 }

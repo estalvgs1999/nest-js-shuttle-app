@@ -5,7 +5,7 @@ import { DeleteUserService } from '../services';
 export class DeleteUserController {
   constructor(private readonly service: DeleteUserService) {}
 
-  @Delete('/delete/:id')
+  @Delete('/:id/delete')
   create(@Param('id') userId: string) {
     return this.service.run(userId);
   }

@@ -1,13 +1,15 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { CreatePOIDto } from '../dtos';
 import { CreatePOIService } from '../services';
-import { CreatePOIDTO } from '../dtos';
+import { Roles } from '@Common/decorators';
 
 @Controller({ path: 'points-of-interest' })
 export class CreatePOIController {
   constructor(private readonly service: CreatePOIService) {}
 
   @Post('/create')
-  create(@Body() createPOIDTO: CreatePOIDTO) {
-    return this.service.run(createPOIDTO);
+  @Roles('Super')
+  create(@Body() createPOIDto: CreatePOIDto) {
+    return this.service.run(createPOIDto);
   }
 }

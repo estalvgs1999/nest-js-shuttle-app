@@ -7,8 +7,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesAzureService } from '../../files/services';
 import { UpdateProfilePictureService } from '../services';
-import { FilesAzureService } from '../../../modules/files/services';
 
 @Controller({ path: 'user' })
 export class ProfilePictureController {

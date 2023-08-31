@@ -1,7 +1,6 @@
-import { DeleteDriverEvent } from '../events';
 import { DRIVERS_REPOSITORY, DriversRepository } from '../repositories';
+import { DriverVehicleAssignmentService } from './driver-vehicle-assignment.service';
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { VehicleAssignmentService } from 'src/modules/vehicles/services';
 
 @Injectable()
 export class DeleteDriverService {
@@ -10,27 +9,29 @@ export class DeleteDriverService {
   constructor(
     @Inject(DRIVERS_REPOSITORY)
     private readonly driversRepository: DriversRepository,
-    private readonly vehicleAssignmentService: VehicleAssignmentService,
+    private readonly driversService: DriverVehicleAssignmentService,
   ) {}
 
-  async run(payload: DeleteDriverEvent) {
-    const { userId } = payload;
+  async run(userId: string) {
     this.logger.log(`Deleting driver from user ${userId}`);
+
     const driver = await this.driversRepository.findByUserId(userId);
 
     if (!driver) throw new NotFoundException(`Driver not found`);
 
     const driverId = driver['_id'];
 
-    await this.driversRepository.delete(driverId);
+    if (driver.vehicle) {
+      this.logger.log(
+        'Driver has vehicle assigned, releasing vehicle assignation',
+      );
+      await this.driversService.hardVehicleRelease(driver);
+    }
+
+    const deletedDriver = await this.driversRepository.delete(driverId);
 
     this.logger.log(`User deleted`);
 
-    if (driver.vehicle) {
-      const vehicleId = driver.vehicle['_id'];
-      await this.vehicleAssignmentService.release(vehicleId);
-    }
-
-    return driver;
+    return deletedDriver;
   }
 }

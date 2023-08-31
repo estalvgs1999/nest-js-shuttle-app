@@ -1,12 +1,12 @@
+import { CreateReservationDto } from '../dtos';
 import { Injectable } from '@nestjs/common';
-import { ReservationsRepository } from './reservations.repository';
+import { InjectModel } from '@nestjs/mongoose';
+import { Reservation } from '../schemas';
 import {
   ReservationDocument,
   ReservationModel,
 } from '../schemas/reservation.schema';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateReservationDTO } from '../dtos';
-import { Reservation } from '../entities';
+import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsMongoRepository implements ReservationsRepository {
@@ -15,8 +15,8 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     private readonly model: ReservationModel,
   ) {}
 
-  async create(reservationDTO: CreateReservationDTO): Promise<Reservation> {
-    const newReservation = await new this.model(reservationDTO).save();
+  async create(reservationDto: CreateReservationDto): Promise<Reservation> {
+    const newReservation = await new this.model(reservationDto).save();
     return newReservation;
   }
 
@@ -48,7 +48,6 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     reservation.passengersInfo = rawReservation.passengersInfo;
     reservation.luggageInfo = rawReservation.luggageInfo;
     reservation.paymentInfo = rawReservation.paymentInfo;
-    reservation.createdAt = rawReservation.createdAt;
 
     return reservation;
   }

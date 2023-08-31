@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { VehicleDriverAssignmentService } from './vehicle-driver-assignment.service';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
-import { AssignDriversVehicleService } from '../../drivers/services';
 
 @Injectable()
 export class DeleteVehicleService {
@@ -9,7 +9,7 @@ export class DeleteVehicleService {
   constructor(
     @Inject(VEHICLES_REPOSITORY)
     private readonly vehiclesRepository: VehiclesRepository,
-    private readonly driversVehicleService: AssignDriversVehicleService,
+    private readonly vehicleService: VehicleDriverAssignmentService,
   ) {}
 
   async run(vehicleId: string) {
@@ -23,16 +23,13 @@ export class DeleteVehicleService {
 
     if (vehicle.driver) {
       this.logger.log('Vehicle is assigned, releasing vehicle assignation');
-      await this.driversVehicleService.releaseVehicle({
-        driverId: vehicle.driver['_id'],
-        vehicleId: vehicleId,
-      });
+      await this.vehicleService.hardDriverRelease(vehicle);
     }
 
-    const result = await this.vehiclesRepository.delete(vehicleId);
+    const deletedVehicle = await this.vehiclesRepository.delete(vehicleId);
 
     this.logger.log('Vehicle deleted successfully');
 
-    return result;
+    return deletedVehicle;
   }
 }

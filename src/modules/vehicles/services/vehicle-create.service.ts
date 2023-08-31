@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
-import { CreateVehicleDTO } from '../dtos';
+import { CreateVehicleDto } from '../dtos';
 import { VEHICLES_REPOSITORY, VehiclesRepository } from '../repositories';
 
 @Injectable()
@@ -11,18 +11,20 @@ export class CreateVehicleService {
     private readonly vehiclesRepository: VehiclesRepository,
   ) {}
 
-  async run(createVehicleDTO: CreateVehicleDTO) {
+  async run(createVehicleDto: CreateVehicleDto) {
     this.logger.log('Creating vehicle');
 
-    const { plate } = createVehicleDTO;
-    const vehicleExists = await this.vehiclesRepository.findByPlate(plate);
+    const { plate } = createVehicleDto;
+    const vehicleExists = await this.vehiclesRepository.findByLicensePlate(
+      plate,
+    );
 
     if (vehicleExists)
       throw new ConflictException(
         `Vehicle with plate ${plate} already exists.`,
       );
 
-    const newVehicle = await this.vehiclesRepository.create(createVehicleDTO);
+    const newVehicle = await this.vehiclesRepository.create(createVehicleDto);
     this.logger.log('Vehicle created');
 
     return newVehicle;

@@ -1,7 +1,7 @@
+import { CreatePOIDto } from '../dtos';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { POIRepository, POI_REPOSITORY } from '../repositories';
-import { CreatePOIDTO } from '../dtos';
 import { POI } from '../entities';
+import { POI_REPOSITORY, POIRepository } from '../repositories';
 
 @Injectable()
 export class CreatePOIService {
@@ -12,9 +12,9 @@ export class CreatePOIService {
     private readonly poiRepository: POIRepository,
   ) {}
 
-  async run(createPOIDTO: CreatePOIDTO): Promise<POI> {
+  async run(createPOIDto: CreatePOIDto): Promise<POI> {
     this.logger.log('Creating POI');
-    const newPOI = await this.poiRepository.create(createPOIDTO);
+    const newPOI = await this.poiRepository.create(createPOIDto);
     this.logger.log('POI created');
 
     return newPOI;

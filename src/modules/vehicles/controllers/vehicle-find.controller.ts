@@ -1,18 +1,21 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FindVehicleService } from '../services';
-import { VehicleFilterDTO } from '../dtos/vehicle-filter.dto';
+import { Roles } from '@Common/decorators';
+import { VehicleFilterDto } from '../dtos/vehicle-filter.dto';
 
 @Controller({ path: 'vehicle' })
 export class FindVehicleController {
   constructor(private readonly service: FindVehicleService) {}
 
   @Get('/:id')
-  findById(@Param('id') id: string) {
-    return this.service.findById(id);
+  @Roles('Admin', 'Super')
+  findById(@Param('id') vehicleId: string) {
+    return this.service.findById(vehicleId);
   }
 
   @Get()
-  findByFilter(@Query() filter: VehicleFilterDTO) {
-    return this.service.findByFilter(filter);
+  @Roles('Admin', 'Super')
+  findByFilter(@Query() filterDto: VehicleFilterDto) {
+    return this.service.findByFilter(filterDto);
   }
 }

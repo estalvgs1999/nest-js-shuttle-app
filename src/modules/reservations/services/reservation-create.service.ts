@@ -1,14 +1,14 @@
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
+import { CreateReservationDto, RawReservationDto } from '../dtos';
+import { CreateRideTicketService } from '@/modules/ride-tickets/services';
+import { mapEnumValueByIndex } from '@Common/utils';
+import { PaymentMethod } from '../enums';
+import { Reservation } from '../entities';
 import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
 } from '../repositories';
-import { CreateReservationDTO, RawReservationDTO } from '../dtos';
-import { Reservation } from '../entities';
-import { PaymentMethod } from '../enums';
-import { mapEnumValueByIndex } from 'src/common/utils';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ReservationCreatedEvent } from '../events';
+import { Tickets } from '@/modules/ride-tickets/types';
 
 @Injectable()
 export class CreateReservationService {
@@ -17,13 +17,14 @@ export class CreateReservationService {
   constructor(
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: ReservationsRepository,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly rideTicketService: CreateRideTicketService,
   ) {}
 
-  async run(rawReservationDTO: RawReservationDTO): Promise<Reservation> {
+  async run(rawReservationDto: RawReservationDto): Promise<Reservation> {
     this.logger.log('Creating reservation');
-    const { reservationId } = rawReservationDTO;
+    const { reservationId } = rawReservationDto;
 
+    // Check if the reservation already exists
     const reservationExists = await this.reservationsRepository.findById(
       reservationId,
     );
@@ -33,43 +34,48 @@ export class CreateReservationService {
         `Reservation with number ${reservationId} already exists.`,
       );
     }
-    const createReservationDTO: CreateReservationDTO =
-      this.mapRawReservationToCreateReservation(rawReservationDTO);
 
-    const newReservation = await this.reservationsRepository.create(
-      createReservationDTO,
+    // Create ride tickets
+    const rideTickets: Tickets = await this.rideTicketService.run(
+      rawReservationDto,
     );
+
+    // Map the raw reservation data to our domain reservation DTO
+    const createReservationDto: CreateReservationDto =
+      this.mapRawReservationToCreateReservation(rawReservationDto);
+
+    // Create a new reservation
+    const newReservation = await this.reservationsRepository.create({
+      ...createReservationDto,
+      rideTickets: [rideTickets.arrival_ticket, rideTickets.departure_ticket],
+    });
     this.logger.log('Reservation created');
-
-    this.eventEmitter.emit(
-      'reservation.created',
-      new ReservationCreatedEvent(rawReservationDTO, newReservation),
-    );
 
     return newReservation;
   }
 
   private mapRawReservationToCreateReservation(
-    rawReservationDTO: RawReservationDTO,
-  ): CreateReservationDTO {
+    rawReservationDto: RawReservationDto,
+  ): CreateReservationDto {
     return {
-      reservationId: rawReservationDTO.reservationId,
-      clientEmail: rawReservationDTO.email,
+      reservationId: rawReservationDto.reservationId,
+      clientEmail: rawReservationDto.email,
       passengersInfo: {
-        adults: rawReservationDTO.adults,
-        kids: rawReservationDTO.children,
+        adults: rawReservationDto.adults,
+        kids: rawReservationDto.children,
       },
       luggageInfo: {
-        bags: rawReservationDTO.bags,
-        babySeats: rawReservationDTO.babySeats,
-        boosterSeats: rawReservationDTO.boosterSeats,
-        surfboards: rawReservationDTO.surfboards,
+        bags: rawReservationDto.bags,
+        babySeats: rawReservationDto.babySeats,
+        boosterSeats: rawReservationDto.boosterSeats,
+        surfboards: rawReservationDto.surfboards,
       },
       paymentInfo: {
-        priceInDollars: rawReservationDTO.price,
-        method: this.mapPaymentMethod(rawReservationDTO.paymentType),
-        isPaid: Boolean(rawReservationDTO.isPaid),
+        priceInDollars: rawReservationDto.price,
+        method: this.mapPaymentMethod(rawReservationDto.paymentType),
+        isPaid: Boolean(rawReservationDto.isPaid),
       },
+      rideTickets: [],
     };
   }
 

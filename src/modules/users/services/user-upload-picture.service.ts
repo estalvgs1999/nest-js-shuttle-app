@@ -1,6 +1,6 @@
+import { FilesAzureService } from '../../files/services';
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { FilesAzureService } from '../../files/services';
 
 @Injectable()
 export class UpdateProfilePictureService {

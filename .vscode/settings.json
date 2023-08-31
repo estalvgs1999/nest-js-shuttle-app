@@ -7,7 +7,8 @@
     "users",
     "drivers",
     "vehicles",
-    "stats"
+    "stats",
+    "reservations"
   ],
   "cSpell.words": [
     "autopopulate",
@@ -16,7 +17,7 @@
     "Nosara",
     "originalname",
     "Parens",
-    "POIDTO",
+    "POIDto",
     "pois",
     "uuidv"
   ],

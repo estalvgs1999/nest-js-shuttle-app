@@ -1,18 +1,20 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Reservation, ReservationSchema } from './schemas';
 import {
-  ReservationsMongoRepository,
-  RESERVATIONS_REPOSITORY,
-} from './repositories';
-import {
-  UpdateReservationStatusController,
   CreateReservationController,
+  UpdateReservationStatusController,
 } from './controllers';
 import {
   CreateReservationService,
   UpdateReservationStatusService,
 } from './services';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Reservation, ReservationSchema } from './schemas';
+import {
+  RESERVATIONS_REPOSITORY,
+  ReservationsMongoRepository,
+} from './repositories';
+import { RideTicketsModule } from '../ride-tickets/ride-reservations.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import {
         schema: ReservationSchema,
       },
     ]),
+    RideTicketsModule,
+    UsersModule,
   ],
   providers: [
     {

@@ -1,18 +1,20 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Driver, DriverSchema } from './schemas';
-import { DRIVERS_REPOSITORY, DriversMongoRepository } from './repositories';
 import {
   CreateDriverService,
   DeleteDriverService,
-  AssignDriversVehicleService,
+  DriverVehicleAssignmentService,
   FindDriverService,
 } from './services';
+import { Driver, DriverSchema } from './schemas';
+import { DRIVERS_REPOSITORY, DriversMongoRepository } from './repositories';
+import { FindDriverController } from './controllers';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Vehicle, VehicleSchema } from '../vehicles/schemas';
 import {
-  AssignDriverVehicleController,
-  FindDriverController,
-} from './controllers';
-import { VehiclesModule } from '../vehicles/vehicles.module';
+  VEHICLES_REPOSITORY,
+  VehiclesMongoRepository,
+} from '../vehicles/repositories';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -20,20 +22,27 @@ import { VehiclesModule } from '../vehicles/vehicles.module';
         name: Driver.name,
         schema: DriverSchema,
       },
+      {
+        name: Vehicle.name,
+        schema: VehicleSchema,
+      },
     ]),
-    forwardRef(() => VehiclesModule), // Circular dependency: https://docs.nestjs.com/fundamentals/circular-dependency#moduleref-class-alternative
   ],
   providers: [
     {
       provide: DRIVERS_REPOSITORY,
       useClass: DriversMongoRepository,
     },
+    {
+      provide: VEHICLES_REPOSITORY,
+      useClass: VehiclesMongoRepository,
+    },
     CreateDriverService,
     FindDriverService,
-    AssignDriversVehicleService,
+    DriverVehicleAssignmentService,
     DeleteDriverService,
   ],
-  controllers: [AssignDriverVehicleController, FindDriverController],
-  exports: [AssignDriversVehicleService, DeleteDriverService],
+  controllers: [FindDriverController],
+  exports: [DriverVehicleAssignmentService, DeleteDriverService],
 })
 export class DriversModule {}

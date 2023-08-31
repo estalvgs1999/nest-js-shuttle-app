@@ -1,9 +1,9 @@
+import { CreatePOIDto, UpdatePoiDto } from '../dtos';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { POI } from '../entities';
 import { POIModel } from '../schemas';
 import { POIRepository } from './poi.repository';
-import { Injectable } from '@nestjs/common';
-import { CreatePOIDTO, UpdatePoiDTO } from '../dtos';
 
 @Injectable()
 export class POIMongoRepository implements POIRepository {
@@ -12,8 +12,8 @@ export class POIMongoRepository implements POIRepository {
     private readonly model: POIModel,
   ) {}
 
-  async create(poiDTO: CreatePOIDTO): Promise<POI> {
-    const newPOI = await new this.model(poiDTO).save();
+  async create(poiDto: CreatePOIDto): Promise<POI> {
+    const newPOI = await new this.model(poiDto).save();
     return newPOI;
   }
 
@@ -25,8 +25,8 @@ export class POIMongoRepository implements POIRepository {
     return await this.model.findById(id);
   }
 
-  async update(id: string, updatePoiDTO: UpdatePoiDTO): Promise<POI> {
-    return await this.model.findByIdAndUpdate(id, updatePoiDTO, { new: true });
+  async update(id: string, updatePoiDto: UpdatePoiDto): Promise<POI> {
+    return await this.model.findByIdAndUpdate(id, updatePoiDto, { new: true });
   }
 
   async updateImage(id: string, imageUrl: string): Promise<POI> {

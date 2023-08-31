@@ -1,5 +1,6 @@
-import { ReservationStatus } from '../enums';
 import { LuggageInfo, PassengersInfo, PaymentInfo } from '../interfaces';
+import { ReservationStatus } from '../enums';
+import { RideTicket } from '@/modules/ride-tickets/entities';
 
 export class Reservation {
   reservationId: string;
@@ -8,5 +9,5 @@ export class Reservation {
   passengersInfo: PassengersInfo;
   luggageInfo: LuggageInfo;
   paymentInfo: PaymentInfo;
-  createdAt: Date;
+  rideTickets: RideTicket[];
 }

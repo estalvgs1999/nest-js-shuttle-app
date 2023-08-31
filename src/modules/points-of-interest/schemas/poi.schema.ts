@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { POIType } from '../enums';
-import { POIInfo, POILocation } from '../interfaces';
 import { Document, Model, Schema as MongooseSchema } from 'mongoose';
+import { POIInfo, POILocation } from '../interfaces';
+import { POIType } from '../enums';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class POI {
