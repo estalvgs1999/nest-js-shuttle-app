@@ -2,7 +2,7 @@ import { Controller, Delete, Param } from '@nestjs/common';
 import { DeleteImageService } from '../services';
 import { Roles } from '@Common/decorators';
 
-@Controller('gallery')
+@Controller({ path: 'gallery' })
 export class DeleteImageController {
   constructor(private readonly galleryService: DeleteImageService) {}
 

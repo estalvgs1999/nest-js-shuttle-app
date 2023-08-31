@@ -11,7 +11,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesAzureService } from '../../files/services';
 import { Roles } from '@Common/decorators';
 
-@Controller('gallery')
+@Controller({ path: 'gallery' })
 export class CreateImageController {
   constructor(
     private readonly galleryService: CreateImageService,
