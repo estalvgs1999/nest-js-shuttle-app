@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateReservationDto, RawReservationDto } from '../dtos';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { mapEnumValueByIndex } from 'src/common/utils';
+import { mapEnumValueByIndex } from '@Common/utils';
 import { PaymentMethod } from '../enums';
 import { Reservation } from '../entities';
 import { ReservationCreatedEvent } from '../events';
