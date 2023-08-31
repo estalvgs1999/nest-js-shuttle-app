@@ -53,6 +53,11 @@ import { UserSchema } from './schemas';
     ProfilePictureController,
     DeleteUserController,
   ],
-  exports: [CreateUserService, ValidateUserService, UserRefreshTokenService],
+  exports: [
+    CreateUserService,
+    ValidateUserService,
+    UserRefreshTokenService,
+    FindUsersService,
+  ],
 })
 export class UsersModule {}

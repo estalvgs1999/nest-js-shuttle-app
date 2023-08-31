@@ -1,13 +1,9 @@
-import { Document, Model, Types } from 'mongoose';
+import { Document, Model } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Reservation } from '../../reservations/schemas';
 import { RideMode, RideType, Route } from '../enums';
 
-@Schema()
-export class RideReservation {
-  @Prop({ type: Types.ObjectId, ref: Reservation.name, autopopulate: true })
-  reservation: Reservation;
-
+@Schema({ timestamps: true })
+export class RideTicket {
   @Prop({
     type: String,
     enum: Route,
@@ -46,12 +42,8 @@ export class RideReservation {
 
   @Prop({ type: String })
   dropOffTime: string;
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
 }
 
-export const RideReservationSchema =
-  SchemaFactory.createForClass(RideReservation);
-export type RideReservationDocument = RideReservation & Document;
-export type RideReservationModel = Model<RideReservationDocument>;
+export const RideTicketSchema = SchemaFactory.createForClass(RideTicket);
+export type RideTicketDocument = RideTicket & Document;
+export type RideTicketModel = Model<RideTicketDocument>;

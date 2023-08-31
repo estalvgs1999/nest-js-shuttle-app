@@ -1,14 +1,14 @@
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateReservationDto, RawReservationDto } from '../dtos';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CreateRideTicketService } from '@/modules/ride-tickets/services';
 import { mapEnumValueByIndex } from '@Common/utils';
 import { PaymentMethod } from '../enums';
 import { Reservation } from '../entities';
-import { ReservationCreatedEvent } from '../events';
 import {
   RESERVATIONS_REPOSITORY,
   ReservationsRepository,
 } from '../repositories';
+import { Tickets } from '@/modules/ride-tickets/types';
 
 @Injectable()
 export class CreateReservationService {
@@ -17,13 +17,14 @@ export class CreateReservationService {
   constructor(
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: ReservationsRepository,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly rideTicketService: CreateRideTicketService,
   ) {}
 
   async run(rawReservationDto: RawReservationDto): Promise<Reservation> {
     this.logger.log('Creating reservation');
     const { reservationId } = rawReservationDto;
 
+    // Check if the reservation already exists
     const reservationExists = await this.reservationsRepository.findById(
       reservationId,
     );
@@ -33,18 +34,22 @@ export class CreateReservationService {
         `Reservation with number ${reservationId} already exists.`,
       );
     }
+
+    // Create ride tickets
+    const rideTickets: Tickets = await this.rideTicketService.run(
+      rawReservationDto,
+    );
+
+    // Map the raw reservation data to our domain reservation DTO
     const createReservationDto: CreateReservationDto =
       this.mapRawReservationToCreateReservation(rawReservationDto);
 
-    const newReservation = await this.reservationsRepository.create(
-      createReservationDto,
-    );
+    // Create a new reservation
+    const newReservation = await this.reservationsRepository.create({
+      ...createReservationDto,
+      rideTickets: [rideTickets.arrival_ticket, rideTickets.departure_ticket],
+    });
     this.logger.log('Reservation created');
-
-    this.eventEmitter.emit(
-      'reservation.created',
-      new ReservationCreatedEvent(rawReservationDto, newReservation),
-    );
 
     return newReservation;
   }
@@ -70,6 +75,7 @@ export class CreateReservationService {
         method: this.mapPaymentMethod(rawReservationDto.paymentType),
         isPaid: Boolean(rawReservationDto.isPaid),
       },
+      rideTickets: [],
     };
   }
 

@@ -13,6 +13,8 @@ import {
   RESERVATIONS_REPOSITORY,
   ReservationsMongoRepository,
 } from './repositories';
+import { RideTicketsModule } from '../ride-tickets/ride-reservations.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import {
         schema: ReservationSchema,
       },
     ]),
+    RideTicketsModule,
+    UsersModule,
   ],
   providers: [
     {

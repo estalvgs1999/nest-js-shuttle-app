@@ -1,68 +1,75 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { mapEnumValueByIndex } from '@Common/utils';
-import { OnEvent } from '@nestjs/event-emitter';
 import { oppositeRoutesMap, RideMode, RideType, Route } from '../enums';
-import { Reservation } from '../../reservations/schemas';
 import {
-  RIDE_RESERVATIONS_REPOSITORY,
-  RideReservationsRepository,
+  RIDE_TICKETS_REPOSITORY,
+  RideTicketsRepository,
 } from '../repositories';
-import { RideOptionsDto } from '../dtos/ride-options.dto';
-import { RideReservationDto } from '../dtos';
+import { RideOptionsDto, RideTicketDto } from '../dtos';
+import { RideTicket } from '../schemas';
+import { Tickets } from '../types';
 
 @Injectable()
-export class CreateRideReservationsService {
-  private readonly logger = new Logger(CreateRideReservationsService.name);
+export class CreateRideTicketService {
+  private readonly logger = new Logger(CreateRideTicketService.name);
 
   constructor(
-    @Inject(RIDE_RESERVATIONS_REPOSITORY)
-    private readonly rideReservationsRepository: RideReservationsRepository,
+    @Inject(RIDE_TICKETS_REPOSITORY)
+    private readonly rideTicketsRepository: RideTicketsRepository,
   ) {}
 
-  @OnEvent('reservation.created')
-  async run(payload) {
-    const { rawReservation: reservation, newReservation } = payload;
-    const reservationId = newReservation.reservationId;
-
-    const rideRoute = this.mapRoute(reservation.route);
-    const rideType = this.mapRideType(reservation.tripType);
-    const rideMode = this.mapRideMode(reservation.vehicleType);
+  async run(rawReservation: any): Promise<Tickets> {
+    const rideRoute = this.mapRoute(rawReservation.route);
+    const rideType = this.mapRideType(rawReservation.tripType);
+    const rideMode = this.mapRideMode(rawReservation.vehicleType);
     this.logger.log(
-      `Creating ride reservations associated with new reservation: ${reservationId}`,
+      `Creating ride reservations associated with new reservation`,
     );
 
-    const arrivalRideReservation: RideReservationDto =
-      this.mapReservationToRide(newReservation, rideRoute, rideType, rideMode, {
-        ...reservation,
-      });
+    const arrivalRideReservation: RideTicketDto = this.mapReservationToRide(
+      rideRoute,
+      rideType,
+      rideMode,
+      {
+        ...rawReservation,
+      },
+    );
 
-    await this.rideReservationsRepository.create(arrivalRideReservation);
-    this.logger.log('Arrival ride reservation created');
+    const tickets: Tickets = {
+      arrival_ticket: '',
+    };
+
+    const arrivalTicket: RideTicket = await this.rideTicketsRepository.create(
+      arrivalRideReservation,
+    );
+    tickets.arrival_ticket = arrivalTicket['_id'];
+    this.logger.log(`Arrival ride ticket created`);
 
     if (rideType === RideType.RoundTrip) {
-      const departureRideReservation: RideReservationDto =
-        this.mapReservationToRide(
-          newReservation,
-          rideRoute,
-          rideType,
-          rideMode,
-          { ...reservation },
-          false,
-        );
+      const departureRideReservation: RideTicketDto = this.mapReservationToRide(
+        rideRoute,
+        rideType,
+        rideMode,
+        { ...rawReservation },
+        false,
+      );
 
-      await this.rideReservationsRepository.create(departureRideReservation);
+      const departureTicket: RideTicket =
+        await this.rideTicketsRepository.create(departureRideReservation);
+      tickets.departure_ticket = departureTicket['_id'];
       this.logger.log('Departure ride reservation created');
     }
+
+    return tickets;
   }
 
   private mapReservationToRide(
-    reservation: Reservation,
     route: Route,
     type: RideType,
     mode: RideMode,
     rideOptions: RideOptionsDto,
     isArrival = true,
-  ): RideReservationDto {
+  ): RideTicketDto {
     return {
       route: isArrival ? route : this.getDepartureRoute(route),
       type: type,
@@ -85,7 +92,6 @@ export class CreateRideReservationsService {
       dropOffTime: isArrival
         ? rideOptions.arrivalDropOffTime
         : rideOptions.departureDropOffTime,
-      reservation: reservation,
     };
   }
 

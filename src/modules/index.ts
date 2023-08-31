@@ -4,7 +4,7 @@ export * from './files/files.module';
 export * from './gallery/gallery.module';
 export * from './points-of-interest/points-of-interest.module';
 export * from './reservations/reservations.module';
-export * from './ride-reservations/ride-reservations.module';
+export * from './ride-tickets/ride-reservations.module';
 export * from './ride-stats/ride-stats.module';
 export * from './users/users.module';
 export * from './vehicle-assignment/vehicle-assignment.module';

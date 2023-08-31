@@ -12,6 +12,17 @@ export class FindUsersService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
+  async findByEmail(email: string): Promise<User> {
+    this.logger.log(`Finding user with email: ${email}`);
+
+    const user = await this.usersRepository.findByEmail(email);
+
+    if (!user)
+      throw new NotFoundException(`User with email ${email} not found.`);
+
+    return user;
+  }
+
   async findById(userId: string): Promise<User> {
     this.logger.log(`Finding user with id: ${userId}`);
 

@@ -1,7 +1,7 @@
 import { CreateReservationDto } from '../dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Reservation } from '../entities';
+import { Reservation } from '../schemas';
 import {
   ReservationDocument,
   ReservationModel,
@@ -48,7 +48,6 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     reservation.passengersInfo = rawReservation.passengersInfo;
     reservation.luggageInfo = rawReservation.luggageInfo;
     reservation.paymentInfo = rawReservation.paymentInfo;
-    reservation.createdAt = rawReservation.createdAt;
 
     return reservation;
   }

@@ -1,5 +1,5 @@
 import { CreateReservationDto } from '../dtos';
-import { Reservation } from '../entities';
+import { Reservation } from '../schemas';
 
 export interface ReservationsRepository {
   create(reservationDto: CreateReservationDto): Promise<Reservation>;
