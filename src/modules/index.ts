@@ -6,6 +6,7 @@ export * from './points-of-interest/points-of-interest.module';
 export * from './reservations/reservations.module';
 export * from './ride-tickets/ride-reservations.module';
 export * from './ride-stats/ride-stats.module';
+export * from './rides/rides.module';
 export * from './users/users.module';
 export * from './vehicle-assignment/vehicle-assignment.module';
 export * from './vehicles/vehicles.module';

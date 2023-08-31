@@ -27,6 +27,11 @@ export class ReservationsMongoRepository implements ReservationsRepository {
     return reservation;
   }
 
+  async findAll(): Promise<Reservation[]> {
+    const reservations = await this.model.find().populate('rideTickets');
+    return reservations;
+  }
+
   async update(
     reservationId: string,
     reservation: Reservation,

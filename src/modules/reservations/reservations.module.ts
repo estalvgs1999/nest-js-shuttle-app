@@ -1,9 +1,11 @@
 import {
   CreateReservationController,
+  FindReservationsController,
   UpdateReservationStatusController,
 } from './controllers';
 import {
   CreateReservationService,
+  FindReservationsService,
   UpdateReservationStatusService,
 } from './services';
 import { Module } from '@nestjs/common';
@@ -33,8 +35,13 @@ import { UsersModule } from '../users/users.module';
       useClass: ReservationsMongoRepository,
     },
     CreateReservationService,
+    FindReservationsService,
     UpdateReservationStatusService,
   ],
-  controllers: [CreateReservationController, UpdateReservationStatusController],
+  controllers: [
+    CreateReservationController,
+    FindReservationsController,
+    UpdateReservationStatusController,
+  ],
 })
 export class ReservationsModule {}
