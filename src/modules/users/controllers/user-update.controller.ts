@@ -7,7 +7,7 @@ import { User } from '../entities';
 export class UpdateUserController {
   constructor(private readonly service: UpdateUserService) {}
 
-  @Patch('/update/:id')
+  @Patch('/:id/update')
   async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
