@@ -26,7 +26,7 @@ export class CreateBookingService {
    */
   public async run(rawBooking: RawBookingDto) {
     const bookings: CreateBookingDto[] =
-      this.bookingTransformService.processRawBooking(rawBooking);
+      await this.bookingTransformService.processRawBooking(rawBooking);
 
     // Iterate through each booking in the array and create a booking record in the database.
     for (const booking of bookings) {

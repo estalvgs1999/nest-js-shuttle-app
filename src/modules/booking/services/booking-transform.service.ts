@@ -5,10 +5,14 @@ import { mapPaymentMethod, mapRideMode, mapRideType, mapRoute } from '../utils';
 import { RideType } from '@/modules/rides/enums';
 import { RoutesService } from '@/modules/routes/services';
 import { Ticket } from '../interfaces';
+import { FindUsersService } from '@/modules/users/services';
 
 @Injectable()
 export class BookingTransformService {
-  constructor(private readonly routesService: RoutesService) {}
+  constructor(
+    private readonly routesService: RoutesService,
+    private readonly usersService: FindUsersService,
+  ) {}
 
   /**
    * Processes a raw booking and generates an array of CreateBookingDto objects.
@@ -16,7 +20,9 @@ export class BookingTransformService {
    * @param rawBooking - The raw booking data to be processed.
    * @returns An array of CreateBookingDto objects representing bookings.
    */
-  public processRawBooking(rawBooking: RawBookingDto): CreateBookingDto[] {
+  public async processRawBooking(
+    rawBooking: RawBookingDto,
+  ): Promise<CreateBookingDto[]> {
     // Retrieve booking options based on raw booking data.
     const bookingOptions = this.getBookingOptions(rawBooking);
 
@@ -24,7 +30,9 @@ export class BookingTransformService {
     const bookings: CreateBookingDto[] = [];
 
     // Map raw booking data to CreateBookingDto object.
-    const createBookingDto = this.mapRawBookingToCreateBooking(rawBooking);
+    const createBookingDto = await this.mapRawBookingToCreateBooking(
+      rawBooking,
+    );
 
     // Create an arrival ticket using the provided raw booking and booking options.
     const arrivalTicket = this.createTicket(rawBooking, bookingOptions);
@@ -57,12 +65,13 @@ export class BookingTransformService {
     };
   }
 
-  private mapRawBookingToCreateBooking(
+  private async mapRawBookingToCreateBooking(
     rawBooking: RawBookingDto,
-  ): CreateBookingDto {
+  ): Promise<CreateBookingDto> {
     return {
       bookingNumber: rawBooking.reservationId,
       clientInfo: {
+        client: await this.getUserId(rawBooking.email),
         name: rawBooking.name,
         email: rawBooking.email,
         phone: rawBooking.phone,
@@ -118,5 +127,14 @@ export class BookingTransformService {
         ? rawBooking.arrivalFlight
         : rawBooking.departureFlight,
     };
+  }
+
+  async getUserId(email: string): Promise<string> {
+    try {
+      const user = await this.usersService.findByEmail(email);
+      return user['_id'];
+    } catch (error) {
+      return null;
+    }
   }
 }
