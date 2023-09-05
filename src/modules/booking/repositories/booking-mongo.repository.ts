@@ -21,8 +21,8 @@ export class BookingMongoRepository implements BookingRepository {
     return reservation;
   }
 
-  async findByBookingNumber(bookingNumber: string): Promise<Booking> {
-    const booking = await this.model.findOne({
+  async findByBookingNumber(bookingNumber: string): Promise<Booking[]> {
+    const booking = await this.model.find({
       bookingNumber: bookingNumber,
     });
     return booking;

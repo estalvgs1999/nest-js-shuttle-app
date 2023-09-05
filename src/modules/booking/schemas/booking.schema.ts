@@ -1,4 +1,4 @@
-import { Document, Model, Schema as MongooseSchema } from 'mongoose';
+import { BookingStatus } from '../enums';
 import {
   ClientInfo,
   LuggageInfo,
@@ -6,8 +6,8 @@ import {
   PaymentInfo,
   Ticket,
 } from '../interfaces';
+import { Document, Model, Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { BookingStatus } from '../enums';
 
 @Schema({ timestamps: true })
 export class Booking {

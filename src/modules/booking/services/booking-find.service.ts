@@ -16,7 +16,7 @@ export class FindBookingsService {
     return booking;
   }
 
-  async findByBookingNumber(bookingNumber: string): Promise<Booking> {
+  async findByBookingNumber(bookingNumber: string): Promise<Booking[]> {
     const booking = await this.bookingRepository.findByBookingNumber(
       bookingNumber,
     );
