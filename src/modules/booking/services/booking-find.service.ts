@@ -1,22 +1,26 @@
 import { Booking } from '../entities';
 import { BOOKING_REPOSITORY, BookingRepository } from '../repositories';
 import { BookingFilterDto } from '../dtos';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class FindBookingsService {
+  private logger = new Logger(FindBookingsService.name);
+
   constructor(
     @Inject(BOOKING_REPOSITORY)
     private readonly bookingRepository: BookingRepository,
   ) {}
 
   async findById(bookingId: string): Promise<Booking> {
+    this.logger.log(`Finding booking with ID: ${bookingId}`);
     const booking = await this.bookingRepository.findById(bookingId);
     if (!booking) throw new NotFoundException('Booking not found');
     return booking;
   }
 
   async findByBookingNumber(bookingNumber: string): Promise<Booking[]> {
+    this.logger.log(`Finding bookings with number: ${bookingNumber}`);
     const booking = await this.bookingRepository.findByBookingNumber(
       bookingNumber,
     );
@@ -25,6 +29,7 @@ export class FindBookingsService {
   }
 
   async search(filter: BookingFilterDto): Promise<Booking[]> {
+    this.logger.log(`Searching for bookings`);
     const bookings = await this.bookingRepository.findAll();
 
     const filteredBookings = bookings.filter(booking =>
