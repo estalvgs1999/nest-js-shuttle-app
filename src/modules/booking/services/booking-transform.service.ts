@@ -105,18 +105,22 @@ export class BookingTransformService {
       route: isArrival ? route : this.routesService.getOppositeRoute(route),
       type: type,
       mode: mode,
-      pickUpLocation: isArrival
-        ? rawBooking.arrivalPickupLocation
-        : rawBooking.departurePickupLocation,
+      pickUpLocation: this.addCountrySuffix(
+        isArrival
+          ? rawBooking.arrivalPickupLocation
+          : rawBooking.departurePickupLocation,
+      ),
       pickUpDate: isArrival
         ? rawBooking.arrivalPickupDate
         : rawBooking.departurePickupDate,
       pickUpTime: isArrival
         ? rawBooking.arrivalPickupTime
         : rawBooking.departurePickupTime,
-      dropOffLocation: isArrival
-        ? rawBooking.arrivalDropOffLocation
-        : rawBooking.departureDropOffLocation,
+      dropOffLocation: this.addCountrySuffix(
+        isArrival
+          ? rawBooking.arrivalDropOffLocation
+          : rawBooking.departureDropOffLocation,
+      ),
       dropOffDate: isArrival
         ? rawBooking.arrivalDropOffDate
         : rawBooking.departureDropOffDate,
@@ -129,12 +133,16 @@ export class BookingTransformService {
     };
   }
 
-  async getUserId(email: string): Promise<string> {
+  private async getUserId(email: string): Promise<string> {
     try {
       const user = await this.usersService.findByEmail(email);
       return user['_id'];
     } catch (error) {
       return null;
     }
+  }
+
+  private addCountrySuffix(location: string): string {
+    return location + ', Costa Rica';
   }
 }
