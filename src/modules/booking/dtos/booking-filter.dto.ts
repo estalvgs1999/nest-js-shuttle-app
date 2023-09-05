@@ -2,6 +2,7 @@ import { BookingStatus } from '../enums';
 import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 import { RideMode, RideType } from '@/modules/rides/enums';
 import { Route } from '@/modules/routes/enums';
+import { Type } from 'class-transformer';
 
 export class BookingFilterDto {
   @IsOptional()
@@ -29,6 +30,7 @@ export class BookingFilterDto {
   status?: BookingStatus;
 
   @IsOptional()
+  @Type(() => Date)
   @IsDate()
   date?: Date;
 }

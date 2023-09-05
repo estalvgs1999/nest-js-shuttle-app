@@ -26,6 +26,46 @@ export class FindBookingsService {
 
   async search(filter: BookingFilterDto): Promise<Booking[]> {
     const bookings = await this.bookingRepository.findAll();
-    return bookings;
+
+    const filteredBookings = bookings.filter(booking =>
+      this.matchesFilter(booking, filter),
+    );
+
+    return filteredBookings;
+  }
+
+  private matchesFilter(booking: Booking, filter: BookingFilterDto): boolean {
+    if (filter.client) {
+      const clientId = booking.clientInfo?.client?.toString() || null;
+      if (clientId !== filter.client) {
+        return false;
+      }
+    }
+
+    if (filter.email && booking.clientInfo.email !== filter.email) {
+      return false;
+    }
+
+    if (filter.route && booking.ticket.route !== filter.route) {
+      return false;
+    }
+
+    if (filter.type && booking.ticket.type !== filter.type) {
+      return false;
+    }
+
+    if (filter.mode && booking.ticket.mode !== filter.mode) {
+      return false;
+    }
+
+    if (filter.status && booking.status !== filter.status) {
+      return false;
+    }
+
+    if (filter.date && booking.ticket.pickUpDate !== filter.date) {
+      return false;
+    }
+
+    return true;
   }
 }
