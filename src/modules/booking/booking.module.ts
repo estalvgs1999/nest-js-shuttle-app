@@ -4,8 +4,12 @@ import { Booking, BookingSchema } from './schemas';
 import { RoutesModule } from '../routes/routes.module';
 import { UsersModule } from '../users/users.module';
 import { BOOKING_REPOSITORY, BookingMongoRepository } from './repositories';
-import { BookingTransformService, CreateBookingService } from './services';
-import { CreateBookingController } from './controllers';
+import {
+  BookingTransformService,
+  CreateBookingService,
+  FindBookingsService,
+} from './services';
+import { CreateBookingController, FindBookingController } from './controllers';
 
 @Module({
   imports: [
@@ -25,7 +29,8 @@ import { CreateBookingController } from './controllers';
     },
     BookingTransformService,
     CreateBookingService,
+    FindBookingsService,
   ],
-  controllers: [CreateBookingController],
+  controllers: [CreateBookingController, FindBookingController],
 })
 export class BookingModule {}
