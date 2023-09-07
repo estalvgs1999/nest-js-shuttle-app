@@ -5,6 +5,7 @@ export interface RidesRepository {
   addBooking(rideId: string, bookingId: string): Promise<Ride>;
   cancelBooking(bookingId: string): Promise<Ride>;
   assignDriver(rideId: string, driverId: string): Promise<Ride>;
+  findByBooking(bookingId: string): Promise<Ride>;
   findById(rideId: string): Promise<Ride>;
   findAll(): Promise<Ride[]>;
   update(rideId: string, ride: Ride): Promise<Ride>;

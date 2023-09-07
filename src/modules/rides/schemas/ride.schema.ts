@@ -1,8 +1,7 @@
 import { Booking } from '@/modules/booking/schemas';
-import { Document, Model, Schema as MongooseSchema, Types } from 'mongoose';
+import { Document, Model, Types } from 'mongoose';
 import { Driver } from '@/modules/drivers/schemas';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { RideInfo } from '../interfaces';
 import { RideMode, RideStatus } from '../enums';
 import { Route } from '@/modules/routes/enums';
 
@@ -31,13 +30,22 @@ export class Ride {
   route: Route;
 
   @Prop({ type: Date })
-  firstPickUpDate: Date;
+  firstPickUp?: Date;
 
   @Prop({ type: [Types.ObjectId], ref: Booking.name })
   bookings: Booking[];
 
-  @Prop({ type: MongooseSchema.Types.Mixed })
-  rideInfo: RideInfo;
+  @Prop({ type: String })
+  mapRoom?: string;
+
+  @Prop({ type: Date })
+  start?: Date;
+
+  @Prop({ type: Date })
+  finish?: Date;
+
+  @Prop({ type: String })
+  duration?: string;
 }
 
 export const RideSchema = SchemaFactory.createForClass(Ride);

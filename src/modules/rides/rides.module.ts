@@ -12,6 +12,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
+import {
+  CreateRideService,
+  RideAssignationService,
+  RideCancelationService,
+} from './services';
 
 @Module({
   imports: [
@@ -43,6 +48,9 @@ import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
       provide: BOOKING_REPOSITORY,
       useClass: BookingMongoRepository,
     },
+    CreateRideService,
+    RideAssignationService,
+    RideCancelationService,
   ],
   controllers: [],
   exports: [],

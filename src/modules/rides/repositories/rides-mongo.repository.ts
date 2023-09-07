@@ -57,6 +57,11 @@ export class RidesMongoRepository implements RidesRepository {
     return ride;
   }
 
+  async findByBooking(bookingId: string): Promise<Ride> {
+    const ride = await this.model.findOne({ bookings: bookingId });
+    return ride;
+  }
+
   async findById(rideId: string): Promise<Ride> {
     const ride = await this.model
       .findById(rideId)
