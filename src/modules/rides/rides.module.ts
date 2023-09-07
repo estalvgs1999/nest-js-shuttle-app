@@ -3,21 +3,26 @@ import {
   BOOKING_REPOSITORY,
   BookingMongoRepository,
 } from '../booking/repositories';
+import {
+  CreateRideService,
+  FindRidesService,
+  RideAssignmentService,
+  RideCancelationService,
+} from './services';
 import { Driver, DriverSchema } from '../drivers/schemas';
 import {
   DRIVERS_REPOSITORY,
   DriversMongoRepository,
 } from '../drivers/repositories';
+import {
+  FindRidesController,
+  RideAssignmentController,
+  RideCancelationController,
+} from './controllers';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
-import {
-  CreateRideService,
-  FindRidesService,
-  RideAssignationService,
-  RideCancelationService,
-} from './services';
 
 @Module({
   imports: [
@@ -50,11 +55,15 @@ import {
       useClass: BookingMongoRepository,
     },
     CreateRideService,
-    RideAssignationService,
+    RideAssignmentService,
     RideCancelationService,
     FindRidesService,
   ],
-  controllers: [],
+  controllers: [
+    RideAssignmentController,
+    RideCancelationController,
+    FindRidesController,
+  ],
   exports: [],
 })
 export class RidesModule {}

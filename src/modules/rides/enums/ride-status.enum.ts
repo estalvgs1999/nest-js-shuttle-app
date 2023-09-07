@@ -3,4 +3,5 @@ export enum RideStatus {
   WaitingPickUp = 'Waiting Pick Up',
   OnGoing = ' On Going',
   Completed = 'Completed',
+  Cancelled = 'Cancelled',
 }

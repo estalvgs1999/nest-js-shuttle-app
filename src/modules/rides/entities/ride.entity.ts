@@ -31,16 +31,6 @@ export class Ride {
     this.bookings = [];
   }
 
-  public hasAvailableSeats(passengers: number) {
-    return this.availableSeats - passengers > 0;
-  }
-
-  public enrollPassengers(passengers: number) {
-    if (this.availableSeats <= 0) return;
-    if (this.availableSeats - passengers < 0) return;
-    this.availableSeats -= passengers;
-  }
-
   public startRide() {
     this.status = RideStatus.OnGoing;
     this.start = new Date();

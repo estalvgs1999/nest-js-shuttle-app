@@ -29,6 +29,9 @@ export class Ride {
   })
   route: Route;
 
+  @Prop({ type: Number })
+  availableSeats: number;
+
   @Prop({ type: Date })
   firstPickUp?: Date;
 
