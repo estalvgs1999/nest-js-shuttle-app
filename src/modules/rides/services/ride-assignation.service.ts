@@ -2,7 +2,7 @@ import {
   BOOKING_REPOSITORY,
   BookingRepository,
 } from '@/modules/booking/repositories';
-import { RideAssignmentDto } from '../dtos';
+import { BookingStatus } from '@/modules/booking/enums';
 import { CreateRideService } from './ride-create.service';
 import {
   DRIVERS_REPOSITORY,
@@ -13,8 +13,9 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { RIDES_REPOSITORY, RidesRepository } from '../repositories';
 import { Ride } from '../entities';
+import { RideAssignmentDto } from '../dtos';
+import { RIDES_REPOSITORY, RidesRepository } from '../repositories';
 
 @Injectable()
 export class RideAssignationService {
@@ -50,11 +51,19 @@ export class RideAssignationService {
       ride.enrollPassengers(bookingSeats);
       await this.ridesRepository.update(ride['_id'], ride);
 
+      // change booking status
+      await this.bookingRepository.update(bookingId, {
+        ...booking,
+        status: BookingStatus.Scheduled,
+      });
+
       // add booking to ride
       const updatedRide = await this.ridesRepository.addBooking(
         ride['_id'],
         bookingId,
       );
+
+      // Returning updated Ride
       return updatedRide;
     } else {
       throw new InternalServerErrorException(

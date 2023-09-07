@@ -14,6 +14,7 @@ import { Ride, RideSchema } from './schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
 import {
   CreateRideService,
+  FindRidesService,
   RideAssignationService,
   RideCancelationService,
 } from './services';
@@ -51,6 +52,7 @@ import {
     CreateRideService,
     RideAssignationService,
     RideCancelationService,
+    FindRidesService,
   ],
   controllers: [],
   exports: [],
