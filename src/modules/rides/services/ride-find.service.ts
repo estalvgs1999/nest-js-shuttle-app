@@ -15,7 +15,7 @@ export class FindRidesService {
   }
 
   async findById(rideId: string): Promise<Ride> {
-    const ride = await this.findById(rideId);
+    const ride = await this.ridesRepository.findById(rideId);
     return ride;
   }
 
