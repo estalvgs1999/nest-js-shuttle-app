@@ -73,6 +73,7 @@ export class RidesMongoRepository implements RidesRepository {
   async findAll(): Promise<Ride[]> {
     const rides = await this.model
       .find()
+      .lean()
       .populate(this.driverPopulateQuery)
       .populate('bookings');
     return rides;

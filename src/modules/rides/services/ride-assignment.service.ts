@@ -42,9 +42,10 @@ export class RideAssignmentService {
 
     this.logger.log('Ride assignment started');
 
-    // Get driver and booking
+    // Get driver and booking and validate it
     const driver: Driver = await this.driversRepository.findById(driverId);
     const booking: Booking = await this.bookingRepository.findById(bookingId);
+    this.validateBooking(booking);
 
     // Get the ride and validate it
     const ride: Ride = await this.getRide(driver, booking, rideId);
@@ -66,6 +67,19 @@ export class RideAssignmentService {
   }
 
   /**
+   * The function validates a booking by checking its status and throwing exceptions if it is already
+   * assigned or completed.
+   * @param {Booking} booking - The parameter "booking" is of type "Booking", which is an object
+   * representing a booking.
+   */
+  private validateBooking(booking: Booking) {
+    if (booking.status === BookingStatus.Scheduled)
+      throw new ConflictException('Booking is already assigned');
+    if (booking.status === BookingStatus.Completed)
+      throw new BadRequestException('Booking is complete');
+  }
+
+  /**
    * The function validates a ride by checking if the booking is already assigned, if the booking and
    * ride mode are compatible, and if the ride is private and already has a booking assigned.
    * @param {Booking} booking - The `booking` parameter represents a booking object, which contains
@@ -75,10 +89,6 @@ export class RideAssignmentService {
    * and any bookings that have been made for the ride.
    */
   private validateRide(booking: Booking, ride: Ride) {
-    if (booking.status === BookingStatus.Scheduled)
-      throw new ConflictException('Booking is already assigned');
-    if (booking.status === BookingStatus.Completed)
-      throw new BadRequestException('Booking is complete');
     if (booking.ticket.mode !== ride.mode)
       throw new ConflictException('Booking and ride mode are not compatible');
     if (ride.mode === RideMode.Private && ride.bookings.length > 0)
