@@ -15,6 +15,11 @@ export class FindRidesController {
     return this.service.findByDriver(driverId);
   }
 
+  @Get('/:id')
+  findById(@Param('id') rideId: string) {
+    return this.service.findById(rideId);
+  }
+
   @Get()
   findAll() {
     return this.service.findAll();

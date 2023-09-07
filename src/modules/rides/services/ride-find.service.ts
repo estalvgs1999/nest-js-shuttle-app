@@ -14,6 +14,11 @@ export class FindRidesService {
     return await this.ridesRepository.findAll();
   }
 
+  async findById(rideId: string): Promise<Ride> {
+    const ride = await this.findById(rideId);
+    return ride;
+  }
+
   async findByDriver(driverId: string): Promise<Ride[]> {
     const rides = await this.ridesRepository.findAll();
     return rides.filter(ride => ride.driver['_id'].toString() === driverId);
