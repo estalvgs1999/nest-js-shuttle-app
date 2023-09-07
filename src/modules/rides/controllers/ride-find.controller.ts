@@ -17,6 +17,6 @@ export class FindRidesController {
 
   @Get()
   findAll() {
-    return this.findAll();
+    return this.service.findAll();
   }
 }
