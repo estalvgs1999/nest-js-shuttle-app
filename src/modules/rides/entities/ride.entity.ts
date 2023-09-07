@@ -1,5 +1,4 @@
 import { Booking } from '@/modules/booking/schemas';
-import { RideInfo } from '../interfaces';
 import { RideMode, RideStatus } from '../enums';
 import { Route } from '@/modules/routes/enums';
 
@@ -8,7 +7,44 @@ export class Ride {
   status: RideStatus;
   mode: RideMode;
   route: Route;
+  availableSeats: number;
   firstPickUp: Date;
   bookings: Booking[];
-  rideInfo: RideInfo;
+  mapRoom: string;
+  start?: Date;
+  finish?: Date;
+  duration?: string;
+
+  public hasAvailableSeats(passengers: number) {
+    return this.availableSeats - passengers > 0;
+  }
+
+  public enrollPassengers(passengers: number) {
+    if (this.availableSeats <= 0) return;
+    if (this.availableSeats - passengers < 0) return;
+    this.availableSeats -= passengers;
+  }
+
+  public startRide() {
+    this.status = RideStatus.OnGoing;
+    this.start = new Date();
+  }
+
+  public finishRide() {
+    this.status = RideStatus.Completed;
+    this.finish = new Date();
+    this.calculateRideDuration();
+  }
+
+  private calculateRideDuration() {
+    const milliseconds = this.finish.getTime() - this.start.getTime();
+    let seconds = Math.floor(milliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+
+    return `${hours} h ${minutes} min`;
+  }
 }
