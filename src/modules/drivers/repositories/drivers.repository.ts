@@ -11,4 +11,4 @@ export interface DriversRepository {
   delete(driverId: string): Promise<any>;
 }
 
-export const DRIVERS_REPOSITORY = 'ReservationsRepository';
+export const DRIVERS_REPOSITORY = 'DriversRepository';

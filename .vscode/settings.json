@@ -8,7 +8,9 @@
     "drivers",
     "vehicles",
     "stats",
-    "reservations"
+    "reservations",
+    "booking",
+    "rides"
   ],
   "cSpell.words": [
     "autopopulate",
