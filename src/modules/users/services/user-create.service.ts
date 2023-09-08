@@ -3,11 +3,10 @@ import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateDriverEvent } from '../../drivers/events';
 import { CreateUserDto } from '../dtos';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { UpdateBookingClientEvent } from '@/modules/booking/events';
+import { UpdateUserService } from './user-update.service';
 import { User } from '../entities';
 import { UserRole } from '../enums';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
-import { UpdateUserService } from './user-update.service';
 
 @Injectable()
 export class CreateUserService {
