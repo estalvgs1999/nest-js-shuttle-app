@@ -69,7 +69,7 @@ export class BookingTransformService {
   private async mapRawBookingToCreateBooking(
     rawBooking: RawBookingDto,
   ): Promise<CreateBookingDto> {
-    const user = await this.getUser(rawBooking.email);
+    const user = await this.getUserByEmail(rawBooking.email);
     return {
       bookingNumber: rawBooking.reservationId,
       clientInfo: {
@@ -137,9 +137,18 @@ export class BookingTransformService {
     };
   }
 
-  private async getUser(email: string): Promise<User> {
+  public async getUserByEmail(email: string): Promise<User> {
     try {
       const user = await this.usersService.findByEmail(email);
+      return user;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  public async getUserById(userId: string): Promise<User> {
+    try {
+      const user = await this.usersService.findById(userId);
       return user;
     } catch (error) {
       return null;

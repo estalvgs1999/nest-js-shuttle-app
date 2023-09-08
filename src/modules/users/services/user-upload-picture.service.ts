@@ -1,5 +1,7 @@
 import { FilesAzureService } from '../../files/services';
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { UpdateUserService } from './user-update.service';
+import { UserRole } from '../enums';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
 
 @Injectable()
@@ -9,6 +11,7 @@ export class UpdateProfilePictureService {
   constructor(
     @Inject(USERS_REPOSITORY)
     private readonly usersRepository: UsersRepository,
+    private readonly userUpdateService: UpdateUserService,
     private readonly fileService: FilesAzureService,
   ) {}
 
@@ -26,7 +29,15 @@ export class UpdateProfilePictureService {
     if (fileUrl) oldUrl = fileUrl.split('/').pop();
 
     await this.fileService.deleteFile(oldUrl, containerName);
-    return await this.usersRepository.updateProfilePicture(userId, pictureUrl);
+    const updatedUser = await this.usersRepository.updateProfilePicture(
+      userId,
+      pictureUrl,
+    );
+
+    if (user.role === UserRole.Tourist)
+      this.userUpdateService.updateBookings(updatedUser);
+
+    return updatedUser;
   }
 
   async remove(userId: string, containerName: string) {

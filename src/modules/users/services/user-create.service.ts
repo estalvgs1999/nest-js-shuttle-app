@@ -3,9 +3,11 @@ import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateDriverEvent } from '../../drivers/events';
 import { CreateUserDto } from '../dtos';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { UpdateBookingClientEvent } from '@/modules/booking/events';
 import { User } from '../entities';
 import { UserRole } from '../enums';
 import { USERS_REPOSITORY, UsersRepository } from '../repositories';
+import { UpdateUserService } from './user-update.service';
 
 @Injectable()
 export class CreateUserService {
@@ -14,6 +16,7 @@ export class CreateUserService {
   constructor(
     @Inject(USERS_REPOSITORY)
     private readonly usersRepository: UsersRepository,
+    private readonly updateUserService: UpdateUserService,
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -34,6 +37,8 @@ export class CreateUserService {
     });
 
     if (newUser.role === UserRole.Driver) this.createDriver(newUser);
+    else if (newUser.role === UserRole.Tourist)
+      this.updateUserService.updateBookings(newUser);
 
     this.logger.log('User created');
     return newUser;
