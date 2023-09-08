@@ -73,9 +73,9 @@ export class BookingTransformService {
     return {
       bookingNumber: rawBooking.reservationId,
       clientInfo: {
-        client: user['_id'],
-        languages: user['languages'],
-        profilePicture: user['profilePicture'],
+        client: user ? user['_id'] : undefined,
+        languages: user ? user['languages'] : undefined,
+        profilePicture: user ? user['profilePicture'] : undefined,
         name: rawBooking.name,
         email: rawBooking.email,
         phone: rawBooking.phone,

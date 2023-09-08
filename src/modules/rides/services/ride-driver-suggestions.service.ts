@@ -29,7 +29,7 @@ export class RideDriverSuggestionsService {
 
   async run(bookingId: string) {
     const booking = await this.bookingRepository.findById(bookingId);
-    const { route, mode, pickUpDate: date } = booking.ticket;
+    const { route, mode, pickUpDate } = booking.ticket;
 
     const drivers = await this.getAllAvailableDrivers();
     const driverRides = await this.getDriverRides(drivers);
@@ -37,7 +37,7 @@ export class RideDriverSuggestionsService {
       driverRides,
       mode,
       route,
-      date,
+      pickUpDate,
     );
     const suggestions = this.getBestSuggestions(filteredDriverRides);
 
@@ -66,10 +66,9 @@ export class RideDriverSuggestionsService {
 
     for (const driverId of driverIdList) {
       const rides = await this.ridesRepository.findAll();
-      const filteredRides = rides.filter(ride => {
-        ride.driver['_id'].toString() === driverId &&
-          ride.status === RideStatus.Pending;
-      });
+      const filteredRides = rides.filter(
+        ride => ride.driver['_id'].toString() === driverId,
+      );
       driverRides.push({ driverId: driverId, rides: filteredRides });
     }
 
@@ -98,9 +97,13 @@ export class RideDriverSuggestionsService {
   ): DriverRides[] {
     for (const driverRide of driverRides) {
       driverRide.rides = driverRide.rides.filter(ride => {
+        if (ride.status !== RideStatus.Pending) return false;
         if (ride.mode !== mode || ride.mode === RideMode.Private) return false;
         if (ride.route !== route) return false;
-        if (ride.date !== date) return false;
+        if (
+          new Date(`${ride.date}`).getTime() !== new Date(`${date}`).getTime()
+        )
+          return false;
         if (ride.availableSeats <= 0) return false;
         return true;
       });
