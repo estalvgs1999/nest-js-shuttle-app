@@ -23,6 +23,17 @@ export class FindDriverService {
     return driver;
   }
 
+  async findByUser(userId: string) {
+    this.logger.log(`Searching driver with user ID: ${userId}`);
+    const driver = await this.driversRepository.findByUserId(userId);
+
+    if (!driver) throw new NotFoundException(`Driver not found.`);
+
+    this.logger.log('Driver found');
+
+    return driver;
+  }
+
   async findByFilter(filterDto: DriverFilterDto) {
     this.logger.log('Searching for drivers');
     const drivers = await this.driversRepository.findByFilter(filterDto);

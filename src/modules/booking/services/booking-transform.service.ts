@@ -6,6 +6,7 @@ import { RideType } from '@/modules/rides/enums';
 import { RoutesService } from '@/modules/routes/services';
 import { Ticket } from '../interfaces';
 import { FindUsersService } from '@/modules/users/services';
+import { User } from '@/modules/users/entities';
 
 @Injectable()
 export class BookingTransformService {
@@ -68,10 +69,13 @@ export class BookingTransformService {
   private async mapRawBookingToCreateBooking(
     rawBooking: RawBookingDto,
   ): Promise<CreateBookingDto> {
+    const user = await this.getUser(rawBooking.email);
     return {
       bookingNumber: rawBooking.reservationId,
       clientInfo: {
-        client: await this.getUserId(rawBooking.email),
+        client: user['_id'],
+        languages: user['languages'],
+        profilePicture: user['profilePicture'],
         name: rawBooking.name,
         email: rawBooking.email,
         phone: rawBooking.phone,
@@ -133,10 +137,10 @@ export class BookingTransformService {
     };
   }
 
-  private async getUserId(email: string): Promise<string> {
+  private async getUser(email: string): Promise<User> {
     try {
       const user = await this.usersService.findByEmail(email);
-      return user['_id'];
+      return user;
     } catch (error) {
       return null;
     }
