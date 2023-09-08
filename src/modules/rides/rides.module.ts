@@ -8,6 +8,7 @@ import {
   FindRidesService,
   RideAssignmentService,
   RideCancelationService,
+  RideDriverSuggestionsService,
 } from './services';
 import { Driver, DriverSchema } from '../drivers/schemas';
 import {
@@ -23,6 +24,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
+import { RideDriverSuggestionsController } from './controllers/ride-driver-suggestion.controller';
 
 @Module({
   imports: [
@@ -58,11 +60,13 @@ import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
     RideAssignmentService,
     RideCancelationService,
     FindRidesService,
+    RideDriverSuggestionsService,
   ],
   controllers: [
     RideAssignmentController,
     RideCancelationController,
     FindRidesController,
+    RideDriverSuggestionsController,
   ],
   exports: [],
 })

@@ -33,7 +33,7 @@ export class Ride {
   availableSeats: number;
 
   @Prop({ type: Date })
-  firstPickUp?: Date;
+  date?: Date;
 
   @Prop({ type: [Types.ObjectId], ref: Booking.name })
   bookings: Booking[];

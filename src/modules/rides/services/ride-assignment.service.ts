@@ -121,6 +121,7 @@ export class RideAssignmentService {
           mode: booking.ticket.mode,
           route: booking.ticket.route,
           availableSeats: driver.vehicle.capacity,
+          date: booking.ticket.pickUpDate,
         });
   }
 

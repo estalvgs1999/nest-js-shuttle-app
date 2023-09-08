@@ -11,8 +11,8 @@ export class CreateRideService {
   ) {}
 
   public async run(rideDto: CreateRideDto) {
-    const { driverId, mode, route, availableSeats } = rideDto;
-    const ride: Ride = new Ride(driverId, mode, route, availableSeats);
+    const { driverId, mode, route, availableSeats, date } = rideDto;
+    const ride: Ride = new Ride(driverId, mode, route, availableSeats, date);
     const savedRide = await this.ridesRepository.create({ ...ride });
     return savedRide;
   }

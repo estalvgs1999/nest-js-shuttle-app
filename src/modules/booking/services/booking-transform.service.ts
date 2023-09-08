@@ -137,7 +137,7 @@ export class BookingTransformService {
     };
   }
 
-  public async getUserByEmail(email: string): Promise<User> {
+  private async getUserByEmail(email: string): Promise<User> {
     try {
       const user = await this.usersService.findByEmail(email);
       return user;
