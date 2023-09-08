@@ -24,6 +24,13 @@ export class FindRidesService {
     return rides.filter(ride => ride.driver['_id'].toString() === driverId);
   }
 
+  async findByDriverUser(userId: string): Promise<Ride[]> {
+    const rides = await this.ridesRepository.findAll();
+    return rides.filter(
+      ride => ride.driver['user']['_id'].toString() === userId,
+    );
+  }
+
   async findByUser(userId: string): Promise<Ride[]> {
     const rides = await this.ridesRepository.findAll();
     const userRides = rides.filter(ride => this.hasUserBooking(ride, userId));
