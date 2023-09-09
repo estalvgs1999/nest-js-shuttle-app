@@ -9,7 +9,7 @@ export class Ride {
   mode: RideMode;
   route: Route;
   availableSeats: number;
-  firstPickUp?: Date;
+  date?: Date;
   bookings: Booking[];
   mapRoom: string;
   start?: Date;
@@ -21,6 +21,7 @@ export class Ride {
     mode: RideMode,
     route: Route,
     availableSeats: number,
+    date: Date,
   ) {
     this.driver = driver;
     this.status = RideStatus.Pending;
@@ -28,6 +29,7 @@ export class Ride {
     this.route = route;
     this.availableSeats = availableSeats;
     this.mapRoom = `map.${uuidv4()}`;
+    this.date = date;
     this.bookings = [];
   }
 

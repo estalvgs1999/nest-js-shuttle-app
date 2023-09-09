@@ -4,6 +4,7 @@ import {
   BookingTransformService,
   CreateBookingService,
   FindBookingsService,
+  UpdateBookingClientInfoService,
   UpdateBookingStatusService,
 } from './services';
 import {
@@ -36,6 +37,7 @@ import { UsersModule } from '../users/users.module';
     CreateBookingService,
     FindBookingsService,
     UpdateBookingStatusService,
+    UpdateBookingClientInfoService,
   ],
   controllers: [
     CreateBookingController,

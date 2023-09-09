@@ -6,4 +6,5 @@ export class CreateRideDto {
   mode: RideMode;
   route: Route;
   availableSeats: number;
+  date: Date;
 }
