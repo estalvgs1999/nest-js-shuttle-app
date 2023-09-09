@@ -34,9 +34,7 @@ export class UpdateBookingClientInfoService {
    */
   private async updateBookingsClientInfo(user: User) {
     this.logger.log('Searching all user bookings');
-    const bookings = await this.findBookingService.search({
-      email: user['email'],
-    });
+    const bookings = await this.findBookingService.findByEmail(user['email']);
 
     const totalBookings = bookings.length;
     let processedBookings = 0;

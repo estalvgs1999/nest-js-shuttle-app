@@ -1,6 +1,6 @@
 import { Booking } from '../entities';
 import { BOOKING_REPOSITORY, BookingRepository } from '../repositories';
-import { BookingFilterDto } from '../dtos';
+import { BookingCardDto, BookingFilterDto } from '../dtos';
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 @Injectable()
@@ -28,7 +28,18 @@ export class FindBookingsService {
     return booking;
   }
 
-  async search(filter: BookingFilterDto): Promise<Booking[]> {
+  async findByEmail(email: string): Promise<Booking[]> {
+    this.logger.log(`Searching for bookings`);
+    const bookings = await this.bookingRepository.findAll();
+
+    const filteredBookings = bookings.filter(
+      booking => booking.clientInfo.email === email,
+    );
+
+    return filteredBookings;
+  }
+
+  async search(filter: BookingFilterDto): Promise<BookingCardDto[]> {
     this.logger.log(`Searching for bookings`);
     const bookings = await this.bookingRepository.findAll();
 
@@ -36,7 +47,17 @@ export class FindBookingsService {
       this.matchesFilter(booking, filter),
     );
 
-    return filteredBookings;
+    return filteredBookings.map(booking => ({
+      _id: booking['_id'],
+      bookingNumber: booking.bookingNumber,
+      status: booking.status,
+      client: booking.clientInfo.client,
+      profilePicture: booking.clientInfo.profilePicture,
+      name: booking.clientInfo.name,
+      route: booking.ticket.route,
+      type: booking.ticket.type,
+      pickUpDate: booking.ticket.pickUpDate,
+    }));
   }
 
   private matchesFilter(booking: Booking, filter: BookingFilterDto): boolean {

@@ -45,49 +45,51 @@ export class RideDriverSuggestionsService {
   }
 
   /**
-   * The function `getAllAvailableDrivers` retrieves all available drivers from the drivers repository
-   * and returns their IDs as an array.
-   * @returns an array of strings, which are the IDs of all available drivers.
+   * The function getAllAvailableDrivers retrieves all drivers with the status "Available" from the
+   * drivers repository.
+   * @returns an array of Driver objects.
    */
-  private async getAllAvailableDrivers(): Promise<string[]> {
+  private async getAllAvailableDrivers(): Promise<Driver[]> {
     const drivers: Driver[] = await this.driversRepository.findByFilter({
       status: DriverStatus.Available,
     });
-    return drivers.map(driver => driver['_id'].toString());
+    return drivers;
   }
 
   /**
-   * The function `getDriverRides` retrieves pending rides for a list of driver IDs.
-   * @param {string[]} driverIdList - An array of driver IDs (strings)
+   * The function `getDriverRides` takes an array of drivers and returns an array of objects containing
+   * each driver and their corresponding rides.
+   * @param {Driver[]} drivers - An array of objects representing drivers. Each driver object should
+   * have a property called '_id' which is a unique identifier for the driver.
    * @returns an array of objects of type `DriverRides`.
    */
-  private async getDriverRides(driverIdList: string[]): Promise<DriverRides[]> {
+  private async getDriverRides(drivers: Driver[]): Promise<DriverRides[]> {
     const driverRides: DriverRides[] = [];
 
-    for (const driverId of driverIdList) {
+    for (const driver of drivers) {
       const rides = await this.ridesRepository.findAll();
       const filteredRides = rides.filter(
-        ride => ride.driver['_id'].toString() === driverId,
+        ride => ride.driver['_id'].toString() === driver['_id'].toString(),
       );
-      driverRides.push({ driverId: driverId, rides: filteredRides });
+      driverRides.push({ driver: driver, rides: filteredRides });
     }
 
     return driverRides;
   }
 
   /**
-   * The function filters an array of driver rides based on the specified mode, route, date, and
-   * available seats.
+   * The function filters an array of driver rides based on the provided mode, route, date, and other
+   * conditions.
    * @param {DriverRides[]} driverRides - An array of objects representing the rides of a driver. Each
    * object has a property called "rides" which is an array of ride objects.
    * @param {RideMode} mode - The `mode` parameter is the desired ride mode. It is used to filter the
    * driver rides based on the ride mode.
-   * @param {Route} route - The `route` parameter represents the specific route that the rides should
-   * match. It could be a string or an object that contains information about the starting point and
-   * destination of the ride.
-   * @param {Date} date - The `date` parameter represents the specific date for which we want to filter
-   * the driver rides.
-   * @returns a Promise that resolves to an array of DriverRides.
+   * @param {Route} route - The `route` parameter represents the specific route for which you want to
+   * filter the driver rides. It could be a string or an object that contains information about the
+   * route, such as the starting point and destination.
+   * @param {Date} date - The `date` parameter is a `Date` object representing the desired date for
+   * filtering the driver rides.
+   * @returns an array of DriverRides objects.
    */
   private filterDriverRides(
     driverRides: DriverRides[],
@@ -113,9 +115,9 @@ export class RideDriverSuggestionsService {
 
   /**
    * The function takes an array of driver rides and returns an array of driver suggestions, where each
-   * suggestion contains the driver ID and the ID of the ride with the most available seats.
-   * @param {DriverRides[]} driverRides - An array of objects representing the rides of each driver.
-   * Each object in the array has the following properties:
+   * suggestion contains the driver and the ride with the most available seats.
+   * @param {DriverRides[]} driverRides - An array of objects representing the rides of different
+   * drivers. Each object in the array has the following properties:
    * @returns an array of DriverSuggestion objects.
    */
   private getBestSuggestions(driverRides: DriverRides[]): DriverSuggestion[] {
@@ -135,7 +137,7 @@ export class RideDriverSuggestionsService {
       );
 
       const suggestion: DriverSuggestion = {
-        driverId: driverRide.driverId,
+        driver: driverRide.driver,
         rideId:
           driverRide.rides.length > 0 ? rideWithMoreRoom['_id'] : undefined,
       };

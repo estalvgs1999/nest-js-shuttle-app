@@ -1,6 +1,7 @@
+import { Driver } from '@/modules/drivers/schemas';
 import { Ride } from '../schemas';
 
 export type DriverRides = {
-  driverId: string;
+  driver: Driver;
   rides: Ride[];
 };
