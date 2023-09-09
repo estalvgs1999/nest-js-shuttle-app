@@ -1,4 +1,6 @@
+import { Driver } from '@/modules/drivers/schemas';
+
 export type DriverSuggestion = {
-  driverId: string;
+  driver: Driver;
   rideId?: string;
 };
