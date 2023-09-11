@@ -4,11 +4,14 @@ import {
   BookingMongoRepository,
 } from '../booking/repositories';
 import {
+  CompleteRideService,
   CreateRideService,
   FindRidesService,
+  PickUpRideService,
   RideAssignmentService,
   RideCancelationService,
   RideDriverSuggestionsService,
+  StartRideService,
 } from './services';
 import { Driver, DriverSchema } from '../drivers/schemas';
 import {
@@ -23,8 +26,8 @@ import {
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
-import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
 import { RideDriverSuggestionsController } from './controllers/ride-driver-suggestion.controller';
+import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
 
 @Module({
   imports: [
@@ -59,6 +62,9 @@ import { RideDriverSuggestionsController } from './controllers/ride-driver-sugge
     CreateRideService,
     RideAssignmentService,
     RideCancelationService,
+    PickUpRideService,
+    StartRideService,
+    CompleteRideService,
     FindRidesService,
     RideDriverSuggestionsService,
   ],
