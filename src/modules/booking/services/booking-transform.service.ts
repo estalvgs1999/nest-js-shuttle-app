@@ -239,7 +239,7 @@ export class BookingTransformService {
     }
 
     destiny = destiny.trim();
-    place = place.trim();
+    place = place.replace(/-- X$/, '').trim();
 
     return `${place}, ${destiny}`;
   }
