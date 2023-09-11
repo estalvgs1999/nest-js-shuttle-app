@@ -1,5 +1,5 @@
 import { Booking } from '@/modules/booking/schemas';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Ride } from '../schemas';
 import { RIDES_REPOSITORY, RidesRepository } from '../repositories';
 
@@ -16,6 +16,7 @@ export class FindRidesService {
 
   async findById(rideId: string): Promise<Ride> {
     const ride = await this.ridesRepository.findById(rideId);
+    if (!ride) throw new NotFoundException('Ride not found');
     return ride;
   }
 
