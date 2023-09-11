@@ -3,14 +3,14 @@ import {
   BookingRepository,
 } from '@/modules/booking/repositories';
 import { BookingStatus } from '@/modules/booking/enums';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { FindRidesService } from './ride-find.service';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { RIDES_REPOSITORY, RidesRepository } from '../repositories';
 import { RideStatus } from '../enums';
-import { FindRidesService } from './ride-find.service';
 
 @Injectable()
-export class CompleteRideService {
-  private logger = new Logger(CompleteRideService.name);
+export class RideCompletionService {
+  private logger = new Logger(RideCompletionService.name);
 
   constructor(
     private readonly ridesService: FindRidesService,
@@ -26,7 +26,8 @@ export class CompleteRideService {
 
     ride.status = RideStatus.Completed;
 
-    for (const booking of ride.bookings) {
+    for (const _booking of ride.bookings) {
+      const booking = await this.bookingRepository.findById(_booking['_id']);
       booking.status = BookingStatus.Completed;
       await this.bookingRepository.update(booking['_id'], booking);
       this.logger.log(`Booking ${booking['_id']} status changed to Completed`);

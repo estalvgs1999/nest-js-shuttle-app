@@ -4,14 +4,14 @@ import {
   BookingMongoRepository,
 } from '../booking/repositories';
 import {
-  CompleteRideService,
   CreateRideService,
   FindRidesService,
-  PickUpRideService,
   RideAssignmentService,
   RideCancelationService,
+  RideCompletionService,
   RideDriverSuggestionsService,
-  StartRideService,
+  RidePickUpService,
+  RideStartService,
 } from './services';
 import { Driver, DriverSchema } from '../drivers/schemas';
 import {
@@ -22,11 +22,14 @@ import {
   FindRidesController,
   RideAssignmentController,
   RideCancelationController,
+  RideCompletionController,
+  RideDriverSuggestionsController,
+  RidePickUpController,
+  RideStartController,
 } from './controllers';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
-import { RideDriverSuggestionsController } from './controllers/ride-driver-suggestion.controller';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
 
 @Module({
@@ -62,15 +65,18 @@ import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
     CreateRideService,
     RideAssignmentService,
     RideCancelationService,
-    PickUpRideService,
-    StartRideService,
-    CompleteRideService,
+    RidePickUpService,
+    RideStartService,
+    RideCompletionService,
     FindRidesService,
     RideDriverSuggestionsService,
   ],
   controllers: [
     RideAssignmentController,
     RideCancelationController,
+    RidePickUpController,
+    RideStartController,
+    RideCompletionController,
     FindRidesController,
     RideDriverSuggestionsController,
   ],

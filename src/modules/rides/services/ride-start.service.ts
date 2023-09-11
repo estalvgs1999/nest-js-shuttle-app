@@ -4,8 +4,8 @@ import { RIDES_REPOSITORY, RidesRepository } from '../repositories';
 import { RideStatus } from '../enums';
 
 @Injectable()
-export class StartRideService {
-  private logger = new Logger(StartRideService.name);
+export class RideStartService {
+  private logger = new Logger(RideStartService.name);
 
   constructor(
     private readonly ridesService: FindRidesService,
