@@ -80,6 +80,6 @@ import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
     FindRidesController,
     RideDriverSuggestionsController,
   ],
-  exports: [],
+  exports: [FindRidesService],
 })
 export class RidesModule {}
