@@ -18,6 +18,7 @@ export class RideStartService {
     const ride = await this.ridesService.findById(rideId);
 
     ride.status = RideStatus.OnGoing;
+    ride.start = new Date();
 
     const updatedRide = await this.ridesRepository.update(rideId, ride);
     this.logger.log(`Ride started`);
