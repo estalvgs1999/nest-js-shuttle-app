@@ -1,7 +1,7 @@
 import { RideMode } from '@/modules/rides/enums';
 import { Route } from '@/modules/routes/enums';
 
-export class DriverRideDetail {
+export class DriverRideDetailDto {
   date: Date;
   route: Route;
   tripType: RideMode;
