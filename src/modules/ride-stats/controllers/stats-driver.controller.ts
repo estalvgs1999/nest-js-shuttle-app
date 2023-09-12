@@ -1,12 +1,12 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
+import { DriverTenureService } from '../services';
 
 @Controller({ path: 'ride-stats' })
 export class DriverStatsController {
+  constructor(private readonly driverTenureService: DriverTenureService) {}
   @Get('/driver-tenure/:id')
   getDriverTenure(@Param('id') driverId: string) {
-    // Replace with actual logic to calculate driver tenure
-    const tenure = '3 months'; // Fictitious data
-    return { tenure };
+    return this.driverTenureService.run(driverId);
   }
 
   @Get('/total-trips/:id')

@@ -13,6 +13,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from '../rides/schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from '../rides/repositories';
+import { DriverTenureService } from './services';
 
 @Module({
   controllers: [DriverStatsController],
@@ -45,6 +46,7 @@ import { RIDES_REPOSITORY, RidesMongoRepository } from '../rides/repositories';
       provide: BOOKING_REPOSITORY,
       useClass: BookingMongoRepository,
     },
+    DriverTenureService,
   ],
 })
 export class RideStatsModule {}
