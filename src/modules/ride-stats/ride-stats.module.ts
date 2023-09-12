@@ -1,9 +1,5 @@
-import { Booking, BookingSchema } from '../booking/schemas';
-import {
-  BOOKING_REPOSITORY,
-  BookingMongoRepository,
-} from '../booking/repositories';
 import { Driver, DriverSchema } from '../drivers/schemas';
+import { DriverRideStatsService, DriverTenureService } from './services';
 import {
   DRIVERS_REPOSITORY,
   DriversMongoRepository,
@@ -13,7 +9,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from '../rides/schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from '../rides/repositories';
-import { DriverTenureService } from './services';
+import { RidesModule } from '../rides/rides.module';
 
 @Module({
   controllers: [DriverStatsController],
@@ -27,11 +23,8 @@ import { DriverTenureService } from './services';
         name: Driver.name,
         schema: DriverSchema,
       },
-      {
-        name: Booking.name,
-        schema: BookingSchema,
-      },
     ]),
+    RidesModule,
   ],
   providers: [
     {
@@ -42,11 +35,8 @@ import { DriverTenureService } from './services';
       provide: DRIVERS_REPOSITORY,
       useClass: DriversMongoRepository,
     },
-    {
-      provide: BOOKING_REPOSITORY,
-      useClass: BookingMongoRepository,
-    },
     DriverTenureService,
+    DriverRideStatsService,
   ],
 })
 export class RideStatsModule {}
