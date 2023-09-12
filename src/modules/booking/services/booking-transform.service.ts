@@ -7,6 +7,7 @@ import { RoutesService } from '@/modules/routes/services';
 import { Ticket } from '../interfaces';
 import { FindUsersService } from '@/modules/users/services';
 import { User } from '@/modules/users/entities';
+import { Route } from '@/modules/routes/enums';
 
 @Injectable()
 export class BookingTransformService {
@@ -109,10 +110,11 @@ export class BookingTransformService {
       route: isArrival ? route : this.routesService.getOppositeRoute(route),
       type: type,
       mode: mode,
-      pickUpLocation: this.addCountrySuffix(
+      pickUpLocation: this.transformBookingLocation(
         isArrival
           ? rawBooking.arrivalPickupLocation
           : rawBooking.departurePickupLocation,
+        route,
       ),
       pickUpDate: isArrival
         ? rawBooking.arrivalPickupDate
@@ -120,10 +122,11 @@ export class BookingTransformService {
       pickUpTime: isArrival
         ? rawBooking.arrivalPickupTime
         : rawBooking.departurePickupTime,
-      dropOffLocation: this.addCountrySuffix(
+      dropOffLocation: this.transformBookingLocation(
         isArrival
           ? rawBooking.arrivalDropOffLocation
           : rawBooking.departureDropOffLocation,
+        route,
       ),
       dropOffDate: isArrival
         ? rawBooking.arrivalDropOffDate
@@ -155,7 +158,89 @@ export class BookingTransformService {
     }
   }
 
-  private addCountrySuffix(location: string): string {
-    return location + ', Costa Rica';
+  /**
+   * The function `transformBookingLocation` takes a raw location string and a route, and returns a
+   * transformed location string based on the route and specific airport regex patterns.
+   * @param {string} rawLocation - A string representing the raw location input.
+   * @param {Route} route - The `route` parameter is of type `Route`, which is an enum representing
+   * different routes.
+   * @returns a string representing the transformed booking location.
+   */
+  private transformBookingLocation(rawLocation: string, route: Route): string {
+    // Airport Regex
+    const regexSJOAirport = /Juan Santa María \(SJO\) Airport/;
+    const regexLIRAirport = /Liberia \(LIR\) Airport/;
+
+    // Airport hardcoded locations
+    const LIRAirportLocation =
+      'Aeropuerto Internacional Daniel Oduber Quirós (LIR), Liberia';
+    const SJOAirportLocation =
+      'Aeropuerto Internacional Juan Santamaría, San José';
+
+    let location = '';
+
+    switch (route) {
+      case Route.SanJoseToNosara:
+        location = regexSJOAirport.test(rawLocation)
+          ? SJOAirportLocation
+          : this.transformLocationString(rawLocation);
+        break;
+      case Route.NosaraToSanJose:
+        location = regexSJOAirport.test(rawLocation)
+          ? SJOAirportLocation
+          : this.transformLocationString(rawLocation);
+        break;
+      case Route.LiberiaToNosara:
+        location = regexLIRAirport.test(rawLocation)
+          ? LIRAirportLocation
+          : this.transformLocationString(rawLocation);
+        break;
+      case Route.NosaraToLiberia:
+        location = regexLIRAirport.test(rawLocation)
+          ? LIRAirportLocation
+          : this.transformLocationString(rawLocation);
+        break;
+      case Route.LiberiaDowntownToNosara:
+        location = regexLIRAirport.test(rawLocation)
+          ? LIRAirportLocation
+          : this.transformLocationString(rawLocation);
+        break;
+      default:
+        break;
+    }
+    return location;
+  }
+
+  /**
+   * The function `transformLocationString` takes a string representing a location and transforms it by
+   * separating the place and destiny parts and returning them in a specific format.
+   * @param {string} location - The `location` parameter is a string that represents a location.
+   * @returns a transformed location string in the format "place, destiny".
+   */
+  private transformLocationString(location: string): string {
+    let destiny = '';
+    let place = '';
+    let openedParenthesis = 0;
+
+    for (const c of location) {
+      if (c === '(') {
+        openedParenthesis += 1;
+        if (openedParenthesis <= 1) continue;
+      } else if (c === ')') {
+        openedParenthesis -= 1;
+        if (openedParenthesis === 0) continue;
+      }
+
+      if (openedParenthesis === 0) {
+        destiny += c;
+      } else {
+        place += c;
+      }
+    }
+
+    destiny = destiny.trim();
+    place = place.replace(/-- X$/, '').trim();
+
+    return `${place}, ${destiny}`;
   }
 }

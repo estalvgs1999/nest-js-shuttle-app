@@ -32,27 +32,4 @@ export class Ride {
     this.date = date;
     this.bookings = [];
   }
-
-  public startRide() {
-    this.status = RideStatus.OnGoing;
-    this.start = new Date();
-  }
-
-  public finishRide() {
-    this.status = RideStatus.Completed;
-    this.finish = new Date();
-    this.calculateRideDuration();
-  }
-
-  private calculateRideDuration() {
-    const milliseconds = this.finish.getTime() - this.start.getTime();
-    let seconds = Math.floor(milliseconds / 1000);
-    let minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-
-    seconds = seconds % 60;
-    minutes = minutes % 60;
-
-    return `${hours} h ${minutes} min`;
-  }
 }

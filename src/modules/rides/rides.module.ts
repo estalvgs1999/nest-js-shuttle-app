@@ -8,7 +8,10 @@ import {
   FindRidesService,
   RideAssignmentService,
   RideCancelationService,
+  RideCompletionService,
   RideDriverSuggestionsService,
+  RidePickUpService,
+  RideStartService,
 } from './services';
 import { Driver, DriverSchema } from '../drivers/schemas';
 import {
@@ -19,12 +22,15 @@ import {
   FindRidesController,
   RideAssignmentController,
   RideCancelationController,
+  RideCompletionController,
+  RideDriverSuggestionsController,
+  RidePickUpController,
+  RideStartController,
 } from './controllers';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Ride, RideSchema } from './schemas';
 import { RIDES_REPOSITORY, RidesMongoRepository } from './repositories';
-import { RideDriverSuggestionsController } from './controllers/ride-driver-suggestion.controller';
 
 @Module({
   imports: [
@@ -59,15 +65,21 @@ import { RideDriverSuggestionsController } from './controllers/ride-driver-sugge
     CreateRideService,
     RideAssignmentService,
     RideCancelationService,
+    RidePickUpService,
+    RideStartService,
+    RideCompletionService,
     FindRidesService,
     RideDriverSuggestionsService,
   ],
   controllers: [
     RideAssignmentController,
     RideCancelationController,
+    RidePickUpController,
+    RideStartController,
+    RideCompletionController,
     FindRidesController,
     RideDriverSuggestionsController,
   ],
-  exports: [],
+  exports: [FindRidesService],
 })
 export class RidesModule {}
